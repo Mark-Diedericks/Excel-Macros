@@ -1,4 +1,11 @@
-﻿using Excel_Macros_UI.ViewModel;
+﻿/*
+ * Mark Diedericks
+ * 17/06/2015
+ * Version 1.0.0
+ * File Explorer UI Control
+ */
+
+using Excel_Macros_UI.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

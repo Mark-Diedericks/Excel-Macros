@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * Mark Diedericks
+ * 17/06/2015
+ * Version 1.0.0
+ * Handles the view models of the primary view model
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;

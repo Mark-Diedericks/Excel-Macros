@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * Mark Diedericks
+ * 17/06/2015
+ * Version 1.0.0
+ * Primary view model for handling main window's views
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

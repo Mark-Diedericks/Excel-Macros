@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 08/06/2015
- * Version 1.0.0
+ * 17/06/2015
+ * Version 1.0.1
  * Event manager, allowing for cross-thread interaction between the Excel Ribbon tab and the UI/Interop projects
  */
 
