@@ -1,0 +1,68 @@
+﻿<Controls:MetroWindow x:Class="Excel_Macros_UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Excel_Macros_UI"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        xmlns:ext="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:dock="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:dockctrl="clr-namespace:Xceed.Wpf.AvalonDock.Controls;assembly=Xceed.Wpf.AvalonDock"
+        xmlns:viewModels="clr-namespace:Excel_Macros_UI.ViewModel"
+        xmlns:views="clr-namespace:Excel_Macros_UI.View"
+        mc:Ignorable="d" Dialog:DialogParticipation.Register="{Binding}"
+        Title="Macro Editor" HorizontalAlignment="Center" VerticalAlignment="Center" ShowIconOnTitleBar="False"
+        MinWidth="1024" MinHeight="576" Closing="MetroWindow_Closing" SizeChanged="MetroWindow_SizeChanged" 
+        BorderBrush="Black" BorderThickness="0" GlowBrush="Black" ResizeMode="CanResizeWithGrip" 
+        LeftWindowCommandsOverlayBehavior="Always" RightWindowCommandsOverlayBehavior="Always" WindowButtonCommandsOverlayBehavior="Always">
+    <!-- Import Resource Dictionary -->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+
+                <!-- Accent and AppTheme setting -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Excel Macros UI;component/ExcelAccent.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+
+
+        <dock:DockingManager x:Name="DockManager" Padding="0" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents}" AnchorablesSource="{Binding Tools}"
+                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+            <dock:DockingManager.Resources>
+                <DataTemplate DataType="{x:Type viewModels:FileExplorerViewModel}">
+                    <views:FileExplorerView />
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:TextualEditorViewModel}">
+                    <views:TextualEditorView />
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:VisualEditorViewModel}">
+                    <views:VisualEditorView />
+                </DataTemplate>
+            </dock:DockingManager.Resources>
+
+
+            <dock:DockingManager.LayoutItemContainerStyle>
+                <Style TargetType="{x:Type dockctrl:LayoutItem}">
+                    <Setter Property="Title" Value="{Binding Model.Title}" />
+                    <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                    <Setter Property="CanClose" Value="{Binding Model.CanClose}" />
+                    <Setter Property="CanFloat" Value="{Binding Model.CanFloat}" />
+                </Style>
+            </dock:DockingManager.LayoutItemContainerStyle>
+        </dock:DockingManager>
+    </Grid>
+</Controls:MetroWindow>
