@@ -37,12 +37,20 @@
     <Grid>
 
 
-        <dock:DockingManager x:Name="DockManager" Padding="0" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents}" AnchorablesSource="{Binding Tools}"
+        <dock:DockingManager x:Name="DockingManager_DockManager" Padding="0" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents}" AnchorablesSource="{Binding Tools}"
                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
             <dock:DockingManager.Resources>
                 <DataTemplate DataType="{x:Type viewModels:FileExplorerViewModel}">
                     <views:FileExplorerView />
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:ToolboxViewModel}">
+                    <views:ToolboxView />
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewModels:ConsoleViewModel}">
+                    <views:ConsoleView />
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type viewModels:TextualEditorViewModel}">
@@ -53,7 +61,6 @@
                     <views:VisualEditorView />
                 </DataTemplate>
             </dock:DockingManager.Resources>
-
 
             <dock:DockingManager.LayoutItemContainerStyle>
                 <Style TargetType="{x:Type dockctrl:LayoutItem}">
