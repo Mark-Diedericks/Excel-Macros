@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 08/06/2015
- * Version 1.0.0
+ * 21/06/2015
+ * Version 1.0.1
  * The main hub of the Excel AddIn -> used only for the ribbon tab it allows me to add
  */
 
@@ -27,37 +27,21 @@ namespace Excel_Macros_RIBBON
         private bool m_RibbonLoaded = false;
         private bool m_ApplicationLoaded = false;
 
-        private static Dispatcher s_InteropDispatcher;
-
-        private void ThisAddIn_Startup(object sender, System.EventArgs e)
+        private void ThisAddIn_Startup(object sender, EventArgs e)
         {
             ExcelMacrosRibbonTab.MacroRibbonLoadEvent += MacroRibbonLoaded;
             UI.EventManager.ApplicationLoaded += MacroEditorLoaded;
 
             Dispatcher excelDispatcher = Dispatcher.CurrentDispatcher;
-
-            Thread InteropThread = new Thread((ThreadStart)delegate
-            {
-                Dispatcher interopDispatcher = Dispatcher.CurrentDispatcher;
-                UI.EventManager.CreateApplicationInstance(Application, interopDispatcher, excelDispatcher);
-
-                ThisAddIn.s_InteropDispatcher = interopDispatcher;
-                Dispatcher.Run();
-            });
-
-            InteropThread.SetApartmentState(ApartmentState.STA);
-            InteropThread.IsBackground = true;
-            InteropThread.Priority = ThreadPriority.Normal;
-            InteropThread.Start();
+            UI.EventManager.CreateApplicationInstance(Application, excelDispatcher);
         }
 
-        private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
+        private void ThisAddIn_Shutdown(object sender, EventArgs e)
         {
-            if (m_EventManager != null)
-                s_InteropDispatcher.BeginInvoke(new System.Action(() => m_EventManager.ShutdownEvent()));
+            this.Application.Interactive = true;
 
-            if (s_InteropDispatcher != null)
-                s_InteropDispatcher.BeginInvokeShutdown(DispatcherPriority.Send);
+            if (m_EventManager != null)
+                m_EventManager.ShutdownEvent();
         }
 
         private void MacroRibbonLoaded()

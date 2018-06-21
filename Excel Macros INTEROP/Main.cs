@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2015
- * Version 1.0.3
+ * 21/06/2015
+ * Version 1.0.5
  * The main hub of the interop library
  */
 
@@ -20,25 +20,13 @@ namespace Excel_Macros_INTEROP
 {
     public class Main
     {
-        #region Dispatchers
+        #region Dispatcher
 
-        private static Dispatcher s_ExcelDispatcher;
-        private static Dispatcher s_InteropDispatcher;
-        private static Dispatcher s_WindowDispatcher;
+        private static Dispatcher s_UIDispatcher;
 
-        public static Dispatcher GetExcelDispatcher()
+        public static Dispatcher GetUIDispatcher()
         {
-            return s_ExcelDispatcher;
-        }
-
-        public static Dispatcher GetInteropDispatcher()
-        {
-            return s_InteropDispatcher;
-        }
-
-        public static Dispatcher GetWindowDispatcher()
-        {
-            return s_WindowDispatcher;
+            return s_UIDispatcher;
         }
 
         #endregion
@@ -86,21 +74,46 @@ namespace Excel_Macros_INTEROP
         //Instancing
         private static Main s_Instance;
 
-        public static void Initialize(Excel.Application application, Dispatcher windowDispatcher, Dispatcher interopDispatcher, Dispatcher excelDispatcher, Action OnLoaded)
+        public static void Initialize(Excel.Application application, Dispatcher uiDIspatcher, Action OnLoaded)
         {
-            s_WindowDispatcher = windowDispatcher;
-            s_ExcelDispatcher = excelDispatcher;
-            s_InteropDispatcher = interopDispatcher;
+            //Set the dispatchers and application references
+            s_UIDispatcher = uiDIspatcher;
 
             s_ExcelApplication = application;
 
+            //Create Instance
+            new Main();
+
+            //Initialize Utilities and Managers
             StreamManager.Instantiate();
             MessageManager.Instantiate();
             Utilities.Instantiate();
 
+            //Initialize Execution Engine
             ExecutionEngine.Initialize();
 
-            new Main();
+            //Load saved macros
+            Dictionary<MacroDeclaration, IMacro> macros = FileManager.LoadAllMacros(new string[] { FileManager.MacroDirectory });
+            GetInstance().m_Declarations = new Dictionary<Guid, MacroDeclaration>();
+            GetInstance().m_Macros = new Dictionary<Guid, IMacro>();
+
+            for (int i = 0; i < macros.Count; i++)
+            {
+                MacroDeclaration md = macros.Keys.ElementAt<MacroDeclaration>(i);
+                md.id = Guid.NewGuid();
+
+                IMacro im = macros[md];
+                im.SetID(md.id);
+
+                GetInstance().m_Declarations.Add(md.id, md);
+                GetInstance().m_Macros.Add(md.id, im);
+            }
+
+            //Get Assemblies
+            //if (Properties.Settings.Default.IncludedAssemblies != null)
+            //    GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>(Properties.Settings.Default.IncludedAssemblies);
+            //else
+            GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>();
 
             OnLoaded?.Invoke();
         }
@@ -118,29 +131,6 @@ namespace Excel_Macros_INTEROP
         public Main()
         {
             s_Instance = this;
-
-            //Load saved macros
-            Dictionary<MacroDeclaration, IMacro> macros = FileManager.LoadAllMacros(new string[] { FileManager.MacroDirectory });
-            m_Declarations = new Dictionary<Guid, MacroDeclaration>();
-            m_Macros = new Dictionary<Guid, IMacro>();
-
-            for (int i = 0; i < macros.Count; i++)
-            {
-                MacroDeclaration md = macros.Keys.ElementAt<MacroDeclaration>(i);
-                md.id = Guid.NewGuid();
-
-                IMacro im = macros[md];
-                im.SetID(md.id);
-
-                m_Declarations.Add(md.id, md);
-                m_Macros.Add(md.id, im);
-            }
-
-            //Get Assemblies
-            //if (Properties.Settings.Default.IncludedAssemblies != null)
-            //    m_Assemblies = new HashSet<AssemblyDeclaration>(Properties.Settings.Default.IncludedAssemblies);
-            //else
-                m_Assemblies = new HashSet<AssemblyDeclaration>();
         }
 
         #endregion
@@ -299,23 +289,19 @@ namespace Excel_Macros_INTEROP
             FileManager.DeleteFolder(directory, new Action<bool>((result) =>
             {
                 if (!result)
-                    Main.GetWindowDispatcher().Invoke(() => OnReturn?.Invoke(false));
+                    OnReturn?.Invoke(false);
 
                 string relativepath = FileManager.CalculateRelativePath(FileManager.CalculateFullPath(directory)).ToLower().Trim();
 
                 HashSet<Guid> toremove = new HashSet<Guid>();
+                foreach (Guid id in GetInstance().m_Declarations.Keys)
+                    if (GetDeclaration(id).relativepath.ToLower().Trim().Contains(relativepath))
+                        toremove.Add(id);
 
-                GetInteropDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-                {
-                    foreach (Guid id in GetInstance().m_Declarations.Keys)
-                        if (GetDeclaration(id).relativepath.ToLower().Trim().Contains(relativepath))
-                            toremove.Add(id);
+                foreach (Guid id in toremove)
+                    GetInstance().m_Declarations.Remove(id);
 
-                    foreach (Guid id in toremove)
-                        GetInstance().m_Declarations.Remove(id);
-
-                    Main.GetWindowDispatcher().Invoke(() => OnReturn?.Invoke(true));
-                }));
+                OnReturn?.Invoke(true);
             }));
         }
     }

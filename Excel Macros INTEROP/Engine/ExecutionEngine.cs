@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2015
- * Version 1.0.2
+ * 21/06/2015
+ * Version 1.0.3
  * Manages execution of users' code
  */
 
@@ -22,17 +22,14 @@ namespace Excel_Macros_INTEROP.Engine
 
         public static void Initialize()
         {
-            Main.GetInteropDispatcher().Invoke(() =>
-            {
-                Dictionary<string, object> debugArgs = new Dictionary<string, object>();
-                Dictionary<string, object> releaseArgs = new Dictionary<string, object>();
+            Dictionary<string, object> debugArgs = new Dictionary<string, object>();
+            Dictionary<string, object> releaseArgs = new Dictionary<string, object>();
 
-                debugArgs["Debug"] = true;
-                releaseArgs["Debug"] = false;
+            debugArgs["Debug"] = true;
+            releaseArgs["Debug"] = false;
 
-                s_DebugEngine = new ExecutionEngine(debugArgs);
-                s_ReleaseEngine = new ExecutionEngine(releaseArgs);
-            });
+            s_DebugEngine = new ExecutionEngine(debugArgs);
+            s_ReleaseEngine = new ExecutionEngine(releaseArgs);
         }
 
         private static ExecutionEngine s_DebugEngine;
@@ -40,24 +37,18 @@ namespace Excel_Macros_INTEROP.Engine
 
         public static ExecutionEngine GetDebugEngine()
         {
-            return Main.GetInteropDispatcher().Invoke(() =>
-            {
-                if (s_DebugEngine == null)
-                    Initialize();
+            if (s_DebugEngine == null)
+                Initialize();
 
-                return s_DebugEngine;
-            });
+            return s_DebugEngine;
         }
 
         public static ExecutionEngine GetReleaseEngine()
         {
-            return Main.GetInteropDispatcher().Invoke(() =>
-            {
-                if (s_ReleaseEngine == null)
-                    Initialize();
+            if (s_ReleaseEngine == null)
+                Initialize();
 
-                return s_ReleaseEngine;
-            });
+            return s_ReleaseEngine;
         }
 
         #endregion
@@ -80,6 +71,12 @@ namespace Excel_Macros_INTEROP.Engine
             m_ScriptEngine.Runtime.IO.SetInput(StreamManager.GetInputStream(), Encoding.UTF8);
             m_ScriptEngine.Runtime.IO.SetOutput(StreamManager.GetOutputStream(), Encoding.UTF8);
             m_ScriptEngine.Runtime.IO.SetErrorOutput(StreamManager.GetErrorStream(), Encoding.UTF8);
+
+            Main.GetInstance().OnDestroyed += delegate () 
+            {
+                if (m_ExecutionThread != null)
+                    m_ExecutionThread.Abort();
+            };
         }
 
         #endregion
@@ -92,9 +89,9 @@ namespace Excel_Macros_INTEROP.Engine
                 return false;
 
             if (async)
-                Main.GetExcelDispatcher().InvokeAsync(() => ExecuteSourceAsynchronous(source, OnCompletedAction));
+                ExecuteSourceAsynchronous(source, OnCompletedAction);
             else
-                Main.GetExcelDispatcher().InvokeAsync(() => ExecuteSource(source, OnCompletedAction));
+                ExecuteSource(source, OnCompletedAction);
 
             return true;
         }
@@ -102,7 +99,7 @@ namespace Excel_Macros_INTEROP.Engine
         public void TerminateExecution()
         {
             if (m_ExecutionThread != null)
-                Main.GetExcelDispatcher().BeginInvoke(DispatcherPriority.Send, new Action(() => m_ExecutionThread.Abort()));
+                m_ExecutionThread.Abort();
         }
 
         private void ExecuteSourceAsynchronous(string source, Action OnCompletedAction)
@@ -110,7 +107,11 @@ namespace Excel_Macros_INTEROP.Engine
             m_ExecutionThread = new Thread((ThreadStart)delegate
             {
                 ExecuteSource(source, OnCompletedAction);
-                Main.GetExcelDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => m_ExecutionThread = null));
+                Main.GetUIDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => 
+                {
+                    m_ExecutionThread.Abort();
+                    m_ExecutionThread = null;
+                }));
             });
 
             m_ExecutionThread.Start();
@@ -145,7 +146,7 @@ namespace Excel_Macros_INTEROP.Engine
                 StreamManager.GetErrorWriter().WriteLine("Execution Error: " + e.Message);
             }
 
-            Main.GetInteropDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => OnCompletedAction?.Invoke()));
+            OnCompletedAction?.Invoke();
         }
 
         #endregion

@@ -19,7 +19,7 @@ namespace Excel_Macros_UI.ViewModel
 
         public PrimaryViewModel()
         {
-            List<ToolViewModel> tools = new List<ToolViewModel>();
+            /*List<ToolViewModel> tools = new List<ToolViewModel>();
             tools.Add(new FileExplorerViewModel() { Title = "File Explorer", CanClose = true });
             tools.Add(new ToolboxViewModel() { Title = "Toolbox", CanClose = true });
             tools.Add(new ConsoleViewModel() { Title = "Console", CanClose = true });
@@ -28,7 +28,9 @@ namespace Excel_Macros_UI.ViewModel
             documents.Add(new TextualEditorViewModel() { Title = "Textual Editor", CanFloat = true });
             documents.Add(new VisualEditorViewModel() { Title = "Visual Editor", CanFloat = true });
 
-            DockManagerViewModel = new DockManagerViewModel(documents, tools);
+            DockManagerViewModel = new DockManagerViewModel(documents, tools);*/
+
+            DockManagerViewModel = new DockManagerViewModel();
         }
     }
 }

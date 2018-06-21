@@ -52,42 +52,42 @@ namespace Excel_Macros_INTEROP.Macros
 
         public void Rename(string name)
         {
-            Main.GetInteropDispatcher().Invoke(() => FileManager.RenameMacro(m_ID, name));
+            FileManager.RenameMacro(m_ID, name);
         }
 
         public string GetName()
         {
-            return Main.GetInteropDispatcher().Invoke(() => Main.GetDeclaration(m_ID).name);
+            return Main.GetDeclaration(m_ID).name;
         }
 
         public string GetRelativePath()
         {
-            return Main.GetInteropDispatcher().Invoke(() => Main.GetDeclaration(m_ID).relativepath);
+            return Main.GetDeclaration(m_ID).relativepath;
         }
 
         public void Save()
         {
-            Main.GetInteropDispatcher().Invoke(() => FileManager.SaveMacro(m_ID, m_Source));
+            FileManager.SaveMacro(m_ID, m_Source);
         }
 
         public void Export()
         {
-            Main.GetInteropDispatcher().Invoke(() => FileManager.ExportMacro(m_ID, m_Source));
+            FileManager.ExportMacro(m_ID, m_Source);
         }
 
         public void Delete(Action<bool> OnReturn)
         {
-            Main.GetInteropDispatcher().Invoke(() => FileManager.DeleteMacro(m_ID, OnReturn));
+            FileManager.DeleteMacro(m_ID, OnReturn);
         }
 
         public void ExecuteDebug(Action OnCompletedAction, bool async)
         {
-            Main.GetInteropDispatcher().Invoke(() => ExecutionEngine.GetDebugEngine().ExecuteMacro(m_Source, OnCompletedAction, async));
+            ExecutionEngine.GetDebugEngine().ExecuteMacro(m_Source, OnCompletedAction, async);
         }
 
         public void ExecuteRelease(Action OnCompletedAction, bool async)
         {
-            Main.GetInteropDispatcher().Invoke(() => ExecutionEngine.GetReleaseEngine().ExecuteMacro(m_Source, OnCompletedAction, async));
+            ExecutionEngine.GetReleaseEngine().ExecuteMacro(m_Source, OnCompletedAction, async);
         }
     }
 }

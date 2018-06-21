@@ -42,34 +42,23 @@ namespace Excel_Macros_UI
             return s_Instance;
         }
 
-        public static void CreateApplicationInstance(Excel.Application application, Dispatcher interopDispatcher, Dispatcher excelDispatcher)
+        public static void CreateApplicationInstance(Excel.Application application, Dispatcher uiDispatcher)
         {
             new EventManager();
 
-            Thread WindowThread = new Thread((ThreadStart)delegate
+            MainWindow.CreateInstance();
+
+            Main.Initialize(application, uiDispatcher, new Action(() =>
             {
-                Dispatcher windowDispatcher = Dispatcher.CurrentDispatcher;
-                MainWindow.CreateInstance();
-                
-                interopDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => Main.Initialize(application, windowDispatcher, interopDispatcher, excelDispatcher, new Action(() =>
-                {
-                    Main.GetInstance().OnFocused += WindowFocusEvent;
-                    Main.GetInstance().OnShown += WindowShowEvent;
-                    Main.GetInstance().OnHidden += WindowHideEvent;
+                Main.GetInstance().OnFocused += WindowFocusEvent;
+                Main.GetInstance().OnShown += WindowShowEvent;
+                Main.GetInstance().OnHidden += WindowHideEvent;
 
-                    MessageManager.GetInstance().DisplayOkMessageEvent += DisplayOkMessage;
-                    MessageManager.GetInstance().DisplayYesNoMessageEvent += DisplayYesNoMessage;
+                MessageManager.GetInstance().DisplayOkMessageEvent += DisplayOkMessage;
+                MessageManager.GetInstance().DisplayYesNoMessageEvent += DisplayYesNoMessage;
 
-                    interopDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => EventManager.LoadCompleted()));
-                }))));
-
-                Dispatcher.Run();
-            });
-
-            WindowThread.SetApartmentState(ApartmentState.STA);
-            WindowThread.IsBackground = true;
-            WindowThread.Priority = ThreadPriority.Normal;
-            WindowThread.Start();
+                LoadCompleted();
+            }));
         }
 
         #region Excel to UI Events
@@ -77,10 +66,10 @@ namespace Excel_Macros_UI
         public void ShutdownEvent()
         {
             if (MainWindow.GetInstance() != null)
-                Main.GetWindowDispatcher().BeginInvoke(new Action(() => MainWindow.GetInstance().Close()));
-
-            if (Main.GetWindowDispatcher() != null)
-                Main.GetWindowDispatcher().BeginInvokeShutdown(DispatcherPriority.Send);
+            {
+                MainWindow.GetInstance().SaveAll();
+                MainWindow.GetInstance().Hide();
+            }
 
             Main.Destroy();
         }
@@ -89,9 +78,8 @@ namespace Excel_Macros_UI
         {
             if (MainWindow.GetInstance() == null)
                 return;
-
-            Main.GetWindowDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => MainWindow.GetInstance().Show()));
-            //MainWindow.GetInstance().ShowWindow();
+            
+            MainWindow.GetInstance().ShowWindow();
         }
 
         public void NewTextualClickEvent()
@@ -99,7 +87,7 @@ namespace Excel_Macros_UI
             if (MainWindow.GetInstance() == null)
                 return;
 
-            //MainWindow.GetInstance().ShowWindow();
+            MainWindow.GetInstance().ShowWindow();
             //MainWindow.GetInstance().CreateMacroAsync(null, MacroType.PYTHON, "/");
         }
 
@@ -108,7 +96,7 @@ namespace Excel_Macros_UI
             if (MainWindow.GetInstance() == null)
                 return;
 
-            //MainWindow.GetInstance().ShowWindow();
+            MainWindow.GetInstance().ShowWindow();
             //MainWindow.GetInstance().CreateMacroAsync(null, MacroType.BLOCKLY, "/");
         }
 
@@ -117,7 +105,7 @@ namespace Excel_Macros_UI
             if (MainWindow.GetInstance() == null)
                 return;
 
-            //MainWindow.GetInstance().ShowWindow();
+            MainWindow.GetInstance().ShowWindow();
             //MainWindow.GetInstance().ImportMacroAsync(null, "/");
         }
 
@@ -154,27 +142,27 @@ namespace Excel_Macros_UI
 
         private static void WindowFocusEvent()
         {
-            Main.GetWindowDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => MainWindow.GetInstance().TryFocus()));
+            MainWindow.GetInstance().TryFocus();
         }
 
         private static void WindowShowEvent()
         {
-            Main.GetWindowDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => MainWindow.GetInstance().ShowWindow()));
+            MainWindow.GetInstance().ShowWindow();
         }
 
         private static void WindowHideEvent()
         {
-            Main.GetWindowDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => MainWindow.GetInstance().HideWindow()));
+            MainWindow.GetInstance().HideWindow();
         }
 
         private static void DisplayOkMessage(string content, string title)
         {
-            Main.GetWindowDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => MainWindow.GetInstance().DisplayOkMessage(content, title)));
+            MainWindow.GetInstance().DisplayOkMessage(content, title);
         }
 
         private static void DisplayYesNoMessage(string content, string title, Action<bool> OnReturn)
         {
-            Main.GetWindowDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => MainWindow.GetInstance().DisplayYesNoMessage(content, title, OnReturn)));
+            MainWindow.GetInstance().DisplayYesNoMessage(content, title, OnReturn);
         }
 
         #endregion

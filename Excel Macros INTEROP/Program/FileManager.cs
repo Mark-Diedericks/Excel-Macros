@@ -334,7 +334,7 @@ namespace Excel_Macros_INTEROP
                     {
                         System.Diagnostics.Debug.WriteLine("Deleting...");
                         File.Delete(CalculateFullPath(Main.GetDeclaration(id).relativepath));
-                        Main.GetExcelDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => Main.RemoveMacro(id)));
+                        Main.RemoveMacro(id);
 
                         OnReturn?.Invoke(true);
                     }

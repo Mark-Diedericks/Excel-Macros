@@ -16,8 +16,8 @@ namespace Excel_Macros_UI.ViewModel
 {
     public class DockManagerViewModel
     {
-        public ObservableCollection<DocumentViewModel> Documents { get; private set; }
-        public ObservableCollection<ToolViewModel> Tools { get; private set; }
+        public ObservableCollection<DocumentViewModel> Documents { get; set; }
+        public ObservableCollection<ToolViewModel> Tools { get; set; }
 
         public DockManagerViewModel(IEnumerable<DocumentViewModel> DocumentViewModels, IEnumerable<ToolViewModel> ToolViewModels)
         {
@@ -39,6 +39,12 @@ namespace Excel_Macros_UI.ViewModel
                 if (!tool.IsClosed)
                     Tools.Add(tool);
             }
+        }
+
+        public DockManagerViewModel()
+        {
+            Documents = new ObservableCollection<DocumentViewModel>();
+            Tools = new ObservableCollection<ToolViewModel>();
         }
 
         private void Tool_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -1,16 +1,18 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2015
- * Version 1.0.3
+ * 21/06/2015
+ * Version 1.0.4
  * The main window, hosting all the UI
  */
 
 using Excel_Macros_INTEROP;
 using Excel_Macros_UI.ViewModel;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -36,13 +38,18 @@ namespace Excel_Macros_UI
     public partial class MainWindow : MetroWindow
     {
         private static MainWindow s_Instance;
+        private bool m_IsClosing;
 
         public MainWindow()
         {
             InitializeComponent();
-            s_Instance = this;
 
-            this.Loaded += MainWindow_Loaded;
+            s_Instance = this;
+            m_IsClosing = false;
+
+            ThemeManager.AddAccent("ExcelAccent", new Uri("pack://application:,,,/Excel Macros UI;component/ExcelAccent.xaml"));
+            ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent("ExcelAccent"), ThemeManager.GetAppTheme("BaseLight"));
+
         }
 
         public static MainWindow GetInstance()
@@ -57,25 +64,56 @@ namespace Excel_Macros_UI
             mw.DataContext = pvm;
         }
 
+        #region Window Event Callbacks & Overrides
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            {
+                Main.SetExcelInteractive(true);
+                SaveAll();
+                this.Hide();
+            }));
+
+            e.Cancel = !m_IsClosing;
+        }
+
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        { 
-            string layout = Properties.Settings.Default.AvalonLayout;
-
-            if (String.IsNullOrEmpty(layout))
-                return;
-
-            XmlLayoutSerializer serializer = new XmlLayoutSerializer(DockingManager_DockManager);
-
-            StringReader stringReader = new StringReader(layout);
-            XmlReader xmlReader = XmlReader.Create(stringReader);
-
-            serializer.Deserialize(xmlReader);
-
-            xmlReader.Close();
-            stringReader.Close();
+        {
+            
         }
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void MetroWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+        }
+
+        private void DockingManager_DockManager_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadAvalonDockLayout();
+        }
+
+        private void DockingManager_DockManager_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SaveAvalonDockLayout();
+        }
+
+        #endregion
+
+        #region Saving & Loading Settings
+
+        public void SaveAll()
+        {
+            SaveAvalonDockLayout();
+            Properties.Settings.Default.Save();
+        }
+
+        private void SaveAvalonDockLayout()
         {
             XmlLayoutSerializer serializer = new XmlLayoutSerializer(DockingManager_DockManager);
             StringWriter stringWriter = new StringWriter();
@@ -93,14 +131,28 @@ namespace Excel_Macros_UI
 
             Properties.Settings.Default.AvalonLayout = layout;
             Properties.Settings.Default.Save();
-
-            this.Hide();
         }
 
-        private void MetroWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void LoadAvalonDockLayout()
         {
+            XmlLayoutSerializer serializer = new XmlLayoutSerializer(DockingManager_DockManager);
+            serializer.LayoutSerializationCallback += (s, args) => { args.Content = args.Content; };
 
+            string layout = Properties.Settings.Default.AvalonLayout;
+
+            if (String.IsNullOrEmpty(layout.Trim()))
+                return;
+
+            StringReader stringReader = new StringReader(layout);
+            XmlReader xmlReader = XmlReader.Create(stringReader);
+
+            serializer.Deserialize(xmlReader);
+
+            xmlReader.Close();
+            stringReader.Close();
         }
+
+        #endregion
 
         #region EventManager Event Function Callbacks
 
@@ -108,7 +160,7 @@ namespace Excel_Macros_UI
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
             {
-                Main.GetInteropDispatcher().Invoke(() => Main.SetExcelInteractive(false));
+                Main.SetExcelInteractive(false);
                 Show();
                 Focus();
                 Activate();
@@ -119,8 +171,8 @@ namespace Excel_Macros_UI
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
             {
-                Main.GetInteropDispatcher().Invoke(() => Main.SetExcelInteractive(true));
-                Properties.Settings.Default.Save();
+                Main.SetExcelInteractive(true);
+                SaveAll();
                 Close();
             }));
         }

@@ -38,11 +38,11 @@ namespace Excel_Macros_INTEROP
         //Get a range selection through the excel inputbox
         public Excel.Range RequestRangeInput(string message)
         {
-            Main.GetExcelDispatcher().Invoke(() => Main.SetExcelInteractive(true));
+            Main.SetExcelInteractive(true);
 
             Excel.Range res = GetApplication().InputBox(message, "Input Range", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, 8) as Excel.Range;
 
-            Main.GetExcelDispatcher().Invoke(() => Main.SetExcelInteractive(false));
+            Main.SetExcelInteractive(false);
             
             Main.FireFocusEvent();
 
@@ -52,11 +52,11 @@ namespace Excel_Macros_INTEROP
         //Get a boolean input through a message box
         public bool RequestBooleanInput(string message)
         {
-            Main.GetExcelDispatcher().Invoke(() => Main.SetExcelInteractive(true));
+            Main.SetExcelInteractive(true);
 
             bool res = MessageBox.Show(message, "Boolean Input", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
 
-            Main.GetExcelDispatcher().Invoke(() => Main.SetExcelInteractive(false));
+            Main.SetExcelInteractive(false);
             
             Main.FireFocusEvent();
 
@@ -66,11 +66,11 @@ namespace Excel_Macros_INTEROP
         //Display a message in a message box
         public void DisplayMessage(string message, string caption)
         {
-            Main.GetExcelDispatcher().Invoke(() => Main.SetExcelInteractive(true));
+            Main.SetExcelInteractive(true);
 
             MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            Main.GetExcelDispatcher().Invoke(() => Main.SetExcelInteractive(false));
+            Main.SetExcelInteractive(false);
 
             Main.FireFocusEvent();
         }
