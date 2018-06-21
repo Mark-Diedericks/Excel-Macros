@@ -12,7 +12,7 @@ namespace Excel_Macros_UI.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -32,6 +32,66 @@ namespace Excel_Macros_UI.Properties {
             }
             set {
                 this["AvalonLayout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#202020;#57a64a;#ff22ff;#569cd6;#4ec9b0;#70b0e0;#404040;#569cd6;")]
+        public string SyntaxStyle {
+            get {
+                return ((string)(this["SyntaxStyle"]));
+            }
+            set {
+                this["SyntaxStyle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EditorShowLineNumbers {
+            get {
+                return ((bool)(this["EditorShowLineNumbers"]));
+            }
+            set {
+                this["EditorShowLineNumbers"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        public double EditorFontSize {
+            get {
+                return ((double)(this["EditorFontSize"]));
+            }
+            set {
+                this["EditorFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Consolas")]
+        public global::System.Windows.Media.FontFamily EditorFontFamily {
+            get {
+                return ((global::System.Windows.Media.FontFamily)(this["EditorFontFamily"]));
+            }
+            set {
+                this["EditorFontFamily"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public global::System.Windows.FontWeight EditorFontWeight {
+            get {
+                return ((global::System.Windows.FontWeight)(this["EditorFontWeight"]));
+            }
+            set {
+                this["EditorFontWeight"] = value;
             }
         }
     }

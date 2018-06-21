@@ -4,9 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Excel_Macros_UI.View"
+             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:properties="clr-namespace:Excel_Macros_UI.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <Label VerticalAlignment="Center" HorizontalAlignment="Center">Textual Editor</Label>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=m_CodeEditor}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <avalonEdit:TextEditor x:Name="m_CodeEditor" ShowLineNumbers="{Binding Source={x:Static properties:Settings.Default}, Path=EditorShowLineNumbers, Mode=OneWay}" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=EditorFontSize, Mode=OneWay}" FontFamily="{Binding Source={x:Static properties:Settings.Default}, Path=EditorFontFamily, Mode=OneWay}"
+                                   FontWeight="{Binding Source={x:Static properties:Settings.Default}, Path=EditorFontWeight, Mode=OneWay}" TextChanged="CodeEditor_TextChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
+            <avalonEdit:TextEditor.InputBindings>
+                <KeyBinding Gesture="CTRL+S" Command="{x:Static local:MacroEditorCommands.SaveMacro}" />
+            </avalonEdit:TextEditor.InputBindings>
+            <avalonEdit:TextEditor.CommandBindings>
+                <CommandBinding Command="{x:Static local:MacroEditorCommands.SaveMacro}" CanExecute="SaveMacro_CanExecute" Executed="SaveMacro_Executed"/>
+            </avalonEdit:TextEditor.CommandBindings>
+        </avalonEdit:TextEditor>
     </Grid>
 </UserControl>

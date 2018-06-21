@@ -26,18 +26,36 @@ namespace Excel_Macros_RIBBON
 
         private bool m_RibbonLoaded = false;
         private bool m_ApplicationLoaded = false;
+        private Thread m_Thread;
+
+        private delegate void CloseEvent();
+        private static event CloseEvent ApplicationClosing;
 
         private void ThisAddIn_Startup(object sender, EventArgs e)
         {
             ExcelMacrosRibbonTab.MacroRibbonLoadEvent += MacroRibbonLoaded;
             UI.EventManager.ApplicationLoaded += MacroEditorLoaded;
-            UI.EventManager.CreateApplicationInstance(Application);
+
+            m_Thread = new Thread(() =>
+            {
+                SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
+
+                UI.EventManager.CreateApplicationInstance(Application);
+
+                Dispatcher.Run();
+            });
+
+            m_Thread.SetApartmentState(ApartmentState.STA);
+            m_Thread.IsBackground = true;
+            m_Thread.Start();
         }
 
         private void ThisAddIn_Shutdown(object sender, EventArgs e)
         {
             if (m_EventManager != null)
-                m_EventManager.ShutdownEvent();
+                m_EventManager.Shutdown();
+
+            ApplicationClosing?.Invoke();
         }
 
         private void MacroRibbonLoaded()

@@ -70,9 +70,9 @@
         </Grid>
         
         <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents, Mode=TwoWay}" AnchorablesSource="{Binding Tools, Mode=TwoWay}"
-                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Theme="{Binding MetroTheme}" Loaded="DockingManager_DockManager_Loaded" Unloaded="DockingManager_DockManager_Unloaded">
+                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockingManager_DockManager_Loaded" Unloaded="DockingManager_DockManager_Unloaded">
 
-            <dock:DockingManager.AnchorableHeaderTemplate>
+            <!--<dock:DockingManager.AnchorableHeaderTemplate>
                 <DataTemplate>
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,0,2,0">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,0,0" TextAlignment="Center" Text="{Binding Title}"/>
@@ -86,7 +86,7 @@
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,0,0" TextAlignment="Left" Text="{Binding Title}"/>
                     </Grid>
                 </DataTemplate>
-            </dock:DockingManager.DocumentHeaderTemplate>
+            </dock:DockingManager.DocumentHeaderTemplate>-->
 
             <dock:DockingManager.Resources>
                 <DataTemplate DataType="{x:Type viewModels:FileExplorerViewModel}">
@@ -113,6 +113,7 @@
             <dock:DockingManager.LayoutItemContainerStyle>
                 <Style TargetType="{x:Type dockctrl:LayoutItem}">
                     <Setter Property="Title" Value="{Binding Model.Title}" />
+                    <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
                     <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
                     <Setter Property="CanClose" Value="{Binding Model.CanClose}" />
                     <Setter Property="CanFloat" Value="{Binding Model.CanFloat}" />

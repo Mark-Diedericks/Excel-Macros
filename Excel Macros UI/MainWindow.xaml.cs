@@ -67,7 +67,6 @@ namespace Excel_Macros_UI
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            Main.SetExcelInteractive(true);
             SaveAll();
             this.Hide();
 
@@ -105,7 +104,7 @@ namespace Excel_Macros_UI
 
         public void SaveAll()
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
+            Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(delegate ()
             {
                 SaveAvalonDockLayout();
                 Properties.Settings.Default.Save();
@@ -159,7 +158,6 @@ namespace Excel_Macros_UI
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
             {
-                //Main.SetExcelInteractive(false);
                 Show();
                 Focus();
                 Activate();
@@ -170,9 +168,17 @@ namespace Excel_Macros_UI
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
             {
-                Main.SetExcelInteractive(true);
                 SaveAll();
                 Close();
+            }));
+        }
+
+        public void CloseWindow()
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
+            {
+                base.Close();
+                Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
             }));
         }
 

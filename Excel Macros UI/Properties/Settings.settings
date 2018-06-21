@@ -5,5 +5,20 @@
     <Setting Name="AvalonLayout" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="SyntaxStyle" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#202020;#57a64a;#ff22ff;#569cd6;#4ec9b0;#70b0e0;#404040;#569cd6;</Value>
+    </Setting>
+    <Setting Name="EditorShowLineNumbers" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EditorFontSize" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">12</Value>
+    </Setting>
+    <Setting Name="EditorFontFamily" Type="System.Windows.Media.FontFamily" Scope="User">
+      <Value Profile="(Default)">Consolas</Value>
+    </Setting>
+    <Setting Name="EditorFontWeight" Type="System.Windows.FontWeight" Scope="User">
+      <Value Profile="(Default)">Normal</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

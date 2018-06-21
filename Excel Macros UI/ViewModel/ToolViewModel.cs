@@ -104,5 +104,27 @@ namespace Excel_Macros_UI.ViewModel
 
         #endregion
 
+        #region ContentId
+
+        private string m_ContentId;
+        public string ContentId
+        {
+            get
+            {
+                return m_ContentId;
+            }
+
+            set
+            {
+                if (m_ContentId != value)
+                {
+                    m_ContentId = value;
+                    OnPropertyChanged(nameof(ContentId));
+                }
+            }
+        }
+
+        #endregion
+
     }
 }

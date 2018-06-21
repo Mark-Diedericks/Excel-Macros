@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Utilities\SyntaxStyleLoader.cs" />
     <Compile Include="ViewModel\ConsoleViewModel.cs" />
     <Compile Include="ViewModel\PrimaryViewModel.cs" />
     <Compile Include="ViewModel\TextualEditorViewModel.cs" />
@@ -178,6 +179,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resources\IronPython.xshd" />
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>

@@ -19,18 +19,18 @@ namespace Excel_Macros_UI.ViewModel
 
         public PrimaryViewModel()
         {
-            /*List<ToolViewModel> tools = new List<ToolViewModel>();
-            tools.Add(new FileExplorerViewModel() { Title = "File Explorer", CanClose = true });
-            tools.Add(new ToolboxViewModel() { Title = "Toolbox", CanClose = true });
-            tools.Add(new ConsoleViewModel() { Title = "Console", CanClose = true });
+            List<ToolViewModel> tools = new List<ToolViewModel>();
+            tools.Add(new FileExplorerViewModel() { Title = "File Explorer", CanClose = true, ContentId = "FileExplorer" });
+            tools.Add(new ToolboxViewModel() { Title = "Toolbox", CanClose = true, ContentId = "Toolbox" });
+            tools.Add(new ConsoleViewModel() { Title = "Console", CanClose = true, ContentId = "Console" });
 
             List<DocumentViewModel> documents = new List<DocumentViewModel>();
-            documents.Add(new TextualEditorViewModel() { Title = "Textual Editor", CanFloat = true });
-            documents.Add(new VisualEditorViewModel() { Title = "Visual Editor", CanFloat = true });
+            documents.Add(new TextualEditorViewModel() { Title = "Textual Editor", CanFloat = true, ContentId = "TestTextDoc1" });
+            documents.Add(new VisualEditorViewModel() { Title = "Visual Editor", CanFloat = true, ContentId = "TestVisDoc1" });
 
-            DockManagerViewModel = new DockManagerViewModel(documents, tools);*/
+            DockManagerViewModel = new DockManagerViewModel(documents, tools);
 
-            DockManagerViewModel = new DockManagerViewModel();
+            //DockManagerViewModel = new DockManagerViewModel();
         }
     }
 }

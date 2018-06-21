@@ -29,6 +29,7 @@ namespace Excel_Macros_UI
 
         public delegate void LoadEvent();
         public static event LoadEvent ApplicationLoaded;
+        private event LoadEvent ShutdownEvent;
         
         public delegate void InputMessageEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type, Action<object> OnResult);
         public event InputMessageEvent DisplayInputMessageEvent;
@@ -85,6 +86,17 @@ namespace Excel_Macros_UI
 
                 LoadCompleted();
             }));
+
+            GetInstance().ShutdownEvent += () =>
+            {
+                MainWindow.GetInstance().Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
+                {
+                    MainWindow.GetInstance().SaveAll();
+                    Main.Destroy();
+
+                    MainWindow.GetInstance().CloseWindow();
+                }));
+            };
         }
 
         #region Main to UI to Excel Events
@@ -98,15 +110,9 @@ namespace Excel_Macros_UI
 
         #region Excel to UI Events
 
-        public void ShutdownEvent()
+        public void Shutdown()
         {
-            if (MainWindow.GetInstance() != null)
-            {
-                MainWindow.GetInstance().SaveAll();
-                MainWindow.GetInstance().Hide();
-            }
-
-            Main.Destroy();
+            GetInstance().ShutdownEvent?.Invoke();
         }
 
         public void MacroEditorClickEvent()
