@@ -36,61 +36,41 @@ namespace Excel_Macros_INTEROP
         }
 
         //Get a range selection through the excel inputbox
-        public Excel.Range RequestRangeInput(string message)
+        public void RequestRangeInput(string message, Action<Excel.Range> OnResult)
         {
-            Main.SetExcelInteractive(true);
-
-            Excel.Range res = GetApplication().InputBox(message, "Input Range", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, 8) as Excel.Range;
-
-            Main.SetExcelInteractive(false);
-            
-            Main.FireFocusEvent();
-
-            return res;
+            MessageManager.DisplayInputMessage(message, "Input Range", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, 8, (res) =>
+            {
+                Excel.Range range = res as Excel.Range;
+                Main.FireFocusEvent();
+                OnResult?.Invoke(range);
+            });
         }
 
         //Get a boolean input through a message box
-        public bool RequestBooleanInput(string message)
+        public void RequestBooleanInput(string message, Action<bool> OnResult)
         {
-            Main.SetExcelInteractive(true);
-
-            bool res = MessageBox.Show(message, "Boolean Input", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-
-            Main.SetExcelInteractive(false);
-            
-            Main.FireFocusEvent();
-
-            return res;
+            MessageManager.DisplayYesNoMessage(message, "Boolean Input", (res) =>
+            {
+                Main.FireFocusEvent();
+                OnResult?.Invoke(res);
+            });
         }
 
         //Display a message in a message box
         public void DisplayMessage(string message, string caption)
         {
-            Main.SetExcelInteractive(true);
-
-            MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            Main.SetExcelInteractive(false);
-
+            MessageManager.DisplayOkMessage(message, caption);
             Main.FireFocusEvent();
         }
 
-        //
-        //Generic Functions
-        //
-
-        //FastWorksheet Macro by Paul Bica
-        //https://stackoverflow.com/questions/30959315/excel-vba-performance-1-million-rows-delete-rows-containing-a-value-in-less
         public void FastWorkbook(bool enable)
         {
-            GetApplication().Calculation = enable ? Excel.XlCalculation.xlCalculationManual : Excel.XlCalculation.xlCalculationAutomatic;
-            GetApplication().DisplayAlerts = !enable;
-            GetApplication().DisplayStatusBar = !enable;
-            GetApplication().EnableAnimations = !enable;
-            GetApplication().EnableEvents = !enable;
-            GetApplication().ScreenUpdating = !enable;
+            EventManager.FastWorkbook(enable);
+        }
 
-            FastWorksheets(enable); //Make all worksheets in the active workbook fast
+        public void FastWorksheet(Excel.Worksheet ws, bool enable)
+        {
+            EventManager.FastWorksheet(ws, enable);
         }
 
         //Make all the worksheets in the active workbook fast
@@ -104,16 +84,6 @@ namespace Excel_Macros_INTEROP
         {
             foreach (Excel.Worksheet ws in wb.Sheets)
                 FastWorksheet(ws, enable);
-        }
-
-        //FastWorksheet Macro by Paul Bica
-        //https://stackoverflow.com/questions/30959315/excel-vba-performance-1-million-rows-delete-rows-containing-a-value-in-less
-        public void FastWorksheet(Excel.Worksheet ws, bool enable)
-        {
-            ws.DisplayPageBreaks = false;
-            ws.EnableCalculation = !enable;
-            ws.EnableFormatConditionsCalculation = !enable;
-            ws.EnablePivotTable = !enable;
         }
     }
 }

@@ -49,7 +49,6 @@ namespace Excel_Macros_UI
 
             ThemeManager.AddAccent("ExcelAccent", new Uri("pack://application:,,,/Excel Macros UI;component/ExcelAccent.xaml"));
             ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent("ExcelAccent"), ThemeManager.GetAppTheme("BaseLight"));
-
         }
 
         public static MainWindow GetInstance()
@@ -68,12 +67,9 @@ namespace Excel_Macros_UI
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
-            {
-                Main.SetExcelInteractive(true);
-                SaveAll();
-                this.Hide();
-            }));
+            Main.SetExcelInteractive(true);
+            SaveAll();
+            this.Hide();
 
             e.Cancel = !m_IsClosing;
         }
@@ -109,8 +105,11 @@ namespace Excel_Macros_UI
 
         public void SaveAll()
         {
-            SaveAvalonDockLayout();
-            Properties.Settings.Default.Save();
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
+            {
+                SaveAvalonDockLayout();
+                Properties.Settings.Default.Save();
+            }));
         }
 
         private void SaveAvalonDockLayout()
@@ -160,7 +159,7 @@ namespace Excel_Macros_UI
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(delegate ()
             {
-                Main.SetExcelInteractive(false);
+                //Main.SetExcelInteractive(false);
                 Show();
                 Focus();
                 Activate();

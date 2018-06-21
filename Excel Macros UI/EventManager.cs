@@ -29,6 +29,16 @@ namespace Excel_Macros_UI
 
         public delegate void LoadEvent();
         public static event LoadEvent ApplicationLoaded;
+        
+        public delegate void InputMessageEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type, Action<object> OnResult);
+        public event InputMessageEvent DisplayInputMessageEvent;
+
+        public delegate void SetEnabled(bool enabled);
+        public event SetEnabled SetExcelInteractive;
+        public event SetEnabled FastWorkbookEvent;
+
+        public delegate void SetEnabledWorksheet(Excel.Worksheet worksheet, bool enabled);
+        public event SetEnabledWorksheet FastWorksheetEvent;
 
         private static EventManager s_Instance;
 
@@ -42,13 +52,13 @@ namespace Excel_Macros_UI
             return s_Instance;
         }
 
-        public static void CreateApplicationInstance(Excel.Application application, Dispatcher uiDispatcher)
+        public static void CreateApplicationInstance(Excel.Application application)
         {
             new EventManager();
 
             MainWindow.CreateInstance();
 
-            Main.Initialize(application, uiDispatcher, new Action(() =>
+            Main.Initialize(application, new Action(() =>
             {
                 Main.GetInstance().OnFocused += WindowFocusEvent;
                 Main.GetInstance().OnShown += WindowShowEvent;
@@ -56,10 +66,35 @@ namespace Excel_Macros_UI
 
                 MessageManager.GetInstance().DisplayOkMessageEvent += DisplayOkMessage;
                 MessageManager.GetInstance().DisplayYesNoMessageEvent += DisplayYesNoMessage;
+                MessageManager.GetInstance().DisplayInputMessageEvent += EventManager_DisplayInputMessageEvent;
+
+                Excel_Macros_INTEROP.EventManager.GetInstance().SetExcelInteractive += (enabled) => 
+                {
+                    GetInstance().SetExcelInteractive?.Invoke(enabled);
+                };
+
+                Excel_Macros_INTEROP.EventManager.GetInstance().FastWorkbookEvent += (enabled) =>
+                {
+                    GetInstance().FastWorkbookEvent?.Invoke(enabled);
+                };
+
+                Excel_Macros_INTEROP.EventManager.GetInstance().FastWorksheetEvent += (worksheet, enabled) =>
+                {
+                    GetInstance().FastWorksheetEvent?.Invoke(worksheet, enabled);
+                };
 
                 LoadCompleted();
             }));
         }
+
+        #region Main to UI to Excel Events
+        
+        private static void EventManager_DisplayInputMessageEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type, Action<object> OnResult)
+        {
+            GetInstance().DisplayInputMessageEvent?.Invoke(message, title, def, left, top, helpFile, helpContextID, type, OnResult);
+        }
+
+        #endregion
 
         #region Excel to UI Events
 

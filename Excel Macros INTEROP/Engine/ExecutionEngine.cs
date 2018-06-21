@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Scripting.Hosting;
 using System.Windows.Threading;
+using System.ComponentModel;
 
 namespace Excel_Macros_INTEROP.Engine
 {
@@ -58,14 +59,14 @@ namespace Excel_Macros_INTEROP.Engine
         private ScriptEngine m_ScriptEngine;
         private ScriptScope m_ScriptScope;
 
-        private Thread m_ExecutionThread;
+        private BackgroundWorker m_BackgroundWorker;
 
         private ExecutionEngine(Dictionary<string, object> args)
         {
             m_ScriptEngine = IronPython.Hosting.Python.CreateEngine(args);
             m_ScriptScope = m_ScriptEngine.CreateScope();
 
-            m_ExecutionThread = null;
+            m_BackgroundWorker = null;
 
             StreamManager.ClearAllStreams();
             m_ScriptEngine.Runtime.IO.SetInput(StreamManager.GetInputStream(), Encoding.UTF8);
@@ -74,8 +75,8 @@ namespace Excel_Macros_INTEROP.Engine
 
             Main.GetInstance().OnDestroyed += delegate () 
             {
-                if (m_ExecutionThread != null)
-                    m_ExecutionThread.Abort();
+                if (m_BackgroundWorker != null)
+                    m_BackgroundWorker.CancelAsync();
             };
         }
 
@@ -85,8 +86,9 @@ namespace Excel_Macros_INTEROP.Engine
 
         public bool ExecuteMacro(string source, Action OnCompletedAction, bool async)
         {
-            if (m_ExecutionThread != null)
-                return false;
+            if (m_BackgroundWorker != null)
+                if(m_BackgroundWorker.IsBusy)
+                    return false;
 
             if (async)
                 ExecuteSourceAsynchronous(source, OnCompletedAction);
@@ -98,26 +100,36 @@ namespace Excel_Macros_INTEROP.Engine
 
         public void TerminateExecution()
         {
-            if (m_ExecutionThread != null)
-                m_ExecutionThread.Abort();
+            if (m_BackgroundWorker != null)
+                m_BackgroundWorker.CancelAsync();
         }
 
         private void ExecuteSourceAsynchronous(string source, Action OnCompletedAction)
         {
-            m_ExecutionThread = new Thread((ThreadStart)delegate
-            {
-                ExecuteSource(source, OnCompletedAction);
-                Main.GetUIDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() => 
-                {
-                    m_ExecutionThread.Abort();
-                    m_ExecutionThread = null;
-                }));
-            });
+            m_BackgroundWorker = new BackgroundWorker();
+            m_BackgroundWorker.WorkerSupportsCancellation = true;
 
-            m_ExecutionThread.Start();
+            m_BackgroundWorker.RunWorkerCompleted += (s, args) => 
+            {
+                OnCompletedAction?.Invoke();
+                m_BackgroundWorker = null;
+            };
+
+            m_BackgroundWorker.DoWork += (s, args) =>
+            {
+                ExecuteSource(source);
+            };
+
+            m_BackgroundWorker.RunWorkerAsync();
         }
 
         private void ExecuteSource(string source, Action OnCompletedAction)
+        {
+            ExecuteSource(source);
+            OnCompletedAction?.Invoke();
+        }
+
+        private void ExecuteSource(string source)
         {
             object temp;
             if(!m_ScriptScope.TryGetVariable("Utils", out temp))
@@ -145,8 +157,6 @@ namespace Excel_Macros_INTEROP.Engine
                 System.Diagnostics.Debug.WriteLine("Execution Error: " + e.Message);
                 StreamManager.GetErrorWriter().WriteLine("Execution Error: " + e.Message);
             }
-
-            OnCompletedAction?.Invoke();
         }
 
         #endregion

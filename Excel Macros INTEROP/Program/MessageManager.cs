@@ -23,6 +23,10 @@ namespace Excel_Macros_INTEROP
         public delegate void ObjectMessageEvent(string content, string title, Action<bool> OnReturn);
         public event ObjectMessageEvent DisplayYesNoMessageEvent;
 
+        //InputMessage event, for all Forms and GUIs
+        public delegate void InputMessageEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type, Action<object> OnResult);
+        public event InputMessageEvent DisplayInputMessageEvent;
+
         private static MessageManager s_Instance;
 
         private MessageManager()
@@ -48,6 +52,11 @@ namespace Excel_Macros_INTEROP
         public static void DisplayYesNoMessage(string content, string title, Action<bool> OnReturn)
         {
             GetInstance().DisplayYesNoMessageEvent?.Invoke(content, title, OnReturn);
+        }
+
+        public static void DisplayInputMessage(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type, Action<object> OnResult)
+        {
+            GetInstance().DisplayInputMessageEvent?.Invoke(message, title, def, left, top, helpFile, helpContextID, type, OnResult);
         }
 
     }

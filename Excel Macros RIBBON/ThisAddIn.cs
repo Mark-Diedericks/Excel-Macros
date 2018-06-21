@@ -31,15 +31,11 @@ namespace Excel_Macros_RIBBON
         {
             ExcelMacrosRibbonTab.MacroRibbonLoadEvent += MacroRibbonLoaded;
             UI.EventManager.ApplicationLoaded += MacroEditorLoaded;
-
-            Dispatcher excelDispatcher = Dispatcher.CurrentDispatcher;
-            UI.EventManager.CreateApplicationInstance(Application, excelDispatcher);
+            UI.EventManager.CreateApplicationInstance(Application);
         }
 
         private void ThisAddIn_Shutdown(object sender, EventArgs e)
         {
-            this.Application.Interactive = true;
-
             if (m_EventManager != null)
                 m_EventManager.ShutdownEvent();
         }
@@ -79,6 +75,44 @@ namespace Excel_Macros_RIBBON
             m_EventManager.AddRibbonMacro += m_RibbonTab.AddMacro;
             m_EventManager.RemoveRibbonMacro += m_RibbonTab.RenameMacro;
             m_EventManager.RenameRibbonMacro += m_RibbonTab.RenameMacro;
+
+            m_EventManager.SetExcelInteractive += (enable) =>
+            {
+                if (Application.Interactive == enable)
+                    return;
+
+                Application.Interactive = enable;
+            };
+
+            //FastWorksheet Macro by Paul Bica
+            //https://stackoverflow.com/questions/30959315/excel-vba-performance-1-million-rows-delete-rows-containing-a-value-in-less
+            m_EventManager.FastWorkbookEvent += (enable) =>
+            {
+                Application.Calculation = enable ? Excel.XlCalculation.xlCalculationManual : Excel.XlCalculation.xlCalculationAutomatic;
+                Application.DisplayAlerts = !enable;
+                Application.DisplayStatusBar = !enable;
+                Application.EnableAnimations = !enable;
+                Application.EnableEvents = !enable;
+                Application.ScreenUpdating = !enable;
+
+                foreach (Excel.Worksheet ws in Application.ActiveWorkbook.Sheets)
+                {
+                    ws.DisplayPageBreaks = false;
+                    ws.EnableCalculation = !enable;
+                    ws.EnableFormatConditionsCalculation = !enable;
+                    ws.EnablePivotTable = !enable;
+                }
+            };
+
+            //FastWorksheet Macro by Paul Bica
+            //https://stackoverflow.com/questions/30959315/excel-vba-performance-1-million-rows-delete-rows-containing-a-value-in-less
+            m_EventManager.FastWorksheetEvent += (worksheet, enable) =>
+            {
+                worksheet.DisplayPageBreaks = false;
+                worksheet.EnableCalculation = !enable;
+                worksheet.EnableFormatConditionsCalculation = !enable;
+                worksheet.EnablePivotTable = !enable;
+            };
 
             m_RibbonTab.MainUILoaded();
         }

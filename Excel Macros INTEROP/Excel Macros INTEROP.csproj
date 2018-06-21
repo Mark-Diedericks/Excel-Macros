@@ -70,6 +70,7 @@
     <Compile Include="Engine\HighPrecisionTimer.cs" />
     <Compile Include="Engine\ProfileInfo.cs" />
     <Compile Include="Engine\StreamManager.cs" />
+    <Compile Include="EventManager.cs" />
     <Compile Include="Libraries\AssemblyDeclaration.cs" />
     <Compile Include="Libraries\InteropInfo.cs" />
     <Compile Include="Libraries\InteropTools.cs" />

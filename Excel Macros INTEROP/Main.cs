@@ -20,17 +20,6 @@ namespace Excel_Macros_INTEROP
 {
     public class Main
     {
-        #region Dispatcher
-
-        private static Dispatcher s_UIDispatcher;
-
-        public static Dispatcher GetUIDispatcher()
-        {
-            return s_UIDispatcher;
-        }
-
-        #endregion
-
         #region Excel Application
 
         private static Excel.Application s_ExcelApplication;
@@ -74,48 +63,49 @@ namespace Excel_Macros_INTEROP
         //Instancing
         private static Main s_Instance;
 
-        public static void Initialize(Excel.Application application, Dispatcher uiDIspatcher, Action OnLoaded)
+        public static void Initialize(Excel.Application application, Action OnLoaded)
         {
-            //Set the dispatchers and application references
-            s_UIDispatcher = uiDIspatcher;
-
+            //Set local reference to excel application
             s_ExcelApplication = application;
 
-            //Create Instance
-            new Main();
-
-            //Initialize Utilities and Managers
-            StreamManager.Instantiate();
-            MessageManager.Instantiate();
-            Utilities.Instantiate();
-
-            //Initialize Execution Engine
-            ExecutionEngine.Initialize();
-
-            //Load saved macros
-            Dictionary<MacroDeclaration, IMacro> macros = FileManager.LoadAllMacros(new string[] { FileManager.MacroDirectory });
-            GetInstance().m_Declarations = new Dictionary<Guid, MacroDeclaration>();
-            GetInstance().m_Macros = new Dictionary<Guid, IMacro>();
-
-            for (int i = 0; i < macros.Count; i++)
+            new Action(() =>
             {
-                MacroDeclaration md = macros.Keys.ElementAt<MacroDeclaration>(i);
-                md.id = Guid.NewGuid();
+                //Create Instance
+                new Main();
 
-                IMacro im = macros[md];
-                im.SetID(md.id);
+                //Initialize Utilities and Managers
+                EventManager.Instantiate();
+                StreamManager.Instantiate();
+                MessageManager.Instantiate();
+                Utilities.Instantiate();
 
-                GetInstance().m_Declarations.Add(md.id, md);
-                GetInstance().m_Macros.Add(md.id, im);
-            }
+                //Initialize Execution Engine
+                ExecutionEngine.Initialize();
 
-            //Get Assemblies
-            //if (Properties.Settings.Default.IncludedAssemblies != null)
-            //    GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>(Properties.Settings.Default.IncludedAssemblies);
-            //else
-            GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>();
+                //Load saved macros
+                Dictionary<MacroDeclaration, IMacro> macros = FileManager.LoadAllMacros(new string[] { FileManager.MacroDirectory });
+                GetInstance().m_Declarations = new Dictionary<Guid, MacroDeclaration>();
+                GetInstance().m_Macros = new Dictionary<Guid, IMacro>();
 
-            OnLoaded?.Invoke();
+                for (int i = 0; i < macros.Count; i++)
+                {
+                    MacroDeclaration md = macros.Keys.ElementAt<MacroDeclaration>(i);
+                    md.id = Guid.NewGuid();
+
+                    IMacro im = macros[md];
+                    im.SetID(md.id);
+
+                    GetInstance().m_Declarations.Add(md.id, md);
+                    GetInstance().m_Macros.Add(md.id, im);
+                }
+
+                //Get Assemblies
+                //if (Properties.Settings.Default.IncludedAssemblies != null)
+                //    GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>(Properties.Settings.Default.IncludedAssemblies);
+                //else
+                GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>();
+                
+            }).BeginInvoke(new AsyncCallback((result) => OnLoaded?.Invoke()), null);
         }
 
         public static void Destroy()
@@ -158,7 +148,7 @@ namespace Excel_Macros_INTEROP
 
         public static void SetExcelInteractive(bool enabled)
         {
-            GetApplication().Interactive = enabled;
+            EventManager.ExcelSetInteractive(enabled);
         }
 
         public static void AddAssembly(AssemblyDeclaration ad)
