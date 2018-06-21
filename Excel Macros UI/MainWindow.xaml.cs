@@ -11,6 +11,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace Excel_Macros_UI
 {
@@ -38,6 +41,8 @@ namespace Excel_Macros_UI
         {
             InitializeComponent();
             s_Instance = this;
+
+            this.Loaded += MainWindow_Loaded;
         }
 
         public static MainWindow GetInstance()
@@ -52,9 +57,44 @@ namespace Excel_Macros_UI
             mw.DataContext = pvm;
         }
 
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        { 
+            string layout = Properties.Settings.Default.AvalonLayout;
+
+            if (String.IsNullOrEmpty(layout))
+                return;
+
+            XmlLayoutSerializer serializer = new XmlLayoutSerializer(DockingManager_DockManager);
+
+            StringReader stringReader = new StringReader(layout);
+            XmlReader xmlReader = XmlReader.Create(stringReader);
+
+            serializer.Deserialize(xmlReader);
+
+            xmlReader.Close();
+            stringReader.Close();
+        }
+
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            XmlLayoutSerializer serializer = new XmlLayoutSerializer(DockingManager_DockManager);
+            StringWriter stringWriter = new StringWriter();
+            XmlWriter xmlWriter = XmlWriter.Create(stringWriter);
 
+            serializer.Serialize(xmlWriter);
+
+            xmlWriter.Flush();
+            stringWriter.Flush();
+
+            string layout = stringWriter.ToString();
+
+            xmlWriter.Close();
+            stringWriter.Close();
+
+            Properties.Settings.Default.AvalonLayout = layout;
+            Properties.Settings.Default.Save();
+
+            this.Hide();
         }
 
         private void MetroWindow_SizeChanged(object sender, SizeChangedEventArgs e)
