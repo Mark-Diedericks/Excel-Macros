@@ -13,9 +13,11 @@
                                    FontWeight="{Binding Source={x:Static properties:Settings.Default}, Path=EditorFontWeight, Mode=OneWay}" TextChanged="CodeEditor_TextChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
             <avalonEdit:TextEditor.InputBindings>
                 <KeyBinding Gesture="CTRL+S" Command="{x:Static local:MacroEditorCommands.SaveMacro}" />
+                <KeyBinding Gesture="F5" Command="{x:Static local:MacroEditorCommands.RunMacro}" />
             </avalonEdit:TextEditor.InputBindings>
             <avalonEdit:TextEditor.CommandBindings>
                 <CommandBinding Command="{x:Static local:MacroEditorCommands.SaveMacro}" CanExecute="SaveMacro_CanExecute" Executed="SaveMacro_Executed"/>
+                <CommandBinding Command="{x:Static local:MacroEditorCommands.RunMacro}" CanExecute="RunMacro_CanExecute" Executed="RunMacro_Executed"/>
             </avalonEdit:TextEditor.CommandBindings>
         </avalonEdit:TextEditor>
     </Grid>

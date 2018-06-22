@@ -91,9 +91,9 @@
                 </DataTemplate>
             </dock:DockingManager.DocumentHeaderTemplate>-->
             
-            <!--<dock:DockingManager.Theme>
+            <dock:DockingManager.Theme>
                 <dock:MetroTheme />
-            </dock:DockingManager.Theme>-->
+            </dock:DockingManager.Theme>
 
             <dock:DockingManager.Resources>
                 <DataTemplate DataType="{x:Type viewModels:FileExplorerViewModel}">

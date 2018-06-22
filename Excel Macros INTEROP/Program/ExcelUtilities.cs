@@ -18,19 +18,19 @@ namespace Excel_Macros_INTEROP
     public class ExcelUtilities
     {
         //Get the excel application
-        private Excel.Application GetApplication()
+        public Excel.Application GetApplication()
         {
             return Main.GetApplication();
         }
 
         //Get the active workbook
-        private Excel.Workbook GetActiveWorkbook()
+        public Excel.Workbook GetActiveWorkbook()
         {
             return GetApplication().ActiveWorkbook;
         }
 
         //Get the active worksheet
-        private Excel.Worksheet GetActiveWorksheet()
+        public Excel.Worksheet GetActiveWorksheet()
         {
             return (Excel.Worksheet)GetActiveWorkbook().ActiveSheet;
         }

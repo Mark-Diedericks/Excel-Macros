@@ -33,6 +33,7 @@ namespace Excel_Macros_UI.View
     public static class MacroEditorCommands
     {
         public static readonly RoutedCommand SaveMacro = new RoutedCommand();
+        public static readonly RoutedCommand RunMacro = new RoutedCommand();
     }
 
     /// <summary>
@@ -70,6 +71,18 @@ namespace Excel_Macros_UI.View
             //    Program.Main.GetExcelDispatcher().Invoke(() => Program.Main.GetMacros()[m_CurrentMacro].SetSource(src));
             //    Program.Main.GetExcelDispatcher().Invoke(() => Program.Main.GetMacros()[m_CurrentMacro].Save());
             //}
+
+            e.Handled = true;
+        }
+
+        private void RunMacro_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void RunMacro_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().ExecuteMacro(m_CodeEditor.Text, null, true);
 
             e.Handled = true;
         }
