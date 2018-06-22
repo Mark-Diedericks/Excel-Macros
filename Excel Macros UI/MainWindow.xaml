@@ -30,6 +30,9 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Excel Macros UI;component/ExcelAccent.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                
+                <!-- AvalonDock Themes -->
+                
             </ResourceDictionary.MergedDictionaries>
 
             <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
@@ -87,6 +90,10 @@
                     </Grid>
                 </DataTemplate>
             </dock:DockingManager.DocumentHeaderTemplate>-->
+            
+            <!--<dock:DockingManager.Theme>
+                <dock:MetroTheme />
+            </dock:DockingManager.Theme>-->
 
             <dock:DockingManager.Resources>
                 <DataTemplate DataType="{x:Type viewModels:FileExplorerViewModel}">
