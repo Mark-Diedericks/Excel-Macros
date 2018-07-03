@@ -5,7 +5,7 @@
     <Setting Name="AvalonLayout" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SyntaxStyle" Type="System.String" Scope="User">
+    <Setting Name="SyntaxStyleLight" Type="System.String" Scope="User">
       <Value Profile="(Default)">#202020;#57a64a;#ff22ff;#569cd6;#4ec9b0;#70b0e0;#404040;#569cd6;</Value>
     </Setting>
     <Setting Name="EditorShowLineNumbers" Type="System.Boolean" Scope="User">
@@ -19,6 +19,12 @@
     </Setting>
     <Setting Name="EditorFontWeight" Type="System.Windows.FontWeight" Scope="User">
       <Value Profile="(Default)">Normal</Value>
+    </Setting>
+    <Setting Name="Theme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Light</Value>
+    </Setting>
+    <Setting Name="SyntaxStyleDark" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#dfdfdf;#57a64a;#ff22ff;#569cd6;#4ec9b0;#70b0e0;#bfbfbf;#569cd6;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

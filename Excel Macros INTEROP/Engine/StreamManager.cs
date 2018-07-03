@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2015
+ * 09/06/2018
  * Version 1.0.0
  * Manages input, output and error streams of the execution engine
  */

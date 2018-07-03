@@ -45,8 +45,12 @@ namespace Excel_Macros_UI.View
         {
             InitializeComponent();
 
-            m_CodeEditor.SyntaxHighlighting = HighlightingLoader.Load(new XmlTextReader(SyntaxStyleLoader.GetStyleStream()), HighlightingManager.Instance);
-            SyntaxStyleLoader.OnStyleChanged += delegate (Stream style) { m_CodeEditor.SyntaxHighlighting = HighlightingLoader.Load(new XmlTextReader(style), HighlightingManager.Instance); };
+            //m_CodeEditor.SyntaxHighlighting = HighlightingLoader.Load(new XmlTextReader(SyntaxStyleLoader.GetStyleStream()), HighlightingManager.Instance);
+            SyntaxStyleLoader.LoadColorValues();
+            SyntaxStyleLoader.OnStyleChanged += delegate () 
+            {
+                m_CodeEditor.SyntaxHighlighting = HighlightingLoader.Load(new XmlTextReader(SyntaxStyleLoader.GetStyleStream()), HighlightingManager.Instance);
+            };
         }
 
         #region Editor Event Callbacks

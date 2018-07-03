@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Excel_Macros_UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <Grid Background="{DynamicResource GrayBrush10}">
         <Label VerticalAlignment="Center" HorizontalAlignment="Center">Visual Editor</Label>
     </Grid>
 </UserControl>

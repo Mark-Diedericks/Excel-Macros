@@ -22,17 +22,17 @@ namespace Excel_Macros_UI.Utilities
         }
 
         //Style Changed Event
-        public delegate void StyleChangeEvent(Stream style);
+        public delegate void StyleChangeEvent();
         public static event StyleChangeEvent OnStyleChanged;
 
         //constants
-        private const string DIGIT = "#COLOR_DIGIT";        //#202020
+        private const string DIGIT = "#COLOR_DIGIT";        //#202020 - DFDFDF
         private const string COMMENT = "#COLOR_COMMENT";      //#57a64a
         private const string STRING = "#COLOR_STRING";       //#ff22ff
         private const string PAIR = "#COLOR_PAIR";         //#569cd6
         private const string CLASS = "#COLOR_CLASS";        //#4ec9b0
         private const string STATEMENT = "#COLOR_STATEMENT";    //#70b0e0
-        private const string FUNCTION = "#COLOR_FUNCTION";     //#404040
+        private const string FUNCTION = "#COLOR_FUNCTION";     //#404040 - BFBFBF
         private const string BOOLEAN = "#COLOR_BOOLEAN";      //#569cd6
 
         //Values
@@ -41,7 +41,6 @@ namespace Excel_Macros_UI.Utilities
         public static Stream GetStyleStream()
         {
             string style = Properties.Resources.IronPython;
-            s_ColorValues = ParseSyntaxStyleString(Properties.Settings.Default.SyntaxStyle);
 
             style = style.Replace(DIGIT, s_ColorValues[(int)SyntaxStyleColor.DIGIT]);
             style = style.Replace(COMMENT, s_ColorValues[(int)SyntaxStyleColor.COMMENT]);
@@ -77,9 +76,9 @@ namespace Excel_Macros_UI.Utilities
             return value.Split(';');
         }
 
-        private static void UpdateSyntaxStyle()
+        public static void UpdateSyntaxStyle()
         {
-            OnStyleChanged?.Invoke(GetStyleStream());
+            OnStyleChanged?.Invoke();
         }
 
         public static void SetSyntaxStyle(string[] values)
@@ -95,6 +94,16 @@ namespace Excel_Macros_UI.Utilities
         public static void SetSyntaxColor(SyntaxStyleColor color, string value)
         {
             s_ColorValues[(int)color] = value;
+        }
+
+        public static void LoadColorValues()
+        {
+            if (MainWindow.GetInstance().ActiveTheme.Name == "Dark")
+                s_ColorValues = ParseSyntaxStyleString(Properties.Settings.Default.SyntaxStyleDark);
+            else
+                s_ColorValues = ParseSyntaxStyleString(Properties.Settings.Default.SyntaxStyleLight);
+
+            UpdateSyntaxStyle();
         }
     }
 }

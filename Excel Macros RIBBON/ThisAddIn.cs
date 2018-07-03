@@ -132,6 +132,17 @@ namespace Excel_Macros_RIBBON
                 worksheet.EnablePivotTable = !enable;
             };
 
+            m_EventManager.DisplayInputMessageEvent += (message, title, def, left, top, helpFile, helpContextID, type, OnResult) =>
+            {
+                object result = Application.InputBox(message, title, def, left, top, helpFile, helpContextID, type);
+                OnResult?.Invoke(result);
+            };
+
+            m_EventManager.DisplayInputMessageReturnEvent += (message, title, def, left, top, helpFile, helpContextID, type) =>
+            {
+                return Application.InputBox(message, title, def, left, top, helpFile, helpContextID, type);
+            };
+
             m_RibbonTab.MainUILoaded();
         }
 

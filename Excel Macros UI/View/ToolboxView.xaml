@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Excel_Macros_UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="{DynamicResource GrayBrush10}">
         <Label VerticalAlignment="Center" HorizontalAlignment="Center">Toolbox</Label>
     </Grid>
 </UserControl>

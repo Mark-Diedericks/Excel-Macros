@@ -10,52 +10,71 @@
         xmlns:ext="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:dock="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:dockctrl="clr-namespace:Xceed.Wpf.AvalonDock.Controls;assembly=Xceed.Wpf.AvalonDock"
+        xmlns:avalonDockProperties="clr-namespace:Xceed.Wpf.AvalonDock.Properties;assembly=Xceed.Wpf.AvalonDock"
+        xmlns:avalonDockConverters="clr-namespace:Xceed.Wpf.AvalonDock.Converters;assembly=Xceed.Wpf.AvalonDock"
         xmlns:viewModels="clr-namespace:Excel_Macros_UI.ViewModel"
         xmlns:views="clr-namespace:Excel_Macros_UI.View"
         mc:Ignorable="d" Dialog:DialogParticipation.Register="{Binding}"
         Title="Macro Editor" HorizontalAlignment="Center" VerticalAlignment="Center" ShowIconOnTitleBar="False"
         MinWidth="1024" MinHeight="576" BorderBrush="Black" BorderThickness="0" GlowBrush="Black" ResizeMode="CanResizeWithGrip" 
-        Closing="MetroWindow_Closing" SizeChanged="MetroWindow_SizeChanged" Loaded="MainWindow_Loaded"
+        Closing="MetroWindow_Closing" SizeChanged="MetroWindow_SizeChanged" Loaded="MainWindow_Loaded" Background="{DynamicResource WindowBackgroundBrush}"
         LeftWindowCommandsOverlayBehavior="Always" RightWindowCommandsOverlayBehavior="Always" WindowButtonCommandsOverlayBehavior="Always">
+    
     <!-- Import Resource Dictionary -->
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary x:Name="ThemeDictionary">
+                    <ResourceDictionary.MergedDictionaries>
+                        <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
 
-                <!-- Accent and AppTheme setting -->
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Excel Macros UI;component/ExcelAccent.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-                
-                <!-- AvalonDock Themes -->
-                
+                        <!-- Accent and AppTheme setting -->
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/Excel Macros UI;component/ExcelAccent.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <avalonDockConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+                    <Style x:Key="MetroMenuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Style>
+
+                    <Style x:Key="MetroContextMenuStyle" TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource MetroContextMenu}">
+                        <Setter Property="Background" Value="{DynamicResource ContextMenuBackgroundBrush}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
+                    </Style>
+
+                    <ContextMenu x:Key="DocumentContextMenu" Style="{DynamicResource MetroContextMenu}">
+                        <MenuItem>Waste</MenuItem>
+                        <MenuItem Style="{DynamicResource MetroMenuItem}" Header="{x:Static avalonDockProperties:Resources.Document_Close}" Command="{Binding Path=CloseCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <MenuItem Style="{DynamicResource MetroMenuItem}" Header="{x:Static avalonDockProperties:Resources.Document_CloseAllButThis}" Command="{Binding Path=CloseAllButThisCommand}"/>
+                        <MenuItem Style="{DynamicResource MetroMenuItem}" Header="{x:Static avalonDockProperties:Resources.Document_Float}" Command="{Binding Path=FloatCommand}"/>
+                        <MenuItem Style="{DynamicResource MetroMenuItem}" Header="{x:Static avalonDockProperties:Resources.Document_DockAsDocument}" Command="{Binding Path=DockAsDocumentCommand}"/>
+                        <MenuItem Style="{DynamicResource MetroMenuItem}" Header="{x:Static avalonDockProperties:Resources.Document_NewHorizontalTabGroup}" Command="{Binding Path=NewHorizontalTabGroupCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <MenuItem.Icon>
+                                <Image Source="/AvalonDock.Themes.VS2012;component/Images/HTabGroup.png" Stretch="Uniform" Width="14"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+
+                    <ContextMenu x:Key="AnchorableContextMenu" Style="{DynamicResource MetroContextMenu}">
+                        <MenuItem>Waste</MenuItem>
+                        <MenuItem Style="{DynamicResource MetroMenuItem}" Header="{x:Static avalonDockProperties:Resources.Anchorable_Float}" Command="{Binding Path=FloatCommand}"/>
+                        <MenuItem Style="{DynamicResource MetroMenuItem}" Header="{x:Static avalonDockProperties:Resources.Anchorable_Dock}" Command="{Binding Path=DockCommand}"/>
+                        <MenuItem Style="{DynamicResource MetroMenuItem}" Header="{x:Static avalonDockProperties:Resources.Anchorable_DockAsDocument}" Command="{Binding Path=DockAsDocumentCommand}"/>
+                        <MenuItem Style="{DynamicResource MetroMenuItem}" Header="{x:Static avalonDockProperties:Resources.Anchorable_AutoHide}" Command="{Binding Path=AutoHideCommand}"/>
+                        <MenuItem Style="{DynamicResource MetroMenuItem}" Header="{x:Static avalonDockProperties:Resources.Anchorable_Hide}" Command="{Binding Path=CloseCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    </ContextMenu>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-
-            <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
-                <StackPanel Margin="-20,0,0,0" Background="White"/>
-            </ItemsPanelTemplate>
-
-            <Style x:Key="ContextMenuMetroStyle" TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource MetroContextMenu}">
-                <Setter Property="Background" Value="White" />
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="BorderBrush" Value="Black" />
-                <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
-            </Style>
-
-            <Style x:Key="MenuItemMetroStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}" >
-                <Setter Property="HorizontalContentAlignment" Value="Left" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
-                <Setter Property="BorderThickness" Value="0" />
-            </Style>
-
-            <Style x:Key="MenuSeparatorMertoStyle" TargetType="{x:Type Separator}">
-                <Setter Property="Margin" Value="0,0,12,0"/>
-            </Style>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -63,39 +82,37 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="2" MinHeight="2" MaxHeight="2" />
             <RowDefinition Height="24" MinHeight="24" MaxHeight="24" />
-            <RowDefinition Height="6" MinHeight="6" MaxHeight="6" />
+            <RowDefinition Height="2" MinHeight="2" MaxHeight="2" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
-
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="1" Fill="{StaticResource AccentColorBrush}" />
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="LightThemeItem" Click="LightThemeItem_Click" Header="Light Theme" />
+                    <MenuItem x:Name="DarkThemeItem" Click="DarkThemeItem_Click" Header="Dark Theme" />
+                </ContextMenu>
+            </Grid.ContextMenu>
+            
+            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{DynamicResource GrayBrush10}" />
         </Grid>
-        
-        <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents, Mode=TwoWay}" AnchorablesSource="{Binding Tools, Mode=TwoWay}"
+
+        <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" Background="{DynamicResource WindowBackgroundBrush}" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents, Mode=TwoWay}" AnchorablesSource="{Binding Tools, Mode=TwoWay}"
                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockingManager_DockManager_Loaded" Unloaded="DockingManager_DockManager_Unloaded">
 
-            <!--<dock:DockingManager.AnchorableHeaderTemplate>
-                <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,0,2,0">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,0,0" TextAlignment="Center" Text="{Binding Title}"/>
-                    </Grid>
-                </DataTemplate>
-            </dock:DockingManager.AnchorableHeaderTemplate>
-            
-            <dock:DockingManager.DocumentHeaderTemplate>
-                <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,0,2,0">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,0,0" TextAlignment="Left" Text="{Binding Title}"/>
-                    </Grid>
-                </DataTemplate>
-            </dock:DockingManager.DocumentHeaderTemplate>-->
-            
-            <dock:DockingManager.Theme>
-                <dock:MetroTheme />
-            </dock:DockingManager.Theme>
-
             <dock:DockingManager.Resources>
+                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="BorderThickness" Value="0" />
+                </Style>
+
+                <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource MetroContextMenu}">
+                    <Setter Property="Background" Value="{DynamicResource ContextMenuBackgroundBrush}" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
+                </Style>
+
                 <DataTemplate DataType="{x:Type viewModels:FileExplorerViewModel}">
                     <views:FileExplorerView />
                 </DataTemplate>

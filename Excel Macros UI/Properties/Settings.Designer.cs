@@ -38,12 +38,12 @@ namespace Excel_Macros_UI.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("#202020;#57a64a;#ff22ff;#569cd6;#4ec9b0;#70b0e0;#404040;#569cd6;")]
-        public string SyntaxStyle {
+        public string SyntaxStyleLight {
             get {
-                return ((string)(this["SyntaxStyle"]));
+                return ((string)(this["SyntaxStyleLight"]));
             }
             set {
-                this["SyntaxStyle"] = value;
+                this["SyntaxStyleLight"] = value;
             }
         }
         
@@ -92,6 +92,30 @@ namespace Excel_Macros_UI.Properties {
             }
             set {
                 this["EditorFontWeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Light")]
+        public string Theme {
+            get {
+                return ((string)(this["Theme"]));
+            }
+            set {
+                this["Theme"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#dfdfdf;#57a64a;#ff22ff;#569cd6;#4ec9b0;#70b0e0;#bfbfbf;#569cd6;")]
+        public string SyntaxStyleDark {
+            get {
+                return ((string)(this["SyntaxStyleDark"]));
+            }
+            set {
+                this["SyntaxStyleDark"] = value;
             }
         }
     }

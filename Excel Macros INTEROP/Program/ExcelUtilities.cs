@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2015
- * Version 1.0.0
+ * 02/07/2015
+ * Version 1.0.2
  * Excel related utility functions for Users' use
  */
 
@@ -36,24 +36,19 @@ namespace Excel_Macros_INTEROP
         }
 
         //Get a range selection through the excel inputbox
-        public void RequestRangeInput(string message, Action<Excel.Range> OnResult)
+        public Excel.Range RequestRangeInput(string message)
         {
-            MessageManager.DisplayInputMessage(message, "Input Range", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, 8, (res) =>
-            {
-                Excel.Range range = res as Excel.Range;
-                Main.FireFocusEvent();
-                OnResult?.Invoke(range);
-            });
+            object result = MessageManager.DisplayInputMessage(message, "Input Range", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, 8);
+            Main.FireFocusEvent();
+            return result as Excel.Range;
         }
 
         //Get a boolean input through a message box
-        public void RequestBooleanInput(string message, Action<bool> OnResult)
+        public bool RequestBooleanInput(string message)
         {
-            MessageManager.DisplayYesNoMessage(message, "Boolean Input", (res) =>
-            {
-                Main.FireFocusEvent();
-                OnResult?.Invoke(res);
-            });
+            bool result = MessageManager.DisplayYesNoMessage(message, "Boolean Input");
+            Main.FireFocusEvent();
+            return result;
         }
 
         //Display a message in a message box

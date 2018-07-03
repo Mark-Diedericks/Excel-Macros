@@ -34,6 +34,9 @@ namespace Excel_Macros_UI
         public delegate void InputMessageEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type, Action<object> OnResult);
         public event InputMessageEvent DisplayInputMessageEvent;
 
+        public delegate object InputMessageReturnEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type);
+        public event InputMessageReturnEvent DisplayInputMessageReturnEvent;
+
         public delegate void SetEnabled(bool enabled);
         public event SetEnabled SetExcelInteractive;
         public event SetEnabled FastWorkbookEvent;
@@ -67,7 +70,10 @@ namespace Excel_Macros_UI
 
                 MessageManager.GetInstance().DisplayOkMessageEvent += DisplayOkMessage;
                 MessageManager.GetInstance().DisplayYesNoMessageEvent += DisplayYesNoMessage;
+                MessageManager.GetInstance().DisplayYesNoMessageReturnEvent += DisplayYesNoMessageReturn;
+
                 MessageManager.GetInstance().DisplayInputMessageEvent += EventManager_DisplayInputMessageEvent;
+                MessageManager.GetInstance().DisplayInputMessageReturnEvent += EventManager_DisplayInputMessageReturnEvent;
 
                 Excel_Macros_INTEROP.EventManager.GetInstance().SetExcelInteractive += (enabled) => 
                 {
@@ -100,10 +106,15 @@ namespace Excel_Macros_UI
         }
 
         #region Main to UI to Excel Events
-        
+
         private static void EventManager_DisplayInputMessageEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type, Action<object> OnResult)
         {
             GetInstance().DisplayInputMessageEvent?.Invoke(message, title, def, left, top, helpFile, helpContextID, type, OnResult);
+        }
+
+        private static object EventManager_DisplayInputMessageReturnEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type)
+        {
+            return GetInstance().DisplayInputMessageReturnEvent?.Invoke(message, title, def, left, top, helpFile, helpContextID, type);
         }
 
         #endregion
@@ -204,6 +215,13 @@ namespace Excel_Macros_UI
         private static void DisplayYesNoMessage(string content, string title, Action<bool> OnReturn)
         {
             MainWindow.GetInstance().DisplayYesNoMessage(content, title, OnReturn);
+        }
+
+        private static bool DisplayYesNoMessageReturn(string content, string title)
+        {
+            Task<bool> t = MainWindow.GetInstance().DisplayYesNoMessageReturn(content, title);
+            t.Wait();
+            return t.Result;
         }
 
         #endregion
