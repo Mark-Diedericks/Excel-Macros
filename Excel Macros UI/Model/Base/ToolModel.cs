@@ -1,41 +1,18 @@
-﻿/*
- * Mark Diedericks
- * 17/06/2015
- * Version 1.0.0
- * Tool window view model
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
-namespace Excel_Macros_UI.ViewModel
+namespace Excel_Macros_UI.Model.Base
 {
-    public class ToolViewModel : ViewModel
+    public class ToolModel : Model
     {
-        private ICommand m_CloseCommand;
-        public ICommand CloseCommand
+        public ToolModel()
         {
-            get
-            {
-                if (m_CloseCommand == null)
-                    m_CloseCommand = new RelayCommand(call => Close());
-                return m_CloseCommand;
-            }
-        }
-
-        public ToolViewModel()
-        {
-            CanClose = true;
             IsClosed = false;
-        }
-
-        public void Close()
-        {
-            IsClosed = true;
+            Title = "";
+            ContentId = "";
         }
 
         #region IsClosed
@@ -54,28 +31,6 @@ namespace Excel_Macros_UI.ViewModel
                 {
                     m_IsClosed = value;
                     OnPropertyChanged(nameof(IsClosed));
-                }
-            }
-        }
-
-        #endregion
-
-        #region CanClose
-
-        private bool m_CanClose;
-        public bool CanClose
-        {
-            get
-            {
-                return m_CanClose;
-            }
-
-            set
-            {
-                if (m_CanClose != value)
-                {
-                    m_CanClose = value;
-                    OnPropertyChanged(nameof(CanClose));
                 }
             }
         }
@@ -124,7 +79,7 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
-        #endregion
+        #endregion   
 
     }
 }

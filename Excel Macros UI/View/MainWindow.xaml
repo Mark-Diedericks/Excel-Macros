@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="Excel_Macros_UI.MainWindow"
+﻿<Controls:MetroWindow x:Class="Excel_Macros_UI.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -40,7 +40,7 @@
 
                         <!-- Accent and AppTheme setting -->
                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-                        <ResourceDictionary Source="pack://application:,,,/Excel Macros UI;component/ExcelAccent.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/Excel Macros UI;component/Themes/ExcelAccent.xaml" />
                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
@@ -286,13 +286,6 @@
                                 <System:String>Asynchronous</System:String>
                                 <System:String>Synchronous</System:String>
                             </Controls:SplitButton.Items>
-
-                            <Controls:SplitButton.Style>
-                                <Style>
-                                    <Setter Property="TextBlock.Margin" Value="0,0,0,0" />
-                                    <Setter Property="TextBlock.Height" Value="12" />
-                                </Style>
-                            </Controls:SplitButton.Style>
                         </Controls:SplitButton>
 
                         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="116,0,0,0">
@@ -376,7 +369,7 @@
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type viewModels:TextualEditorViewModel}">
-                        <views:TextualEditorView />
+                        <views:TextualEditorView Source="{Binding Source, Mode=TwoWay}"/>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type viewModels:VisualEditorViewModel}">

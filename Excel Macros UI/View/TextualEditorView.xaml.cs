@@ -6,6 +6,7 @@
  */
 
 using Excel_Macros_UI.Utilities;
+using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System;
@@ -41,6 +42,20 @@ namespace Excel_Macros_UI.View
     /// </summary>
     public partial class TextualEditorView : UserControl
     {
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(TextDocument), typeof(TextualEditorView));
+        
+        public TextDocument Source
+        {
+            get
+            {
+                return (TextDocument)GetValue(SourceProperty);
+            }
+            set
+            {
+                SetValue(SourceProperty, value);
+            }
+        }
+
         public TextualEditorView()
         {
             InitializeComponent();

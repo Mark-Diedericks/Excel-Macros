@@ -5,6 +5,8 @@
  * Document window view model
  */
 
+using Excel_Macros_UI.Model.Base;
+using Excel_Macros_UI.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Excel_Macros_UI.ViewModel
+namespace Excel_Macros_UI.ViewModel.Base
 {
     public class DocumentViewModel : ViewModel
     {
@@ -31,7 +33,7 @@ namespace Excel_Macros_UI.ViewModel
         public DocumentViewModel()
         {
             CanClose = true;
-            IsClosed = false;
+            CanFloat = false;
         }
 
         public void Close()
@@ -39,22 +41,22 @@ namespace Excel_Macros_UI.ViewModel
             IsClosed = true;
         }
 
-        #region IsClosed
+        #region Model
 
-        private bool m_IsClosed;
-        public bool IsClosed
+        private DocumentModel m_Model;
+        public DocumentModel Model
         {
             get
             {
-                return m_IsClosed;
+                return m_Model;
             }
 
             set
             {
-                if (m_IsClosed != value)
+                if (m_Model != value)
                 {
-                    m_IsClosed = value;
-                    OnPropertyChanged(nameof(IsClosed));
+                    m_Model = value;
+                    OnPropertyChanged(nameof(Model));
                 }
             }
         }
@@ -73,7 +75,7 @@ namespace Excel_Macros_UI.ViewModel
 
             set
             {
-                if(m_CanClose != value)
+                if (m_CanClose != value)
                 {
                     m_CanClose = value;
                     OnPropertyChanged(nameof(CanClose));
@@ -105,21 +107,41 @@ namespace Excel_Macros_UI.ViewModel
 
         #endregion
 
-        #region Title
-
-        private string m_Title;
-        public string Title
+        #region IsClosed
+        
+        public bool IsClosed
         {
             get
             {
-                return m_Title;
+                return Model.IsClosed;
             }
 
             set
             {
-                if(m_Title != value)
+                if (Model.IsClosed != value)
                 {
-                    m_Title = value;
+                    Model.IsClosed = value;
+                    OnPropertyChanged(nameof(IsClosed));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Title
+        
+        public string Title
+        {
+            get
+            {
+                return Model.Title;
+            }
+
+            set
+            {
+                if(Model.Title != value)
+                {
+                    Model.Title = value;
                     OnPropertyChanged(nameof(Title));
                 }
             }
@@ -128,20 +150,19 @@ namespace Excel_Macros_UI.ViewModel
         #endregion
         
         #region ContentId
-
-        private string m_ContentId;
+        
         public string ContentId
         {
             get
             {
-                return m_ContentId;
+                return Model.ContentId;
             }
 
             set
             {
-                if (m_ContentId != value)
+                if (Model.ContentId != value)
                 {
-                    m_ContentId = value;
+                    Model.ContentId = value;
                     OnPropertyChanged(nameof(ContentId));
                 }
             }

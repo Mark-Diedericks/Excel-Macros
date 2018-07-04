@@ -5,6 +5,7 @@
  * Handles the view models of the primary view model
  */
 
+using Excel_Macros_UI.ViewModel.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,12 +40,6 @@ namespace Excel_Macros_UI.ViewModel
                 if (!tool.IsClosed)
                     Tools.Add(tool);
             }
-        }
-
-        public DockManagerViewModel()
-        {
-            Documents = new ObservableCollection<DocumentViewModel>();
-            Tools = new ObservableCollection<ToolViewModel>();
         }
 
         private void Tool_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

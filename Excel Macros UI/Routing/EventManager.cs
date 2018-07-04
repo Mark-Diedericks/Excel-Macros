@@ -15,8 +15,9 @@ using Excel_Macros_INTEROP;
 using Excel_Macros_INTEROP.Macros;
 using System.Windows.Threading;
 using System.Threading;
+using Excel_Macros_UI.View;
 
-namespace Excel_Macros_UI
+namespace Excel_Macros_UI.Routing
 {
     public class EventManager
     {

@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Excel_Macros_UI.ViewModel
+namespace Excel_Macros_UI.Routing
 {
     public class RelayCommand : ICommand
     {

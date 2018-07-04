@@ -73,6 +73,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Base\DocumentModel.cs" />
+    <Compile Include="Model\Base\Model.cs" />
+    <Compile Include="Model\Base\ToolModel.cs" />
+    <Compile Include="Model\ConsoleModel.cs" />
+    <Compile Include="Model\FileExplorerModel.cs" />
+    <Compile Include="Model\TextualEditorModel.cs" />
+    <Compile Include="Model\ToolboxModel.cs" />
+    <Compile Include="Model\VisualEditorModel.cs" />
     <Compile Include="Themes\DarkTheme.cs" />
     <Compile Include="Themes\DefaultTheme.cs" />
     <Compile Include="Themes\ITheme.cs" />
@@ -80,10 +88,10 @@
     <Compile Include="Themes\LightTheme.cs" />
     <Compile Include="Utilities\SyntaxStyleLoader.cs" />
     <Compile Include="ViewModel\ConsoleViewModel.cs" />
-    <Compile Include="ViewModel\PrimaryViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\TextualEditorViewModel.cs" />
     <Compile Include="ViewModel\ToolboxViewModel.cs" />
-    <Compile Include="ViewModel\ToolViewModel.cs" />
+    <Compile Include="ViewModel\Base\ToolViewModel.cs" />
     <Compile Include="ViewModel\VisualEditorViewModel.cs" />
     <Compile Include="View\ConsoleView.xaml.cs">
       <DependentUpon>ConsoleView.xaml</DependentUpon>
@@ -100,11 +108,11 @@
     <Compile Include="View\VisualEditorView.xaml.cs">
       <DependentUpon>VisualEditorView.xaml</DependentUpon>
     </Compile>
-    <Page Include="ExcelAccent.xaml">
+    <Page Include="Themes\ExcelAccent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -112,13 +120,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EventManager.cs" />
+    <Compile Include="Routing\EventManager.cs" />
     <Compile Include="ViewModel\DockManagerViewModel.cs" />
-    <Compile Include="ViewModel\DocumentViewModel.cs" />
+    <Compile Include="ViewModel\Base\DocumentViewModel.cs" />
     <Compile Include="ViewModel\FileExplorerViewModel.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
-    <Compile Include="ViewModel\ViewModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Routing\RelayCommand.cs" />
+    <Compile Include="ViewModel\Base\ViewModel.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -220,6 +228,9 @@
       <Project>{7f66ed27-0cc9-4dc1-b423-02d7c35fd225}</Project>
       <Name>Excel Macros INTEROP</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

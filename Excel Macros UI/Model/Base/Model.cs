@@ -1,20 +1,14 @@
-﻿/*
- * Mark Diedericks
- * 17/06/2015
- * Version 1.0.0
- * Base view model
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Excel_Macros_UI.Routing;
 
-namespace Excel_Macros_UI.ViewModel
+namespace Excel_Macros_UI.Model.Base
 {
-    public abstract class ViewModel : INotifyPropertyChanged
+    public abstract class Model : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

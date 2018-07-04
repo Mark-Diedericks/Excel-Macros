@@ -22,7 +22,7 @@ namespace Excel_Macros_RIBBON
     public partial class ThisAddIn
     {
         private ExcelMacrosRibbonTab m_RibbonTab;
-        private UI.EventManager m_EventManager;
+        private UI.Routing.EventManager m_EventManager;
 
         private bool m_RibbonLoaded = false;
         private bool m_ApplicationLoaded = false;
@@ -34,13 +34,13 @@ namespace Excel_Macros_RIBBON
         private void ThisAddIn_Startup(object sender, EventArgs e)
         {
             ExcelMacrosRibbonTab.MacroRibbonLoadEvent += MacroRibbonLoaded;
-            UI.EventManager.ApplicationLoaded += MacroEditorLoaded;
+            UI.Routing.EventManager.ApplicationLoaded += MacroEditorLoaded;
 
             m_Thread = new Thread(() =>
             {
                 //SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
 
-                UI.EventManager.CreateApplicationInstance(Application);
+                UI.Routing.EventManager.CreateApplicationInstance(Application);
             });
 
             m_Thread.SetApartmentState(ApartmentState.STA);
@@ -77,7 +77,7 @@ namespace Excel_Macros_RIBBON
         private void MacroEditorLoaded()
         {
             m_ApplicationLoaded = true;
-            m_EventManager = UI.EventManager.GetInstance();
+            m_EventManager = UI.Routing.EventManager.GetInstance();
 
             if (m_RibbonLoaded)
                 SetEvents();

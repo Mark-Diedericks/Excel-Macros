@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 21/06/2018
- * Version 1.0.3
+ * 04/07/2018
+ * Version 1.0.4
  * Manages execution of users' code
  */
 
@@ -60,13 +60,15 @@ namespace Excel_Macros_INTEROP.Engine
         private ScriptScope m_ScriptScope;
 
         private BackgroundWorker m_BackgroundWorker;
+        private bool m_IsExecuting;
 
         private ExecutionEngine(Dictionary<string, object> args)
         {
             m_ScriptEngine = IronPython.Hosting.Python.CreateEngine(args);
             m_ScriptScope = m_ScriptEngine.CreateScope();
 
-            m_BackgroundWorker = null;
+            m_IsExecuting = false;
+            m_BackgroundWorker = new BackgroundWorker();
 
             StreamManager.ClearAllStreams();
             m_ScriptEngine.Runtime.IO.SetInput(StreamManager.GetInputStream(), Encoding.UTF8);
@@ -86,14 +88,13 @@ namespace Excel_Macros_INTEROP.Engine
 
         public bool ExecuteMacro(string source, Action OnCompletedAction, bool async)
         {
-            if (m_BackgroundWorker != null)
-                if(m_BackgroundWorker.IsBusy)
-                    return false;
+            if(m_IsExecuting)
+                return false;
 
             if (async)
                 ExecuteSourceAsynchronous(source, OnCompletedAction);
             else
-                ExecuteSource(source, OnCompletedAction);
+                ExecuteSourceSynchronous(source, OnCompletedAction);
 
             return true;
         }
@@ -102,17 +103,19 @@ namespace Excel_Macros_INTEROP.Engine
         {
             if (m_BackgroundWorker != null)
                 m_BackgroundWorker.CancelAsync();
+
+            m_IsExecuting = false;
         }
 
         private void ExecuteSourceAsynchronous(string source, Action OnCompletedAction)
         {
-            m_BackgroundWorker = new BackgroundWorker();
+            m_IsExecuting = true;
             m_BackgroundWorker.WorkerSupportsCancellation = true;
 
             m_BackgroundWorker.RunWorkerCompleted += (s, args) => 
             {
                 OnCompletedAction?.Invoke();
-                m_BackgroundWorker = null;
+                m_IsExecuting = false;
             };
 
             m_BackgroundWorker.DoWork += (s, args) =>
@@ -123,10 +126,12 @@ namespace Excel_Macros_INTEROP.Engine
             m_BackgroundWorker.RunWorkerAsync();
         }
 
-        private void ExecuteSource(string source, Action OnCompletedAction)
+        private void ExecuteSourceSynchronous(string source, Action OnCompletedAction)
         {
+            m_IsExecuting = true;
             ExecuteSource(source);
             OnCompletedAction?.Invoke();
+            m_IsExecuting = false;
         }
 
         private void ExecuteSource(string source)

@@ -1,10 +1,11 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2015
- * Version 1.0.0
+ * 04/07/2015
+ * Version 1.0.2
  * Primary entry point into the application -> auto-generated
  */
 
+using Excel_Macros_UI.View;
 using Excel_Macros_UI.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,8 @@ namespace Excel_Macros_UI
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             MainWindow mw = new MainWindow();
-            mw.DataContext = new PrimaryViewModel();
+            mw.DataContext = new MainWindowViewModel();
             MainWindow = mw;
-
         }
     }
 }

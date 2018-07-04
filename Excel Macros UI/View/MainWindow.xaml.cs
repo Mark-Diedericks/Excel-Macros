@@ -9,6 +9,7 @@ using Excel_Macros_INTEROP;
 using Excel_Macros_UI.Themes;
 using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.ViewModel;
+using Excel_Macros_UI.ViewModel.Base;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -34,7 +35,7 @@ using System.Xml;
 using Xceed.Wpf.AvalonDock.Controls;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
-namespace Excel_Macros_UI
+namespace Excel_Macros_UI.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -56,7 +57,7 @@ namespace Excel_Macros_UI
             
             ThemeChanged += SyntaxStyleLoader.LoadColorValues;
 
-            ThemeManager.AddAccent("ExcelAccent", new Uri("pack://application:,,,/Excel Macros UI;component/ExcelAccent.xaml"));
+            ThemeManager.AddAccent("ExcelAccent", new Uri("pack://application:,,,/Excel Macros UI;component/Themes/ExcelAccent.xaml"));
             ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent("ExcelAccent"), ThemeManager.GetAppTheme("BaseLight"));
             
             DockingManager_DockManager.DocumentContextMenu.ContextMenuOpening += DocumentContextMenu_ContextMenuOpening;
