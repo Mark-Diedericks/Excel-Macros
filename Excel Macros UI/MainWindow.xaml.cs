@@ -74,13 +74,6 @@ namespace Excel_Macros_UI
         {
             return s_Instance;
         }
-        
-        public static void CreateInstance()
-        {
-            MainWindow mw = new MainWindow();
-            PrimaryViewModel pvm = new PrimaryViewModel();
-            mw.DataContext = pvm;
-        }
 
         #region Window Event Callbacks & Overrides
 
@@ -368,5 +361,45 @@ namespace Excel_Macros_UI
         }
 
         #endregion
+
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnOpen_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnSaveAll_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnRedo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnUndo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnRun_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

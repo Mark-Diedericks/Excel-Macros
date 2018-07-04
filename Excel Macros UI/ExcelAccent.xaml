@@ -13,11 +13,11 @@
     <!--  80%  -->
     <Color x:Key="AccentColor">#CC227447</Color>
     <!--  60%  -->
-    <Color x:Key="AccentColor2">#99227447</Color>
+    <Color x:Key="AccentColor2">#AA227447</Color>
     <!--  40%  -->
-    <Color x:Key="AccentColor3">#66227447</Color>
+    <Color x:Key="AccentColor3">#88227447</Color>
     <!--  20%  -->
-    <Color x:Key="AccentColor4">#33227447</Color>
+    <Color x:Key="AccentColor4">#66227447</Color>
 
     <!--  re-set brushes too  -->
     <SolidColorBrush x:Key="HighlightBrush" Color="{StaticResource HighlightColor}" options:Freeze="True" />
@@ -29,6 +29,9 @@
     <SolidColorBrush x:Key="AccentColorBrush4" Color="{StaticResource AccentColor4}" options:Freeze="True" />
 
     <SolidColorBrush x:Key="WindowTitleColorBrush" Color="{StaticResource AccentBaseColor}" options:Freeze="True" />
+
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{DynamicResource Gray10}" />
+    <SolidColorBrush x:Key="GrayBrush10" Color="{DynamicResource WhiteColor}" />
 
     <LinearGradientBrush x:Key="ProgressBrush" StartPoint="1.002,0.5" EndPoint="0.001,0.5" options:Freeze="True">
         <GradientStop Offset="0" Color="{StaticResource HighlightColor}" />

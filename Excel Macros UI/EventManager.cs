@@ -45,6 +45,7 @@ namespace Excel_Macros_UI
         public event SetEnabledWorksheet FastWorksheetEvent;
 
         private static EventManager s_Instance;
+        private static App s_UIApp;
 
         private EventManager()
         {
@@ -59,8 +60,9 @@ namespace Excel_Macros_UI
         public static void CreateApplicationInstance(Excel.Application application)
         {
             new EventManager();
-
-            MainWindow.CreateInstance();
+            
+            s_UIApp = new App();
+            s_UIApp.InitializeComponent();
 
             Main.Initialize(application, new Action(() =>
             {
@@ -97,12 +99,14 @@ namespace Excel_Macros_UI
             {
                 MainWindow.GetInstance().Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
                 {
-                    MainWindow.GetInstance().SaveAll();
-                    Main.Destroy();
+                    if(MainWindow.GetInstance() != null)
+                        MainWindow.GetInstance().SaveAll();
 
-                    MainWindow.GetInstance().CloseWindow();
+                    s_UIApp.Shutdown();
                 }));
             };
+
+            s_UIApp.Run();
         }
 
         #region Main to UI to Excel Events

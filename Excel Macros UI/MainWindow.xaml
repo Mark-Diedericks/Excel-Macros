@@ -14,11 +14,18 @@
         xmlns:avalonDockConverters="clr-namespace:Xceed.Wpf.AvalonDock.Converters;assembly=Xceed.Wpf.AvalonDock"
         xmlns:viewModels="clr-namespace:Excel_Macros_UI.ViewModel"
         xmlns:views="clr-namespace:Excel_Macros_UI.View"
+        xmlns:properties="clr-namespace:Excel_Macros_UI.Properties"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" Dialog:DialogParticipation.Register="{Binding}"
         Title="Macro Editor" HorizontalAlignment="Center" VerticalAlignment="Center" ShowIconOnTitleBar="False"
         MinWidth="1024" MinHeight="576" BorderBrush="Black" BorderThickness="0" GlowBrush="Black" ResizeMode="CanResizeWithGrip" 
         Closing="MetroWindow_Closing" SizeChanged="MetroWindow_SizeChanged" Loaded="MainWindow_Loaded" Background="{DynamicResource WindowBackgroundBrush}"
-        LeftWindowCommandsOverlayBehavior="Always" RightWindowCommandsOverlayBehavior="Always" WindowButtonCommandsOverlayBehavior="Always">
+        LeftWindowCommandsOverlayBehavior="Always" RightWindowCommandsOverlayBehavior="Always" WindowButtonCommandsOverlayBehavior="Always"
+        WindowState="{Binding Source={x:Static properties:Settings.Default}, Path=WindowState, Mode=TwoWay}"
+        Width="{Binding Source={x:Static properties:Settings.Default}, Path=WindowWidth, Mode=TwoWay}"
+        Height="{Binding Source={x:Static properties:Settings.Default}, Path=WindowHeight, Mode=TwoWay}"
+        Top="{Binding Source={x:Static properties:Settings.Default}, Path=WindowTop, Mode=TwoWay}"
+        Left="{Binding Source={x:Static properties:Settings.Default}, Path=WindowLeft, Mode=TwoWay}">
     
     <!-- Import Resource Dictionary -->
     <Window.Resources>
@@ -39,6 +46,14 @@
                 </ResourceDictionary>
                 <ResourceDictionary>
                     <avalonDockConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+                    <Style x:Key="HeaderMenuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush}" />
+                    </Style>
 
                     <Style x:Key="MetroMenuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
                         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -78,71 +93,307 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2" MinHeight="2" MaxHeight="2" />
-            <RowDefinition Height="24" MinHeight="24" MaxHeight="24" />
-            <RowDefinition Height="2" MinHeight="2" MaxHeight="2" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <DockPanel Background="{DynamicResource WindowBackgroundBrush}">
+        <Menu DockPanel.Dock="Top" Background="{DynamicResource WindowBackgroundBrush}">
+            <MenuItem Header="_File" Style="{DynamicResource HeaderMenuItemStyle}">
+                <MenuItem Header="_New" />
+                <MenuItem Header="_Open" />
+                <MenuItem Header="Open Recent" />
+                <Separator />
+                <MenuItem Header="_Save" />
+                <MenuItem Header="Save As" />
+                <MenuItem Header="Save All" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem Header="_Edit" Style="{DynamicResource HeaderMenuItemStyle}">
+                <MenuItem Header="_Undo" />
+                <MenuItem Header="_Redo" />
+            </MenuItem>
+            <MenuItem Header="_View" Style="{DynamicResource HeaderMenuItemStyle}">
+                <MenuItem Header="_Toolbox" />
+                <MenuItem Header="_Explorer" />
+                <MenuItem Header="_Console" />
+            </MenuItem>
+            <MenuItem Header="_Tools" Style="{DynamicResource HeaderMenuItemStyle}">
+                <MenuItem Header="_Libraries" />
+                <MenuItem Header="_Macros" />
+                <Separator />
+                <MenuItem Header="_Options" />
+            </MenuItem>
+        </Menu>
 
-        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
-            <Grid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem x:Name="LightThemeItem" Click="LightThemeItem_Click" Header="Light Theme" />
-                    <MenuItem x:Name="DarkThemeItem" Click="DarkThemeItem_Click" Header="Dark Theme" />
-                </ContextMenu>
-            </Grid.ContextMenu>
-            
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{DynamicResource GrayBrush10}" />
-        </Grid>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0" MinHeight="0" MaxHeight="0" />
+                <RowDefinition Height="28" MinHeight="28" MaxHeight="28" />
+                <RowDefinition Height="2" MinHeight="2" MaxHeight="2" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" Background="{DynamicResource WindowBackgroundBrush}" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents, Mode=TwoWay}" AnchorablesSource="{Binding Tools, Mode=TwoWay}"
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="LightThemeItem" Click="LightThemeItem_Click" Header="Light Theme" />
+                        <MenuItem x:Name="DarkThemeItem" Click="DarkThemeItem_Click" Header="Dark Theme" />
+                    </ContextMenu>
+                </Grid.ContextMenu>
+
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource WindowBackgroundBrush}">
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="10,0,0,0">
+                        <Button x:Name="btnNew" Click="btnNew_Click" Padding="2,2,2,2" BorderThickness="0" ToolTip="New Project" Margin="0,0,0,2" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid x:Name="ContentGrid" Margin="0,0,0,0">
+                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#a09e9a" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{iconPacks:Material {x:Static iconPacks:PackIconMaterialKind.FileMultiple}}"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#44808080" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#55808080" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button x:Name="btnOpen" Click="btnOpen_Click" Padding="2,2,2,2" BorderThickness="0" Margin="28,0,0,0" ToolTip="Open Project" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid x:Name="ContentGrid" Margin="0,0,0,0">
+                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#e0c282" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{iconPacks:Entypo {x:Static iconPacks:PackIconEntypoKind.Folder}}"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#44808080" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#55808080" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button x:Name="btnSave" Click="btnSave_Click" Padding="2,2,2,2" BorderThickness="0" Margin="56,0,0,0" ToolTip="Save" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid x:Name="ContentGrid" Margin="0,0,0,0">
+                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{iconPacks:Material {x:Static iconPacks:PackIconMaterialKind.ContentSave}}"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#44808080" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#55808080" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button x:Name="btnSaveAll" Click="btnSaveAll_Click" Padding="2,2,2,2" BorderThickness="0" Margin="84,0,0,0" ToolTip="Save All" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid x:Name="ContentGrid" Margin="0,0,0,0">
+                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{iconPacks:Material {x:Static iconPacks:PackIconMaterialKind.ContentSaveAll}}"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#44808080" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#55808080" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+
+                    <Rectangle Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="120,4,0,4" Fill="{DynamicResource GrayBrush8}" />
+
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="124,0,0,0">
+                        <Button x:Name="btnUndo" Click="btnUndo_Click" Padding="2,2,2,2" BorderThickness="0" Margin="0,0,0,0" ToolTip="Undo" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid x:Name="ContentGrid" Margin="0,0,0,0">
+                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{iconPacks:Modern {x:Static iconPacks:PackIconModernKind.Undo}}"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#44808080" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#55808080" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button x:Name="btnRedo" Click="btnRedo_Click" Padding="2,2,2,2" BorderThickness="0" Margin="28,0,0,0" ToolTip="Redo" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid x:Name="ContentGrid" Margin="0,0,0,0">
+                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{iconPacks:Modern {x:Static iconPacks:PackIconModernKind.Redo}}"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#44808080" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#55808080" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                    
+                    <Rectangle Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="178,4,0,4" Fill="{DynamicResource GrayBrush8}" />
+
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="182,0,0,0">
+                        <Controls:SplitButton SelectedIndex="0" HorizontalAlignment="Left" Width="112" Height="16">
+                            <Controls:SplitButton.Items>
+                                <System:String>Asynchronous</System:String>
+                                <System:String>Synchronous</System:String>
+                            </Controls:SplitButton.Items>
+
+                            <Controls:SplitButton.Style>
+                                <Style>
+                                    <Setter Property="TextBlock.Margin" Value="0,0,0,0" />
+                                    <Setter Property="TextBlock.Height" Value="12" />
+                                </Style>
+                            </Controls:SplitButton.Style>
+                        </Controls:SplitButton>
+
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="116,0,0,0">
+                            <Button x:Name="btnRun" Click="btnRun_Click" Padding="2,2,2,2" BorderThickness="0" ToolTip="Start" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Grid x:Name="ContentGrid" Margin="0,0,0,0">
+                                            <TextBlock x:Name="TextBox" VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Right" Margin="24,0,6,0" FontSize="14" FontWeight="Regular">Start</TextBlock>
+                                            <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#1e8449" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{iconPacks:Entypo {x:Static iconPacks:PackIconEntypoKind.ControllerPlay}}"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="true">
+                                                <Setter TargetName="ContentGrid" Property="Background" Value="#44808080" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="true">
+                                                <Setter TargetName="ContentGrid" Property="Background" Value="#55808080" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+                            <Button x:Name="btnStop" Visibility="Hidden" Click="btnStop_Click" Padding="2,2,2,2" ToolTip="Stop" BorderThickness="0" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Grid x:Name="ContentGrid" Margin="0,0,0,0">
+                                            <TextBlock x:Name="TextBox" VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Right" Margin="24,0,6,0" FontSize="14" FontWeight="Regular">Stop</TextBlock>
+                                            <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#a1260d" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{iconPacks:Entypo {x:Static iconPacks:PackIconEntypoKind.ControllerStop}}"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="true">
+                                                <Setter TargetName="ContentGrid" Property="Background" Value="#44808080" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="true">
+                                                <Setter TargetName="ContentGrid" Property="Background" Value="#55808080" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    
+                </Grid>
+            </Grid>
+
+            <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" Background="{DynamicResource WindowBackgroundBrush}" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents, Mode=TwoWay}" AnchorablesSource="{Binding Tools, Mode=TwoWay}"
                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockingManager_DockManager_Loaded" Unloaded="DockingManager_DockManager_Unloaded">
 
-            <dock:DockingManager.Resources>
-                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
-                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                    <Setter Property="VerticalContentAlignment" Value="Center" />
-                    <Setter Property="BorderThickness" Value="0" />
-                </Style>
+                <dock:DockingManager.Resources>
+                    <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Style>
 
-                <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource MetroContextMenu}">
-                    <Setter Property="Background" Value="{DynamicResource ContextMenuBackgroundBrush}" />
-                    <Setter Property="BorderThickness" Value="1" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
-                </Style>
+                    <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource MetroContextMenu}">
+                        <Setter Property="Background" Value="{DynamicResource ContextMenuBackgroundBrush}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
+                    </Style>
 
-                <DataTemplate DataType="{x:Type viewModels:FileExplorerViewModel}">
-                    <views:FileExplorerView />
-                </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:FileExplorerViewModel}">
+                        <views:FileExplorerView />
+                    </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewModels:ToolboxViewModel}">
-                    <views:ToolboxView />
-                </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:ToolboxViewModel}">
+                        <views:ToolboxView />
+                    </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewModels:ConsoleViewModel}">
-                    <views:ConsoleView />
-                </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:ConsoleViewModel}">
+                        <views:ConsoleView />
+                    </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewModels:TextualEditorViewModel}">
-                    <views:TextualEditorView />
-                </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:TextualEditorViewModel}">
+                        <views:TextualEditorView />
+                    </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewModels:VisualEditorViewModel}">
-                    <views:VisualEditorView />
-                </DataTemplate>
-            </dock:DockingManager.Resources>
+                    <DataTemplate DataType="{x:Type viewModels:VisualEditorViewModel}">
+                        <views:VisualEditorView />
+                    </DataTemplate>
+                </dock:DockingManager.Resources>
 
-            <dock:DockingManager.LayoutItemContainerStyle>
-                <Style TargetType="{x:Type dockctrl:LayoutItem}">
-                    <Setter Property="Title" Value="{Binding Model.Title}" />
-                    <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
-                    <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
-                    <Setter Property="CanClose" Value="{Binding Model.CanClose}" />
-                    <Setter Property="CanFloat" Value="{Binding Model.CanFloat}" />
-                </Style>
-            </dock:DockingManager.LayoutItemContainerStyle>
-        </dock:DockingManager>
-    </Grid>
+                <dock:DockingManager.LayoutItemContainerStyle>
+                    <Style TargetType="{x:Type dockctrl:LayoutItem}">
+                        <Setter Property="Title" Value="{Binding Model.Title}" />
+                        <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                        <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                        <Setter Property="CanClose" Value="{Binding Model.CanClose}" />
+                        <Setter Property="CanFloat" Value="{Binding Model.CanFloat}" />
+                    </Style>
+                </dock:DockingManager.LayoutItemContainerStyle>
+            </dock:DockingManager>
+        </Grid>
+    </DockPanel>
 </Controls:MetroWindow>

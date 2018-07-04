@@ -363,7 +363,7 @@
     </Style>
 
     <Style TargetType="avalonDockControls:AnchorablePaneTitle">
-        <Setter Property="Background" Value="{DynamicResource GrayBrush10}" />
+        <Setter Property="Background" Value="{DynamicResource SeparatorColorBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>

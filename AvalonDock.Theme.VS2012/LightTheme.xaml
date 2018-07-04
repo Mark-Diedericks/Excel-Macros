@@ -17,7 +17,7 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Color x:Key="SeparatorColor">#CCCEDB</Color>
+    <Color x:Key="SeparatorColor">#EAEBEE</Color> <!-- #CCCEDB -->
     <SolidColorBrush x:Key="SeparatorColorBrush" Color="{DynamicResource SeparatorColor}"/>
 
     <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
@@ -363,7 +363,7 @@
     </Style>
 
     <Style TargetType="avalonDockControls:AnchorablePaneTitle">
-        <Setter Property="Background" Value="{DynamicResource GrayBrush10}" />
+        <Setter Property="Background" Value="{DynamicResource SeparatorColorBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>

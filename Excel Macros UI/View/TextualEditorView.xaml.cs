@@ -45,7 +45,7 @@ namespace Excel_Macros_UI.View
         {
             InitializeComponent();
 
-            //m_CodeEditor.SyntaxHighlighting = HighlightingLoader.Load(new XmlTextReader(SyntaxStyleLoader.GetStyleStream()), HighlightingManager.Instance);
+            m_CodeEditor.SyntaxHighlighting = HighlightingLoader.Load(new XmlTextReader(SyntaxStyleLoader.GetStyleStream()), HighlightingManager.Instance);
             SyntaxStyleLoader.LoadColorValues();
             SyntaxStyleLoader.OnStyleChanged += delegate () 
             {

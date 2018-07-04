@@ -24,10 +24,9 @@ namespace Excel_Macros_UI
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             MainWindow mw = new MainWindow();
-            PrimaryViewModel pvm = new PrimaryViewModel();
-            mw.DataContext = pvm;
-
+            mw.DataContext = new PrimaryViewModel();
             MainWindow = mw;
+
         }
     }
 }

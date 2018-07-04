@@ -38,11 +38,9 @@ namespace Excel_Macros_RIBBON
 
             m_Thread = new Thread(() =>
             {
-                SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
+                //SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
 
                 UI.EventManager.CreateApplicationInstance(Application);
-
-                Dispatcher.Run();
             });
 
             m_Thread.SetApartmentState(ApartmentState.STA);
@@ -56,6 +54,15 @@ namespace Excel_Macros_RIBBON
                 m_EventManager.Shutdown();
 
             ApplicationClosing?.Invoke();
+            
+            try
+            {
+                m_Thread.Join();
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
 
         private void MacroRibbonLoaded()
