@@ -18,8 +18,15 @@ namespace Excel_Macros_RIBBON
 {
     public partial class ExcelMacrosRibbonTab
     {
+        private struct RibbonMacroData
+        {
+            public string name;
+            public string path;
+        }
+
         private static ExcelMacrosRibbonTab s_Instance = null;
         private Dictionary<Guid, RibbonButton> m_Buttons;
+        private Dictionary<Guid, RibbonMacroData> m_Macros;
 
         public delegate void MacroRibbonEvent();
         public static event MacroRibbonEvent MacroRibbonLoadEvent;
@@ -47,6 +54,8 @@ namespace Excel_Macros_RIBBON
             groupMacros.Label = "Loading...";
 
             m_Buttons = new Dictionary<Guid, RibbonButton>();
+            m_Macros = new Dictionary<Guid, RibbonMacroData>();
+
             MacroRibbonLoadEvent?.Invoke();
         }
 
@@ -85,10 +94,28 @@ namespace Excel_Macros_RIBBON
         #region Manage Executable Macros
 
         /// <summary>
+        /// Returns a serialized list of the ribbon accessible macros
+        /// </summary>
+        /// <returns></returns>
+        public string GetRibbonMacros()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach(Guid id in m_Macros.Keys)
+            {
+                RibbonMacroData macro = m_Macros[id];
+                sb.Append(macro.path);
+                sb.Append(';');
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Removes a Macro's respective button UI control from the drop down menu
         /// </summary>
         /// <param name="id">ID of the Macro</param>
-        private void RemoveMacro(Guid id)
+        public void RemoveMacro(Guid id)
         {
             if (m_Buttons == null)
                 return;
@@ -102,6 +129,7 @@ namespace Excel_Macros_RIBBON
                 menuExecuteMacro.Items.Remove(button);
 
             m_Buttons.Remove(id);
+            m_Macros.Remove(id);
 
             UpdateRibbon();
         }
@@ -131,6 +159,7 @@ namespace Excel_Macros_RIBBON
             button.Click += delegate (object sender, RibbonControlEventArgs args) { macroClickEvent.Invoke(); };
 
             m_Buttons.Add(id, button);
+            m_Macros.Add(id, new RibbonMacroData() { name = macroName, path = macroPath});
             menuExecuteMacro.Items.Add(button);
 
             UpdateRibbon();
@@ -160,6 +189,8 @@ namespace Excel_Macros_RIBBON
             ((RibbonButton)menuExecuteMacro.Items[index]).Label = macroName;
             ((RibbonButton)menuExecuteMacro.Items[index]).Name = macroName;
             ((RibbonButton)menuExecuteMacro.Items[index]).ScreenTip = macroPath;
+
+            m_Macros[id] = new RibbonMacroData() { name = macroName, path = macroPath };
 
             UpdateRibbon();
         }

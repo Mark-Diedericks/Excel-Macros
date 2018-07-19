@@ -54,8 +54,6 @@ namespace Excel_Macros_UI.View
 
             s_Instance = this;
             m_IsClosing = false;
-            
-            ThemeChanged += SyntaxStyleLoader.LoadColorValues;
 
             ThemeManager.AddAccent("ExcelAccent", new Uri("pack://application:,,,/Excel Macros UI;component/Themes/ExcelAccent.xaml"));
             ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent("ExcelAccent"), ThemeManager.GetAppTheme("BaseLight"));
@@ -69,6 +67,9 @@ namespace Excel_Macros_UI.View
             AddTheme(new DarkTheme());
 
             SetTheme(Properties.Settings.Default.Theme);
+
+            flyoutSettings.DataContext = new SettingsMenuViewModel();
+            flyoutSettings.CreateSettingsMenu();
         }
 
         public static MainWindow GetInstance()
@@ -238,16 +239,6 @@ namespace Excel_Macros_UI.View
         #endregion
 
         #region IThemeManager
-        
-        private void LightThemeItem_Click(object sender, RoutedEventArgs e)
-        {
-            SetTheme("Light");
-        }
-
-        private void DarkThemeItem_Click(object sender, RoutedEventArgs e)
-        {
-            SetTheme("Dark");
-        }
 
         public ResourceDictionary ThemeDictionary
         {
@@ -279,8 +270,13 @@ namespace Excel_Macros_UI.View
                     ActiveTheme = theme;
 
                     ThemeDictionary.MergedDictionaries.Clear();
-                    foreach(Uri uri in ActiveTheme.UriList)
+                    flyoutSettings.ThemeDictionary.MergedDictionaries.Clear();
+
+                    foreach (Uri uri in ActiveTheme.UriList)
+                    {
                         ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
+                        flyoutSettings.ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
+                    }
 
                     if(Properties.Settings.Default.Theme.Trim().ToLower() != name.Trim().ToLower())
                     {
@@ -289,6 +285,8 @@ namespace Excel_Macros_UI.View
                     }
 
                     ThemeChanged?.Invoke();
+                    flyoutSettings.Theme = FlyoutTheme.Accent;
+                    flyoutSettings.Theme = FlyoutTheme.Adapt;
 
                     //DockingManager_DockManager.DocumentContextMenu = null;
                     //DockingManager_DockManager.DocumentContextMenu = CreateDocumentContextMenu();
@@ -490,5 +488,15 @@ namespace Excel_Macros_UI.View
         }
 
         #endregion
+
+        #region Menu Items
+        
+        private void Options_Click(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => flyoutSettings.IsOpen = true));
+        }
+
+        #endregion  
+
     }
 }

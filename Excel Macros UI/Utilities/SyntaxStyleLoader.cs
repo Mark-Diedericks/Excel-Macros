@@ -1,4 +1,10 @@
-﻿using Excel_Macros_UI.View;
+﻿/*
+ * Mark Diedericks
+ * 19/07/2015
+ * Version 1.0.1
+ * Syntax style loading and parsing utility
+ */
+using Excel_Macros_UI.View;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -92,6 +98,16 @@ namespace Excel_Macros_UI.Utilities
             UpdateSyntaxStyle();
         }
 
+        public static void SaveSyntaxStyle(bool DarkTheme)
+        {
+            if (DarkTheme)
+                Properties.Settings.Default.SyntaxStyleDark = CreateSyntaxStyleString(s_ColorValues);
+            else
+                Properties.Settings.Default.SyntaxStyleLight = CreateSyntaxStyleString(s_ColorValues);
+
+            Properties.Settings.Default.Save();
+        }
+
         public static void SetSyntaxColor(SyntaxStyleColor color, string value)
         {
             s_ColorValues[(int)color] = value;
@@ -105,6 +121,14 @@ namespace Excel_Macros_UI.Utilities
                 s_ColorValues = ParseSyntaxStyleString(Properties.Settings.Default.SyntaxStyleLight);
 
             UpdateSyntaxStyle();
+        }
+
+        public static string[] GetValues()
+        {
+            if (s_ColorValues == null)
+                LoadColorValues();
+
+            return s_ColorValues;
         }
     }
 }

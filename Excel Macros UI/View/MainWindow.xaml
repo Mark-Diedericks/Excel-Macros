@@ -93,6 +93,12 @@
         </ResourceDictionary>
     </Window.Resources>
 
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <views:SettingsMenuView x:Name="flyoutSettings" />
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+
     <DockPanel Background="{DynamicResource WindowBackgroundBrush}">
         <Menu DockPanel.Dock="Top" Background="{DynamicResource WindowBackgroundBrush}">
             <MenuItem Header="_File" Style="{DynamicResource HeaderMenuItemStyle}">
@@ -119,7 +125,7 @@
                 <MenuItem Header="_Libraries" />
                 <MenuItem Header="_Macros" />
                 <Separator />
-                <MenuItem Header="_Options" />
+                <MenuItem Header="_Options" Click="Options_Click"/>
             </MenuItem>
         </Menu>
 
@@ -132,12 +138,6 @@
             </Grid.RowDefinitions>
 
             <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
-                <Grid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem x:Name="LightThemeItem" Click="LightThemeItem_Click" Header="Light Theme" />
-                        <MenuItem x:Name="DarkThemeItem" Click="DarkThemeItem_Click" Header="Dark Theme" />
-                    </ContextMenu>
-                </Grid.ContextMenu>
 
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource WindowBackgroundBrush}">
                     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="10,0,0,0">

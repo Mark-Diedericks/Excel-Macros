@@ -22,11 +22,13 @@ namespace Excel_Macros_UI.Routing
     public class EventManager
     {
         public delegate void MacroAddEvent(Guid id, string macroName, string macroPath, Action macroClickEvent);
-        public event MacroAddEvent AddRibbonMacro;
+        public event MacroAddEvent AddRibbonMacroEvent;
+
+        public delegate void MacroRemoveEvent(Guid id);
+        public event MacroRemoveEvent RemoveRibbonMacroEvent;
 
         public delegate void MacroEditEvent(Guid id, string macroName, string macroPath);
-        public event MacroEditEvent RemoveRibbonMacro;
-        public event MacroEditEvent RenameRibbonMacro;
+        public event MacroEditEvent RenameRibbonMacroEvent;
 
         public delegate void LoadEvent();
         public static event LoadEvent ApplicationLoaded;
@@ -58,7 +60,7 @@ namespace Excel_Macros_UI.Routing
             return s_Instance;
         }
 
-        public static void CreateApplicationInstance(Excel.Application application)
+        public static void CreateApplicationInstance(Excel.Application application, string RibbonMacros)
         {
             new EventManager();
             
@@ -78,6 +80,10 @@ namespace Excel_Macros_UI.Routing
                 MessageManager.GetInstance().DisplayInputMessageEvent += EventManager_DisplayInputMessageEvent;
                 MessageManager.GetInstance().DisplayInputMessageReturnEvent += EventManager_DisplayInputMessageReturnEvent;
 
+                Excel_Macros_INTEROP.EventManager.GetInstance().AddRibbonMacroEvent += GetInstance().AddMacro;
+                Excel_Macros_INTEROP.EventManager.GetInstance().RemoveRibbonMacroEvent += GetInstance().RemoveMacro;
+                Excel_Macros_INTEROP.EventManager.GetInstance().RenameRibbonMacroEvent += GetInstance().RenameMacro;
+
                 Excel_Macros_INTEROP.EventManager.GetInstance().SetExcelInteractive += (enabled) => 
                 {
                     GetInstance().SetExcelInteractive?.Invoke(enabled);
@@ -94,7 +100,7 @@ namespace Excel_Macros_UI.Routing
                 };
 
                 LoadCompleted();
-            }));
+            }), RibbonMacros);
 
             GetInstance().ShutdownEvent += () =>
             {
@@ -170,22 +176,20 @@ namespace Excel_Macros_UI.Routing
 
         #region Main to Ribbon Events
 
-        public void AddMacro(Guid id, IMacro macro)
+        public void AddMacro(Guid id, string macroName, string macroPath, Action OnClick)
         {
-            MacroDeclaration md = Main.GetDeclaration(id);
-            AddRibbonMacro?.Invoke(id, md.name, md.relativepath, delegate () { macro.ExecuteRelease(null, false); });
+            AddRibbonMacroEvent?.Invoke(id, macroName, macroPath, OnClick);
         }
 
         public void RemoveMacro(Guid id)
         {
-            MacroDeclaration md = Main.GetDeclaration(id);
-            RemoveRibbonMacro?.Invoke(id, md.name, md.relativepath);
+            RemoveRibbonMacroEvent?.Invoke(id);
         }
 
-        public void RenameMacro(Guid id, IMacro macro)
+        public void RenameMacro(Guid id, string macroName, string macroPath)
         {
             MacroDeclaration md = Main.GetDeclaration(id);
-            RenameRibbonMacro?.Invoke(id, md.name, md.relativepath);
+            RenameRibbonMacroEvent?.Invoke(id, macroName, macroPath);
         }
 
         public static void LoadCompleted()

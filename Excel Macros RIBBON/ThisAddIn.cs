@@ -40,7 +40,7 @@ namespace Excel_Macros_RIBBON
             {
                 //SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
 
-                UI.Routing.EventManager.CreateApplicationInstance(Application);
+                UI.Routing.EventManager.CreateApplicationInstance(Application, Properties.Settings.Default.RibbonMacros);
             });
 
             m_Thread.SetApartmentState(ApartmentState.STA);
@@ -50,6 +50,9 @@ namespace Excel_Macros_RIBBON
 
         private void ThisAddIn_Shutdown(object sender, EventArgs e)
         {
+            Properties.Settings.Default.RibbonMacros = m_RibbonTab.GetRibbonMacros();
+            Properties.Settings.Default.Save();
+
             if (m_EventManager != null)
                 m_EventManager.Shutdown();
 
@@ -97,9 +100,9 @@ namespace Excel_Macros_RIBBON
             m_RibbonTab.NewVisualClickEvent += m_EventManager.NewVisualClickEvent;
             m_RibbonTab.OpenMacroClickEvent += m_EventManager.OpenMacroClickEvent;
 
-            m_EventManager.AddRibbonMacro += m_RibbonTab.AddMacro;
-            m_EventManager.RemoveRibbonMacro += m_RibbonTab.RenameMacro;
-            m_EventManager.RenameRibbonMacro += m_RibbonTab.RenameMacro;
+            m_EventManager.AddRibbonMacroEvent += m_RibbonTab.AddMacro;
+            m_EventManager.RemoveRibbonMacroEvent += m_RibbonTab.RemoveMacro;
+            m_EventManager.RenameRibbonMacroEvent += m_RibbonTab.RenameMacro;
 
             m_EventManager.SetExcelInteractive += (enable) =>
             {

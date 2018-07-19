@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * Mark Diedericks
+ * 19/07/2018
+ * Version 1.0.3
+ * The main hub of the interop library's connection to the UI
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +16,14 @@ namespace Excel_Macros_INTEROP
 {
     public class EventManager
     {
+        public delegate void MacroAddEvent(Guid id, string macroName, string macroPath, Action macroClickEvent);
+        public event MacroAddEvent AddRibbonMacroEvent;
 
-        //public delegate void MacroAddEvent(Guid id, string macroName, string macroPath, Action macroClickEvent);
-        //public event MacroAddEvent AddRibbonMacro;
+        public delegate void MacroRemoveEvent(Guid id);
+        public event MacroRemoveEvent RemoveRibbonMacroEvent;
+
+        public delegate void MacroEditEvent(Guid id, string macroName, string macroPath);
+        public event MacroEditEvent RenameRibbonMacroEvent;
 
         public delegate void SetEnabled(bool enabled);
         public event SetEnabled SetExcelInteractive;
@@ -56,6 +68,21 @@ namespace Excel_Macros_INTEROP
         public static void FastWorksheet(Excel.Worksheet worksheet, bool enabled)
         {
             GetInstance().FastWorksheetEvent?.Invoke(worksheet, enabled);
+        }
+
+        public static void AddRibbonMacro(Guid id, string macroName, string macroPath, Action macroClickEvent)
+        {
+            GetInstance().AddRibbonMacroEvent?.Invoke(id, macroName, macroPath, macroClickEvent);
+        }
+
+        public static void RemoveRibbonMacro(Guid id)
+        {
+            GetInstance().RemoveRibbonMacroEvent?.Invoke(id);
+        }
+
+        public static void RenameRibbonMacro(Guid id, string macroName, string macroPath)
+        {
+            GetInstance().RenameRibbonMacroEvent?.Invoke(id, macroName, macroPath);
         }
 
         #endregion

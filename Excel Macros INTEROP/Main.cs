@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 21/06/2018
- * Version 1.0.5
+ * 19/07/2018
+ * Version 1.0.7
  * The main hub of the interop library
  */
 
@@ -56,6 +56,7 @@ namespace Excel_Macros_INTEROP
         //Macros
         private Dictionary<Guid, MacroDeclaration> m_Declarations;
         private Dictionary<Guid, IMacro> m_Macros;
+        private HashSet<Guid> m_RibbonMacros;
 
         //User Included Assemblies
         private HashSet<AssemblyDeclaration> m_Assemblies;
@@ -63,7 +64,7 @@ namespace Excel_Macros_INTEROP
         //Instancing
         private static Main s_Instance;
 
-        public static void Initialize(Excel.Application application, Action OnLoaded)
+        public static void Initialize(Excel.Application application, Action OnLoaded, String RibbonMacros)
         {
             //Set local reference to excel application
             s_ExcelApplication = application;
@@ -99,6 +100,21 @@ namespace Excel_Macros_INTEROP
                     GetInstance().m_Macros.Add(md.id, im);
                 }
 
+                //Parse ribbon macros
+                GetInstance().m_RibbonMacros = new HashSet<Guid>();
+
+                string[] paths = RibbonMacros.Split(';');
+                foreach(string file in paths)
+                {
+                    foreach (Guid key in GetInstance().m_Declarations.Keys)
+                    {
+                        string path = GetInstance().m_Declarations[key].relativepath;
+
+                        if (path.Trim().ToLower() == file.Trim().ToLower())
+                            AddRibbonMacro(key);
+                    }
+                }
+
                 //Get Assemblies
                 //if (Properties.Settings.Default.IncludedAssemblies != null)
                 //    GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>(Properties.Settings.Default.IncludedAssemblies);
@@ -124,6 +140,35 @@ namespace Excel_Macros_INTEROP
         }
 
         #endregion
+
+        public static bool IsRibbonMacro(Guid id)
+        {
+            return GetInstance().m_RibbonMacros.Contains(id);
+        }
+
+        public static void AddRibbonMacro(Guid id)
+        {
+            GetInstance().m_RibbonMacros.Add(id);
+
+            MacroDeclaration md = GetInstance().m_Declarations[id];
+            IMacro macro = GetInstance().m_Macros[id];
+
+            EventManager.AddRibbonMacro(id, md.name, md.relativepath, () => ExecutionEngine.GetReleaseEngine().ExecuteMacro(macro.GetSource(), null, false));
+        }
+
+        public static void RemoveRibbonMacro(Guid id)
+        {
+            GetInstance().m_RibbonMacros.Remove(id);
+            EventManager.RemoveRibbonMacro(id);
+        }
+
+        public static void RenameRibbonMacro(Guid id)
+        {
+            GetInstance().m_RibbonMacros.Add(id);
+
+            MacroDeclaration md = GetInstance().m_Declarations[id];
+            EventManager.RenameRibbonMacro(id, md.name, md.relativepath);
+        }
 
         public static void FireShowFocusEvent()
         {
