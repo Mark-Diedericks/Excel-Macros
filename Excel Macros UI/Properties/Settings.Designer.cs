@@ -178,5 +178,17 @@ namespace Excel_Macros_UI.Properties {
                 this["WindowLeft"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ExecutionTypeIndex {
+            get {
+                return ((int)(this["ExecutionTypeIndex"]));
+            }
+            set {
+                this["ExecutionTypeIndex"] = value;
+            }
+        }
     }
 }

@@ -281,7 +281,7 @@
                     <Rectangle Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="178,4,0,4" Fill="{DynamicResource GrayBrush8}" />
 
                     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="182,0,0,0">
-                        <Controls:SplitButton SelectedIndex="0" HorizontalAlignment="Left" Width="112" Height="16">
+                        <Controls:SplitButton x:Name="spltBtnExecutionType" SelectedIndex="{Binding Source={x:Static properties:Settings.Default}, Path=ExecutionTypeIndex, Mode=TwoWay}" HorizontalAlignment="Left" Width="112" Height="16">
                             <Controls:SplitButton.Items>
                                 <System:String>Asynchronous</System:String>
                                 <System:String>Synchronous</System:String>
@@ -289,7 +289,7 @@
                         </Controls:SplitButton>
 
                         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="116,0,0,0">
-                            <Button x:Name="btnRun" Click="btnRun_Click" Padding="2,2,2,2" BorderThickness="0" ToolTip="Start" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button x:Name="btnRun" Visibility="Visible" IsEnabled="true" Click="btnRun_Click"  Padding="2,2,2,2" BorderThickness="0" ToolTip="Start" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                                 <Button.Template>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Grid x:Name="ContentGrid" Margin="0,0,0,0">
@@ -312,7 +312,7 @@
                                 </Button.Template>
                             </Button>
 
-                            <Button x:Name="btnStop" Visibility="Hidden" Click="btnStop_Click" Padding="2,2,2,2" ToolTip="Stop" BorderThickness="0" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button x:Name="btnStop" Visibility="Hidden" IsEnabled="false" Click="btnStop_Click" Padding="2,2,2,2" ToolTip="Stop" BorderThickness="0" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                                 <Button.Template>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Grid x:Name="ContentGrid" Margin="0,0,0,0">
@@ -340,7 +340,7 @@
                 </Grid>
             </Grid>
 
-            <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" Background="{DynamicResource WindowBackgroundBrush}" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents, Mode=TwoWay}" AnchorablesSource="{Binding Tools, Mode=TwoWay}"
+            <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" ActiveContentChanged="DockingManager_DockManager_ActiveContentChanged" Background="{DynamicResource WindowBackgroundBrush}" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents, Mode=TwoWay}" AnchorablesSource="{Binding Tools, Mode=TwoWay}"
                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockingManager_DockManager_Loaded" Unloaded="DockingManager_DockManager_Unloaded">
 
                 <dock:DockingManager.Resources>

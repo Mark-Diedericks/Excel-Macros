@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2015
+ * 19/07/2015
  * Version 1.0.0
  * Document window view model
  */
@@ -19,6 +19,8 @@ namespace Excel_Macros_UI.ViewModel.Base
     public class DocumentViewModel : ViewModel
     {
 
+        #region Close Command
+
         private ICommand m_CloseCommand;
         public ICommand CloseCommand
         {
@@ -30,15 +32,102 @@ namespace Excel_Macros_UI.ViewModel.Base
             }
         }
 
+        public void Close()
+        {
+            IsClosed = true;
+        }
+
+        #endregion
+
+        #region Save Command
+
+        private ICommand m_SaveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if (m_SaveCommand == null)
+                    m_SaveCommand = new RelayCommand((OnComplete) => Save((Action)OnComplete));
+                return m_SaveCommand;
+            }
+        }
+
+        public virtual void Save(Action OnComplete) { }
+
+        #endregion
+
+        #region Start Command
+
+        private ICommand m_StartCommand;
+        public ICommand StartCommand
+        {
+            get
+            {
+                if (m_StartCommand == null)
+                    m_StartCommand = new RelayCommand((OnComplete) => Start((Action)OnComplete));
+                return m_StartCommand;
+            }
+        }
+
+        public virtual void Start(Action OnComplete) { }
+
+        #endregion
+
+        #region Stop Command
+
+        private ICommand m_StopCommand;
+        public ICommand StopCommand
+        {
+            get
+            {
+                if (m_StopCommand == null)
+                    m_StopCommand = new RelayCommand((OnComplete) => Stop((Action)OnComplete));
+                return m_StopCommand;
+            }
+        }
+
+        public virtual void Stop(Action OnComplete) { }
+
+        #endregion
+
+        #region Undo Command
+
+        private ICommand m_UndoCommand;
+        public ICommand UndoCommand
+        {
+            get
+            {
+                return m_UndoCommand;
+            }
+            set
+            {
+                m_UndoCommand = value;
+            }
+        }
+
+        #endregion
+
+        #region Redo Command
+
+        private ICommand m_RedoCommand;
+        public ICommand RedoCommand
+        {
+            get
+            {
+                return m_RedoCommand;
+            }
+            set
+            {
+                m_RedoCommand = value;
+            }
+        }
+
+        #endregion
+
         public DocumentViewModel()
         {
             CanClose = true;
             CanFloat = false;
-        }
-
-        public void Close()
-        {
-            IsClosed = true;
         }
 
         #region Model

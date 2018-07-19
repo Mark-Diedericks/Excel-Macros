@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 21/06/2015
+ * 19/07/2015
  * Version 1.0.4
  * The main window, hosting all the UI
  */
@@ -104,6 +104,9 @@ namespace Excel_Macros_UI.View
         private void DockingManager_DockManager_Loaded(object sender, RoutedEventArgs e)
         {
             LoadAvalonDockLayout();
+
+            if (DockingManager_DockManager.ActiveContent is DocumentViewModel)
+                ActiveDocument = DockingManager_DockManager.ActiveContent as DocumentViewModel;
         }
 
         private void DockingManager_DockManager_Unloaded(object sender, RoutedEventArgs e)
@@ -363,44 +366,129 @@ namespace Excel_Macros_UI.View
 
         #endregion
 
+        #region Active Documents
+
+        private DocumentViewModel ActiveDocument;
+
+        private void DockingManager_DockManager_ActiveContentChanged(object sender, EventArgs e)
+        {
+            if (DockingManager_DockManager.ActiveContent is DocumentViewModel)
+                ActiveDocument = DockingManager_DockManager.ActiveContent as DocumentViewModel;
+        }
+
+        #endregion
+
+        #region Toolbar Event Callbacks
+
+        public bool AsyncExecution
+        {
+            get
+            {
+                return spltBtnExecutionType.SelectedIndex == 0;
+            }
+
+            set
+            {
+                spltBtnExecutionType.SelectedIndex = value ?  0 : 1;
+            }
+        }
+
         private void btnNew_Click(object sender, RoutedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            if (ActiveDocument == null)
+                return;
 
+            if (ActiveDocument.SaveCommand.CanExecute(e))
+                ActiveDocument.SaveCommand.Execute(e);
         }
 
         private void btnSaveAll_Click(object sender, RoutedEventArgs e)
         {
+            if (DockingManager_DockManager.DataContext == null)
+                return;
 
-        }
+            if (!(DockingManager_DockManager.DataContext is DockManagerViewModel))
+                return;
 
-        private void btnRedo_Click(object sender, RoutedEventArgs e)
-        {
+            DockManagerViewModel dmvm = DockingManager_DockManager.DataContext as DockManagerViewModel;
 
+            foreach(DocumentViewModel document in dmvm.Documents)
+            {
+                if (document.SaveCommand.CanExecute(e))
+                    document.SaveCommand.Execute(e);
+            }
         }
 
         private void btnUndo_Click(object sender, RoutedEventArgs e)
         {
+            if (ActiveDocument == null)
+                return;
 
+            if (ActiveDocument.UndoCommand.CanExecute(e))
+                ActiveDocument.UndoCommand.Execute(e);
+        }
+
+        private void btnRedo_Click(object sender, RoutedEventArgs e)
+        {
+            if (ActiveDocument == null)
+                return;
+
+            if (ActiveDocument.RedoCommand.CanExecute(e))
+                ActiveDocument.RedoCommand.Execute(e);
         }
 
         private void btnRun_Click(object sender, RoutedEventArgs e)
         {
+            if (ActiveDocument == null)
+                return;
 
+            if (ActiveDocument.StartCommand.CanExecute(e))
+            {
+                btnStop.IsEnabled = true;
+                btnStop.Visibility = Visibility.Visible;
+
+                btnRun.IsEnabled = false;
+                btnRun.Visibility = Visibility.Hidden;
+
+                ActiveDocument.StartCommand.Execute(new Action(() =>
+                {
+                    btnStop.IsEnabled = false;
+                    btnStop.Visibility = Visibility.Hidden;
+
+                    btnRun.IsEnabled = true;
+                    btnRun.Visibility = Visibility.Visible;
+                }));
+            }
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
+            if (ActiveDocument == null)
+                return;
 
+            if (ActiveDocument.StopCommand.CanExecute(e))
+            {
+                ActiveDocument.StopCommand.Execute(new Action(() =>
+                {
+                    btnStop.IsEnabled = false;
+                    btnStop.Visibility = Visibility.Hidden;
+
+                    btnRun.IsEnabled = true;
+                    btnRun.Visibility = Visibility.Visible;
+                }));
+            }
         }
+
+        #endregion
     }
 }
