@@ -46,7 +46,7 @@ namespace Excel_Macros_UI.View
         {
             get
             {
-                return Resources.MergedDictionaries[0];
+                return Resources.MergedDictionaries[1];
             }
         }
 
