@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 19/07/2015
- * Version 1.0.4
+ * 20/07/2015
+ * Version 1.0.5
  * The main window, hosting all the UI
  */
 
@@ -393,11 +393,13 @@ namespace Excel_Macros_UI.View
 
         private void btnNew_Click(object sender, RoutedEventArgs e)
         {
+            //FileManager.CreateMacro(Excel_Macros_INTEROP.Macros.MacroType.PYTHON, "");
             throw new NotImplementedException();
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
+            //FileManager.ImportMacro("", null);
             throw new NotImplementedException();
         }
 
