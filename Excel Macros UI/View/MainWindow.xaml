@@ -17,7 +17,7 @@
         xmlns:properties="clr-namespace:Excel_Macros_UI.Properties"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" Dialog:DialogParticipation.Register="{Binding}"
-        Title="Macro Editor" HorizontalAlignment="Center" VerticalAlignment="Center" ShowIconOnTitleBar="False"
+        Title="Macro Editor" TitleCaps="False" HorizontalAlignment="Center" VerticalAlignment="Center" ShowIconOnTitleBar="False"
         MinWidth="1024" MinHeight="576" BorderBrush="Black" BorderThickness="0" GlowBrush="Black" ResizeMode="CanResizeWithGrip" 
         Closing="MetroWindow_Closing" SizeChanged="MetroWindow_SizeChanged" Loaded="MainWindow_Loaded" Background="{DynamicResource WindowBackgroundBrush}"
         LeftWindowCommandsOverlayBehavior="Always" RightWindowCommandsOverlayBehavior="Always" WindowButtonCommandsOverlayBehavior="Always"
@@ -285,12 +285,12 @@
                     <Rectangle Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="178,4,0,4" Fill="{DynamicResource GrayBrush8}" />
 
                     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="182,0,0,0">
-                        <Controls:SplitButton x:Name="spltBtnExecutionType" SelectedIndex="{Binding Source={x:Static properties:Settings.Default}, Path=ExecutionTypeIndex, Mode=TwoWay}" HorizontalAlignment="Left" Width="112" Height="16">
-                            <Controls:SplitButton.Items>
+                        <ComboBox x:Name="spltBtnExecutionType" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True" SelectedIndex="{Binding Source={x:Static properties:Settings.Default}, Path=ExecutionTypeIndex, Mode=TwoWay}" HorizontalAlignment="Left" Width="112" Height="16">
+                            <ComboBox.Items>
                                 <System:String>Asynchronous</System:String>
                                 <System:String>Synchronous</System:String>
-                            </Controls:SplitButton.Items>
-                        </Controls:SplitButton>
+                            </ComboBox.Items>
+                        </ComboBox>
 
                         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="116,0,0,0">
                             <Button x:Name="btnRun" Visibility="Visible" IsEnabled="true" Click="btnRun_Click"  Padding="2,2,2,2" BorderThickness="0" ToolTip="Start" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
