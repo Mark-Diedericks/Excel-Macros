@@ -8,5 +8,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="{DynamicResource GrayBrush10}">
         <Label VerticalAlignment="Center" HorizontalAlignment="Center">Console</Label>
+        <TextBox x:Name="txtOutput" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" IsReadOnly="true" BorderBrush="Transparent" BorderThickness="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
     </Grid>
 </UserControl>

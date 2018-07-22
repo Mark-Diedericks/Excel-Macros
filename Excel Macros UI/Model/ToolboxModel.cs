@@ -9,8 +9,16 @@ namespace Excel_Macros_UI.Model
 {
     public class ToolboxModel : ToolModel
     {
+        private static ToolboxModel s_Instance;
 
+        public static ToolboxModel GetInstance()
+        {
+            return s_Instance != null ? s_Instance : new ToolboxModel();
+        }
 
-
+        public ToolboxModel()
+        {
+            s_Instance = this;
+        }
     }
 }

@@ -66,10 +66,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\EngineIOManager.cs" />
     <Compile Include="Engine\ExecutionEngine.cs" />
     <Compile Include="Engine\HighPrecisionTimer.cs" />
     <Compile Include="Engine\ProfileInfo.cs" />
-    <Compile Include="Engine\StreamManager.cs" />
     <Compile Include="EventManager.cs" />
     <Compile Include="Libraries\AssemblyDeclaration.cs" />
     <Compile Include="Libraries\InteropInfo.cs" />

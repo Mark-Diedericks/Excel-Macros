@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 04/07/2018
- * Version 1.0.4
+ * 22/07/2018
+ * Version 1.0.8
  * Manages execution of users' code
  */
 
@@ -70,10 +70,12 @@ namespace Excel_Macros_INTEROP.Engine
             m_IsExecuting = false;
             m_BackgroundWorker = new BackgroundWorker();
 
-            StreamManager.ClearAllStreams();
-            m_ScriptEngine.Runtime.IO.SetInput(StreamManager.GetInputStream(), Encoding.UTF8);
-            m_ScriptEngine.Runtime.IO.SetOutput(StreamManager.GetOutputStream(), Encoding.UTF8);
-            m_ScriptEngine.Runtime.IO.SetErrorOutput(StreamManager.GetErrorStream(), Encoding.UTF8);
+            Main.GetInstance().OnIOChanged += () =>
+            {
+                m_ScriptEngine.Runtime.IO.RedirectToConsole();
+                Console.SetOut(Main.GetEngineIOManager().GetOutput());
+                Console.SetError(Main.GetEngineIOManager().GetError());
+            };
 
             Main.GetInstance().OnDestroyed += delegate () 
             {
@@ -110,16 +112,27 @@ namespace Excel_Macros_INTEROP.Engine
         private void ExecuteSourceAsynchronous(string source, Action OnCompletedAction)
         {
             m_IsExecuting = true;
+            m_BackgroundWorker = new BackgroundWorker();
             m_BackgroundWorker.WorkerSupportsCancellation = true;
+            int profileID = -1;
 
-            m_BackgroundWorker.RunWorkerCompleted += (s, args) => 
+            m_BackgroundWorker.RunWorkerCompleted += (s, args) =>
             {
-                OnCompletedAction?.Invoke();
+                if (Main.GetEngineIOManager() != null)
+                {
+                    Main.GetEngineIOManager().GetOutput().WriteLine("Asynchronous Execution Completed. Runtime of {0:N2}s", Utilities.GetTimeIntervalSeconds(profileID));
+                    Main.GetEngineIOManager().GetOutput().Flush();
+                }
+
+                Utilities.EndProfileSession(profileID);
+
                 m_IsExecuting = false;
+                OnCompletedAction?.Invoke();
             };
 
             m_BackgroundWorker.DoWork += (s, args) =>
             {
+                profileID = Utilities.BeginProfileSession();
                 ExecuteSource(source);
             };
 
@@ -128,10 +141,22 @@ namespace Excel_Macros_INTEROP.Engine
 
         private void ExecuteSourceSynchronous(string source, Action OnCompletedAction)
         {
+            int profileID = -1;
+            profileID = Utilities.BeginProfileSession();
+
             m_IsExecuting = true;
             ExecuteSource(source);
-            OnCompletedAction?.Invoke();
+
+            if (Main.GetEngineIOManager() != null)
+            { 
+                Main.GetEngineIOManager().GetOutput().WriteLine("Syncrhonous Execution Completed. Runtime of {0:N2}s", Utilities.GetTimeIntervalSeconds(profileID));
+                Main.GetEngineIOManager().GetOutput().Flush();
+            }
+
+            Utilities.EndProfileSession(profileID);
+
             m_IsExecuting = false;
+            OnCompletedAction?.Invoke();
         }
 
         private void ExecuteSource(string source)
@@ -146,7 +171,8 @@ namespace Excel_Macros_INTEROP.Engine
                 m_ScriptScope.SetVariable("MissingType", Type.Missing);
             }
 
-            StreamManager.ClearAllStreams();
+            if (Main.GetEngineIOManager() != null)
+                Main.GetEngineIOManager().ClearAllStreams();
 
             try
             {
@@ -155,12 +181,22 @@ namespace Excel_Macros_INTEROP.Engine
             catch(ThreadAbortException tae)
             {
                 System.Diagnostics.Debug.WriteLine("Execution Error: " + tae.Message);
-                StreamManager.GetOutputWriter().WriteLine("Thread Exited With Exception State {0}", tae.ExceptionState);
+
+                if (Main.GetEngineIOManager() != null)
+                { 
+                    Main.GetEngineIOManager().GetOutput().WriteLine("Thread Exited With Exception State {0}", tae.ExceptionState);
+                    Main.GetEngineIOManager().GetOutput().Flush();
+                }
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("Execution Error: " + e.Message);
-                StreamManager.GetErrorWriter().WriteLine("Execution Error: " + e.Message);
+
+                if (Main.GetEngineIOManager() != null)
+                { 
+                    Main.GetEngineIOManager().GetError().WriteLine("Execution Error: " + e.Message);
+                    Main.GetEngineIOManager().GetOutput().Flush();
+                }
             }
         }
 

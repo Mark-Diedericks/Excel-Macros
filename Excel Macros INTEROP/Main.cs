@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 19/07/2018
- * Version 1.0.7
+ * 22/07/2018
+ * Version 1.0.8
  * The main hub of the interop library
  */
 
@@ -10,6 +10,7 @@ using Excel_Macros_INTEROP.Libraries;
 using Excel_Macros_INTEROP.Macros;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,6 +50,10 @@ namespace Excel_Macros_INTEROP
         public delegate void HideEvent();
         public event HideEvent OnHidden;
 
+        //OnIOChanged event, for all Forms and GUIs
+        public delegate void IOChangedEvent();
+        public event IOChangedEvent OnIOChanged;
+
         //MacroRenamed event, for all Forms and GUIs
         public delegate void MacroRenameEvent(Guid id);
         public event MacroRenameEvent OnMacroRenamed;
@@ -61,6 +66,9 @@ namespace Excel_Macros_INTEROP
         //User Included Assemblies
         private HashSet<AssemblyDeclaration> m_Assemblies;
 
+        //IO Management
+        private EngineIOManager m_EngineIOManager;
+
         //Instancing
         private static Main s_Instance;
 
@@ -72,11 +80,10 @@ namespace Excel_Macros_INTEROP
             new Action(() =>
             {
                 //Create Instance
-                new Main();
+                Main m = new Main();
 
                 //Initialize Utilities and Managers
                 EventManager.Instantiate();
-                StreamManager.Instantiate();
                 MessageManager.Instantiate();
                 Utilities.Instantiate();
 
@@ -140,6 +147,17 @@ namespace Excel_Macros_INTEROP
         }
 
         #endregion
+
+        public static void SetIOSteams(TextWriter output, TextWriter error)
+        {
+            GetInstance().m_EngineIOManager = new EngineIOManager(output, error);
+            GetInstance().OnIOChanged?.Invoke();
+        }
+
+        public static EngineIOManager GetEngineIOManager()
+        {
+            return GetInstance().m_EngineIOManager;
+        }
 
         public static bool IsRibbonMacro(Guid id)
         {

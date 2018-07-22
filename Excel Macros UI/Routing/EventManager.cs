@@ -16,11 +16,19 @@ using Excel_Macros_INTEROP.Macros;
 using System.Windows.Threading;
 using System.Threading;
 using Excel_Macros_UI.View;
+using Excel_Macros_UI.Model;
+using System.IO;
 
 namespace Excel_Macros_UI.Routing
 {
     public class EventManager
     {
+        public delegate void ClearIOEvent();
+        public event ClearIOEvent ClearAllIOEvent;
+
+        public delegate void IOChangeEvent(TextWriter output, TextWriter error);
+        public event IOChangeEvent IOChangedEvent;
+
         public delegate void MacroAddEvent(Guid id, string macroName, string macroPath, Action macroClickEvent);
         public event MacroAddEvent AddRibbonMacroEvent;
 
@@ -80,6 +88,7 @@ namespace Excel_Macros_UI.Routing
                 MessageManager.GetInstance().DisplayInputMessageEvent += EventManager_DisplayInputMessageEvent;
                 MessageManager.GetInstance().DisplayInputMessageReturnEvent += EventManager_DisplayInputMessageReturnEvent;
 
+                Excel_Macros_INTEROP.EventManager.GetInstance().ClearAllIOEvent += ClearAllIO;
                 Excel_Macros_INTEROP.EventManager.GetInstance().AddRibbonMacroEvent += GetInstance().AddMacro;
                 Excel_Macros_INTEROP.EventManager.GetInstance().RemoveRibbonMacroEvent += GetInstance().RemoveMacro;
                 Excel_Macros_INTEROP.EventManager.GetInstance().RenameRibbonMacroEvent += GetInstance().RenameMacro;
@@ -98,6 +107,8 @@ namespace Excel_Macros_UI.Routing
                 {
                     GetInstance().FastWorksheetEvent?.Invoke(worksheet, enabled);
                 };
+
+                GetInstance().IOChangedEvent += Main.SetIOSteams;
 
                 LoadCompleted();
             }), RibbonMacros);
@@ -231,6 +242,16 @@ namespace Excel_Macros_UI.Routing
             Task<bool> t = MainWindow.GetInstance().DisplayYesNoMessageReturn(content, title);
             t.Wait();
             return t.Result;
+        }
+
+        private static void ClearAllIO()
+        {
+            GetInstance().ClearAllIOEvent?.Invoke();
+        }
+
+        public static void ChangeIO(TextWriter output, TextWriter error)
+        {
+            GetInstance().IOChangedEvent?.Invoke(output, error);
         }
 
         #endregion

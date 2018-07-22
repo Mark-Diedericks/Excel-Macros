@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2018
- * Version 1.0.0
+ * 22/07/2018
+ * Version 1.0.3
  * Utility functions for the application
  */
 
@@ -19,13 +19,13 @@ namespace Excel_Macros_INTEROP
     {
         private static Utilities s_Instance;
         private static ExcelUtilities s_ExcelUtilities;
-        private Dictionary<uint, HighPrecisionTimer> m_DebugSessions;
+        private Dictionary<int, HighPrecisionTimer> m_DebugSessions;
 
         public Utilities()
         {
             s_Instance = this;
             s_ExcelUtilities = new ExcelUtilities();
-            m_DebugSessions = new Dictionary<uint, HighPrecisionTimer>();
+            m_DebugSessions = new Dictionary<int, HighPrecisionTimer>();
         }
 
         public static Utilities GetInstance()
@@ -43,9 +43,9 @@ namespace Excel_Macros_INTEROP
             return s_ExcelUtilities;
         }
 
-        public uint BeginProfileSession()
+        public static int BeginProfileSession()
         {
-            uint id = (uint)GetInstance().m_DebugSessions.Count;
+            int id = GetInstance().m_DebugSessions.Count;
             GetInstance().m_DebugSessions.Add(id, new HighPrecisionTimer());
 
             //Start debug timer
@@ -54,8 +54,11 @@ namespace Excel_Macros_INTEROP
             return id;
         }
 
-        public void EndProfileSession(uint id)
+        public static void EndProfileSession(int id)
         {
+            if (id == -1)
+                return;
+
             if (!GetInstance().m_DebugSessions.ContainsKey(id))
                 return;
 
@@ -65,10 +68,25 @@ namespace Excel_Macros_INTEROP
             GetInstance().m_DebugSessions.Remove(id);
         }
 
-        public double GetTimeInterval(uint id)
+        public static double GetTimeIntervalMilli(int id)
         {
+            if (id == -1)
+                return 0.00;
+
             GetInstance().m_DebugSessions[id].Stop();
-            double duration = GetInstance().m_DebugSessions[id].Duration * 1000.0f; //Convert from seconds to milliseconds
+            double duration = GetInstance().m_DebugSessions[id].Duration; //Convert from milliseconds to milliseconds
+            GetInstance().m_DebugSessions[id].Start();
+
+            return duration;
+        }
+
+        public static double GetTimeIntervalSeconds(int id)
+        {
+            if (id == -1)
+                return 0.00;
+
+            GetInstance().m_DebugSessions[id].Stop();
+            double duration = GetInstance().m_DebugSessions[id].Duration / 1000.0f; //Convert from milliseconds to seconds
             GetInstance().m_DebugSessions[id].Start();
 
             return duration;

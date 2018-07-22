@@ -1,4 +1,5 @@
 ﻿using Excel_Macros_UI.Model;
+using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.ViewModel.Base;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,32 @@ namespace Excel_Macros_UI.ViewModel
                     base.Model = value;
                     OnPropertyChanged(nameof(Model));
                 }
+            }
+        }
+        
+        public TextBoxWriter Output
+        {
+            get
+            {
+                return Model.Output;
+            }
+            set
+            {
+                Model.Output = value;
+                OnPropertyChanged(nameof(Output));
+            }
+        }
+        
+        public TextBoxWriter Error
+        {
+            get
+            {
+                return Model.Error;
+            }
+            set
+            {
+                Model.Error = value;
+                OnPropertyChanged(nameof(Error));
             }
         }
 

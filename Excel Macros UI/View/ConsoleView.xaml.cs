@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Excel_Macros_UI.Model;
+using Excel_Macros_UI.Utilities;
+using Excel_Macros_UI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +26,16 @@ namespace Excel_Macros_UI.View
         public ConsoleView()
         {
             InitializeComponent();
+
+            Routing.EventManager.GetInstance().ClearAllIOEvent += () =>
+            {
+                txtOutput.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => txtOutput.Clear()));
+            };
+
+            ConsoleModel.GetInstance().Output = new TextBoxWriter(txtOutput);
+            ConsoleModel.GetInstance().Error = new TextBoxWriter(txtOutput);
+
+            Routing.EventManager.ChangeIO(ConsoleModel.GetInstance().Output, ConsoleModel.GetInstance().Error);
         }
     }
 }

@@ -102,6 +102,7 @@
     <Compile Include="Themes\IThemeManager.cs" />
     <Compile Include="Themes\LightTheme.cs" />
     <Compile Include="Utilities\SyntaxStyleLoader.cs" />
+    <Compile Include="Utilities\TextBoxWriter.cs" />
     <Compile Include="ViewModel\ConsoleViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SettingsMenuViewModel.cs" />

@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 19/07/2018
- * Version 1.0.3
+ * 22/07/2018
+ * Version 1.0.6
  * The main hub of the interop library's connection to the UI
  */
 
@@ -16,6 +16,9 @@ namespace Excel_Macros_INTEROP
 {
     public class EventManager
     {
+        public delegate void ClearIOEvent();
+        public event ClearIOEvent ClearAllIOEvent;
+
         public delegate void MacroAddEvent(Guid id, string macroName, string macroPath, Action macroClickEvent);
         public event MacroAddEvent AddRibbonMacroEvent;
 
@@ -83,6 +86,11 @@ namespace Excel_Macros_INTEROP
         public static void RenameRibbonMacro(Guid id, string macroName, string macroPath)
         {
             GetInstance().RenameRibbonMacroEvent?.Invoke(id, macroName, macroPath);
+        }
+
+        public static void ClearAllIO()
+        {
+            GetInstance().ClearAllIOEvent?.Invoke();
         }
 
         #endregion
