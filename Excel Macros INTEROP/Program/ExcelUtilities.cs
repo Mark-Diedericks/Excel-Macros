@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 02/07/2015
+ * 02/07/2018
  * Version 1.0.2
  * Excel related utility functions for Users' use
  */

@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2015
+ * 09/06/2018
  * Version 1.0.0
  * Handling message events (Message Boxes) between backend and UI
  */

@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2015
+ * 17/06/2018
  * Version 1.0.0
  * Handles the view models of the primary view model
  */

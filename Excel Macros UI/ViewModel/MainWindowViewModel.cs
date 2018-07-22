@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2015
+ * 22/07/2018
  * Version 1.0.0
  * Primary view model for handling main window's views
  */

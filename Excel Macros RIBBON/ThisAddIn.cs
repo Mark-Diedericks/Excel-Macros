@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 21/06/2015
+ * 21/06/2018
  * Version 1.0.1
  * The main hub of the Excel AddIn -> used only for the ribbon tab it allows me to add
  */

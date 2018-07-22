@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 19/07/2015
+ * 19/07/2018
  * Version 1.0.0
  * Textual Editor UI Control
  */

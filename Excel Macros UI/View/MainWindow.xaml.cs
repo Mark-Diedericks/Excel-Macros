@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 20/07/2015
+ * 20/07/2018
  * Version 1.0.5
  * The main window, hosting all the UI
  */
