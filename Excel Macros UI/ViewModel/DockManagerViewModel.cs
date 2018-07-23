@@ -20,6 +20,10 @@ namespace Excel_Macros_UI.ViewModel
         public ObservableCollection<DocumentViewModel> Documents { get; set; }
         public ObservableCollection<ToolViewModel> Tools { get; set; }
 
+        public FileExplorerViewModel FileExplorer { get; internal set; }
+        public ToolboxViewModel Toolbox { get; internal set; }
+        public ConsoleViewModel Console { get; internal set; }
+
         public DockManagerViewModel(IEnumerable<DocumentViewModel> DocumentViewModels, IEnumerable<ToolViewModel> ToolViewModels)
         {
             Documents = new ObservableCollection<DocumentViewModel>();
@@ -36,6 +40,15 @@ namespace Excel_Macros_UI.ViewModel
             foreach (ToolViewModel tool in ToolViewModels)
             {
                 tool.PropertyChanged += Tool_PropertyChanged;
+
+                if (tool is FileExplorerViewModel)
+                    FileExplorer = (FileExplorerViewModel)tool;
+
+                if (tool is ToolboxViewModel)
+                    Toolbox = (ToolboxViewModel)tool;
+
+                if (tool is ConsoleViewModel)
+                    Console = (ConsoleViewModel)tool;
 
                 if (!tool.IsClosed)
                     Tools.Add(tool);

@@ -39,6 +39,11 @@ namespace Excel_Macros_UI.ViewModel.Base
             IsClosed = true;
         }
 
+        public void Open()
+        {
+            IsClosed = false;
+        }
+
         #region Model
 
         private ToolModel m_Model;

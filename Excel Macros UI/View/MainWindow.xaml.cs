@@ -6,6 +6,7 @@
  */
 
 using Excel_Macros_INTEROP;
+using Excel_Macros_UI.Model;
 using Excel_Macros_UI.Themes;
 using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.ViewModel;
@@ -498,7 +499,22 @@ namespace Excel_Macros_UI.View
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => flyoutSettings.IsOpen = true));
         }
 
-        #endregion  
+        private void Toolbox_Click(object sender, RoutedEventArgs e)
+        {
+            ((MainWindowViewModel)DataContext).DockManagerViewModel.Toolbox.Open();
+        }
+
+        private void Explorer_Click(object sender, RoutedEventArgs e)
+        {
+            ((MainWindowViewModel)DataContext).DockManagerViewModel.FileExplorer.Open();
+        }
+
+        private void Console_Click(object sender, RoutedEventArgs e)
+        {
+            ((MainWindowViewModel)DataContext).DockManagerViewModel.Console.Open();
+        }
+
+        #endregion
 
     }
 }

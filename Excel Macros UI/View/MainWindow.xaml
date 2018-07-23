@@ -121,9 +121,9 @@
                 <MenuItem Header="_Redo" />
             </MenuItem>
             <MenuItem Header="_View" Style="{DynamicResource HeaderMenuItemStyle}">
-                <MenuItem Header="_Toolbox" />
-                <MenuItem Header="_Explorer" />
-                <MenuItem Header="_Console" />
+                <MenuItem Header="_Toolbox" Click="Toolbox_Click"/>
+                <MenuItem Header="_Explorer" Click="Explorer_Click"/>
+                <MenuItem Header="_Console" Click="Console_Click"/>
             </MenuItem>
             <MenuItem Header="_Tools" Style="{DynamicResource HeaderMenuItemStyle}">
                 <MenuItem Header="_Libraries" />
