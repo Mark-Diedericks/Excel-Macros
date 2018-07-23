@@ -37,5 +37,10 @@ namespace Excel_Macros_UI.View
 
             Routing.EventManager.ChangeIO(ConsoleModel.GetInstance().Output, ConsoleModel.GetInstance().Error);
         }
+
+        private void ClearAll_Click(object sender, RoutedEventArgs e)
+        {
+            txtOutput.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => txtOutput.Clear()));
+        }
     }
 }
