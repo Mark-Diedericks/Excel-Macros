@@ -125,6 +125,57 @@ namespace Excel_Macros_UI.ViewModel.Base
 
         #endregion
 
+        #region Copy Command
+
+        private ICommand m_CopyCommand;
+        public ICommand CopyCommand
+        {
+            get
+            {
+                return m_CopyCommand;
+            }
+            set
+            {
+                m_CopyCommand = value;
+            }
+        }
+
+        #endregion
+
+        #region Cut Command
+
+        private ICommand m_CutCommand;
+        public ICommand CutCommand
+        {
+            get
+            {
+                return m_CutCommand;
+            }
+            set
+            {
+                m_CutCommand = value;
+            }
+        }
+
+        #endregion
+
+        #region Paste Command
+
+        private ICommand m_PasteCommand;
+        public ICommand PasteCommand
+        {
+            get
+            {
+                return m_PasteCommand;
+            }
+            set
+            {
+                m_PasteCommand = value;
+            }
+        }
+
+        #endregion
+
         public DocumentViewModel()
         {
             CanClose = true;

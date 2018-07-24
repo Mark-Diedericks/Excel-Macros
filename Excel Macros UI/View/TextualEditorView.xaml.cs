@@ -69,6 +69,9 @@ namespace Excel_Macros_UI.View
 
             ((TextualEditorViewModel)DataContext).UndoCommand = new RelayCommand(call => m_CodeEditor.Undo(), call => m_CodeEditor.CanUndo);
             ((TextualEditorViewModel)DataContext).RedoCommand = new RelayCommand(call => m_CodeEditor.Redo(), call => m_CodeEditor.CanRedo);
+            ((TextualEditorViewModel)DataContext).CopyCommand = new RelayCommand(call => m_CodeEditor.Copy());
+            ((TextualEditorViewModel)DataContext).CutCommand = new RelayCommand(call => m_CodeEditor.Cut());
+            ((TextualEditorViewModel)DataContext).PasteCommand = new RelayCommand(call => m_CodeEditor.Paste());
         }
 
         #region Editor Event Callbacks

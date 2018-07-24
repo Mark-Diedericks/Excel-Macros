@@ -35,7 +35,7 @@ namespace Excel_Macros_UI.View
         public SettingsMenuView()
         {
             InitializeComponent();
-            SetActiveSettingsPage(SettingsPage.Editor);
+            SetActiveSettingsPage(SettingsPage.Style);
 
             bool light = Properties.Settings.Default.Theme == "Light";
             rdbtnThemeLight.IsChecked = light;
@@ -50,11 +50,11 @@ namespace Excel_Macros_UI.View
             }
         }
 
-        private enum SettingsPage
+        public enum SettingsPage
         {
-            Editor = 0,
+            Style = 0,
             Libraries = 1,
-            Ribbon = 2
+            Macro = 2
         }
 
         public void CreateSettingsMenu()
@@ -75,7 +75,7 @@ namespace Excel_Macros_UI.View
                 listSettingsRibbonMacro.Items.Add(CreateRibbonMacroListItem(id, macros[id]));
 
             //Set default page
-            SetActiveSettingsPage(SettingsPage.Editor);
+            SetActiveSettingsPage(SettingsPage.Style);
         }
 
         private ListViewItem CreateRibbonMacroListItem(Guid id, IMacro macro)
@@ -98,7 +98,7 @@ namespace Excel_Macros_UI.View
 
         private void btnSettingsEditor_Click(object sender, RoutedEventArgs e)
         {
-            SetActiveSettingsPage(SettingsPage.Editor);
+            SetActiveSettingsPage(SettingsPage.Style);
         }
 
         private void btnSettingsLibraries_Click(object sender, RoutedEventArgs e)
@@ -116,12 +116,12 @@ namespace Excel_Macros_UI.View
             foreach (Guid id in macros.Keys)
                 listSettingsRibbonMacro.Items.Add(CreateRibbonMacroListItem(id, macros[id]));
 
-            SetActiveSettingsPage(SettingsPage.Ribbon);
+            SetActiveSettingsPage(SettingsPage.Macro);
         }
 
-        private void SetActiveSettingsPage(SettingsPage page)
+        public void SetActiveSettingsPage(SettingsPage page)
         {
-            if (page == SettingsPage.Editor)
+            if (page == SettingsPage.Style)
             {
                 gridSettingsEditor.Visibility = Visibility.Visible;
                 gridSettingsLibraries.Visibility = Visibility.Hidden;
@@ -143,7 +143,7 @@ namespace Excel_Macros_UI.View
                 btnSettingsRibbon.IsChecked = false;
             }
 
-            if (page == SettingsPage.Ribbon)
+            if (page == SettingsPage.Macro)
             {
                 gridSettingsEditor.Visibility = Visibility.Hidden;
                 gridSettingsLibraries.Visibility = Visibility.Hidden;

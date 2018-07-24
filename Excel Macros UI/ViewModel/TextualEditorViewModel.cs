@@ -23,7 +23,7 @@ namespace Excel_Macros_UI.ViewModel
     {
         public override void Save(Action OnComplete)
         {
-
+            throw new NotImplementedException();
             OnComplete?.Invoke();
         }
 
@@ -34,7 +34,7 @@ namespace Excel_Macros_UI.ViewModel
 
         public override void Stop(Action OnComplete)
         {
-
+            throw new NotImplementedException();
             OnComplete?.Invoke();
         }
 
@@ -42,7 +42,6 @@ namespace Excel_Macros_UI.ViewModel
         {
             Model = new TextualEditorModel();
             Source = new TextDocument();
-            Macro = Guid.Empty;
         }
 
         #region Model

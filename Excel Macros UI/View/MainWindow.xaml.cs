@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 20/07/2018
- * Version 1.0.5
+ * 24/07/2018
+ * Version 1.0.7
  * The main window, hosting all the UI
  */
 
@@ -46,6 +46,9 @@ namespace Excel_Macros_UI.View
     {
         public delegate void ThemeEvent();
         public static event ThemeEvent ThemeChanged;
+
+        public delegate void DocumentEvent(DocumentViewModel vm);
+        public static event DocumentEvent DocumentChangedEvent;
 
         private static MainWindow s_Instance;
         private bool m_IsClosing;
@@ -405,13 +408,28 @@ namespace Excel_Macros_UI.View
             throw new NotImplementedException();
         }
 
+        private void btnExport_Click(object sender, RoutedEventArgs e)
+        {
+            //if (ActiveDocument == null)
+            //    return;
+            //
+            //if (ActiveDocument.SaveCommand.CanExecute(e))
+            //    ActiveDocument.SaveCommand.Execute(e);
+            throw new NotImplementedException();
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            HideWindow();
+        }
+
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (ActiveDocument == null)
                 return;
 
-            if (ActiveDocument.SaveCommand.CanExecute(e))
-                ActiveDocument.SaveCommand.Execute(e);
+            if (ActiveDocument.SaveCommand.CanExecute(null))
+                ActiveDocument.SaveCommand.Execute(null);
         }
 
         private void btnSaveAll_Click(object sender, RoutedEventArgs e)
@@ -426,8 +444,8 @@ namespace Excel_Macros_UI.View
 
             foreach(DocumentViewModel document in dmvm.Documents)
             {
-                if (document.SaveCommand.CanExecute(e))
-                    document.SaveCommand.Execute(e);
+                if (document.SaveCommand.CanExecute(null))
+                    document.SaveCommand.Execute(null);
             }
         }
 
@@ -436,8 +454,8 @@ namespace Excel_Macros_UI.View
             if (ActiveDocument == null)
                 return;
 
-            if (ActiveDocument.UndoCommand.CanExecute(e))
-                ActiveDocument.UndoCommand.Execute(e);
+            if (ActiveDocument.UndoCommand.CanExecute(null))
+                ActiveDocument.UndoCommand.Execute(null);
         }
 
         private void btnRedo_Click(object sender, RoutedEventArgs e)
@@ -445,8 +463,35 @@ namespace Excel_Macros_UI.View
             if (ActiveDocument == null)
                 return;
 
-            if (ActiveDocument.RedoCommand.CanExecute(e))
-                ActiveDocument.RedoCommand.Execute(e);
+            if (ActiveDocument.RedoCommand.CanExecute(null))
+                ActiveDocument.RedoCommand.Execute(null);
+        }
+
+        private void btnCopy_Click(object sender, RoutedEventArgs e)
+        {
+            if (ActiveDocument == null)
+                return;
+
+            if (ActiveDocument.CopyCommand.CanExecute(null))
+                ActiveDocument.CopyCommand.Execute(null);
+        }
+
+        private void btnCut_Click(object sender, RoutedEventArgs e)
+        {
+            if (ActiveDocument == null)
+                return;
+
+            if (ActiveDocument.CutCommand.CanExecute(null))
+                ActiveDocument.CutCommand.Execute(null);
+        }
+
+        private void btnPaste_Click(object sender, RoutedEventArgs e)
+        {
+            if (ActiveDocument == null)
+                return;
+
+            if (ActiveDocument.PasteCommand.CanExecute(null))
+                ActiveDocument.PasteCommand.Execute(null);
         }
 
         private void btnRun_Click(object sender, RoutedEventArgs e)
@@ -454,7 +499,7 @@ namespace Excel_Macros_UI.View
             if (ActiveDocument == null)
                 return;
 
-            if (ActiveDocument.StartCommand.CanExecute(e))
+            if (ActiveDocument.StartCommand.CanExecute(null))
             {
                 btnStop.IsEnabled = true;
                 btnStop.Visibility = Visibility.Visible;
@@ -478,7 +523,7 @@ namespace Excel_Macros_UI.View
             if (ActiveDocument == null)
                 return;
 
-            if (ActiveDocument.StopCommand.CanExecute(e))
+            if (ActiveDocument.StopCommand.CanExecute(null))
             {
                 ActiveDocument.StopCommand.Execute(new Action(() =>
                 {
@@ -497,7 +542,38 @@ namespace Excel_Macros_UI.View
         
         private void Options_Click(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => flyoutSettings.IsOpen = true));
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                flyoutSettings.IsOpen = true;
+                flyoutSettings.SetActiveSettingsPage(SettingsMenuView.SettingsPage.Style);
+            }));
+        }
+
+        private void Style_Click(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                flyoutSettings.IsOpen = true;
+                flyoutSettings.SetActiveSettingsPage(SettingsMenuView.SettingsPage.Style);
+            }));
+        }
+
+        private void Libraries_Click(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                flyoutSettings.IsOpen = true;
+                flyoutSettings.SetActiveSettingsPage(SettingsMenuView.SettingsPage.Libraries);
+            }));
+        }
+
+        private void Macros_Click(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                flyoutSettings.IsOpen = true;
+                flyoutSettings.SetActiveSettingsPage(SettingsMenuView.SettingsPage.Macro);
+            }));
         }
 
         private void Toolbox_Click(object sender, RoutedEventArgs e)

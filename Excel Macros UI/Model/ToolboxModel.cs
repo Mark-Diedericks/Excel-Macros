@@ -1,4 +1,5 @@
 ﻿using Excel_Macros_UI.Model.Base;
+using Excel_Macros_UI.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,13 @@ namespace Excel_Macros_UI.Model
         public ToolboxModel()
         {
             s_Instance = this;
+            MainWindow.DocumentChangedEvent += MainWindow_DocumentChangedEvent;
+        }
+
+        private void MainWindow_DocumentChangedEvent(ViewModel.Base.DocumentViewModel vm)
+        {
+            //Change between textual and visual toolbox items
+            throw new NotImplementedException();
         }
     }
 }

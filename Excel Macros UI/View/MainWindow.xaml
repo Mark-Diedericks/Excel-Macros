@@ -107,19 +107,23 @@
     <DockPanel Background="{DynamicResource WindowBackgroundBrush}">
         <Menu DockPanel.Dock="Top" Background="{DynamicResource WindowBackgroundBrush}">
             <MenuItem Header="_File" Style="{DynamicResource HeaderMenuItemStyle}">
-                <MenuItem Header="_New" />
-                <MenuItem Header="_Open" />
+                <MenuItem Header="_New" Click="btnNew_Click"/>
+                <MenuItem Header="_Open" Click="btnOpen_Click"/>
                 <MenuItem Header="Open Recent" />
                 <Separator />
-                <MenuItem Header="_Save" />
-                <MenuItem Header="Save As" />
-                <MenuItem Header="Save All" />
+                <MenuItem Header="_Save" Click="btnSave_Click"/>
+                <MenuItem Header="Export" Click="btnExport_Click"/>
+                <MenuItem Header="Save All" Click="btnSaveAll_Click"/>
                 <Separator />
-                <MenuItem Header="_Exit" />
+                <MenuItem Header="_Exit" Click="btnExit_Click"/>
             </MenuItem>
             <MenuItem Header="_Edit" Style="{DynamicResource HeaderMenuItemStyle}">
-                <MenuItem Header="_Undo" />
-                <MenuItem Header="_Redo" />
+                <MenuItem Header="_Undo" Click="btnUndo_Click"/>
+                <MenuItem Header="_Redo" Click="btnRedo_Click"/>
+                <Separator />
+                <MenuItem Header="_Copy" Click="btnCopy_Click"/>
+                <MenuItem Header="Cut" Click="btnCut_Click"/>
+                <MenuItem Header="_Paste" Click="btnPaste_Click" />
             </MenuItem>
             <MenuItem Header="_View" Style="{DynamicResource HeaderMenuItemStyle}">
                 <MenuItem Header="_Toolbox" Click="Toolbox_Click"/>
@@ -127,8 +131,9 @@
                 <MenuItem Header="_Console" Click="Console_Click"/>
             </MenuItem>
             <MenuItem Header="_Tools" Style="{DynamicResource HeaderMenuItemStyle}">
-                <MenuItem Header="_Libraries" />
-                <MenuItem Header="_Macros" />
+                <MenuItem Header="_Style" Click="Style_Click"/>
+                <MenuItem Header="_Libraries" Click="Libraries_Click"/>
+                <MenuItem Header="_Macros" Click="Macros_Click"/>
                 <Separator />
                 <MenuItem Header="_Options" Click="Options_Click"/>
             </MenuItem>
@@ -349,18 +354,6 @@
                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockingManager_DockManager_Loaded" Unloaded="DockingManager_DockManager_Unloaded">
 
                 <dock:DockingManager.Resources>
-                    <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
-                        <Setter Property="HorizontalContentAlignment" Value="Left" />
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                        <Setter Property="BorderThickness" Value="0" />
-                    </Style>
-
-                    <Style TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource MetroContextMenu}">
-                        <Setter Property="Background" Value="{DynamicResource ContextMenuBackgroundBrush}" />
-                        <Setter Property="BorderThickness" Value="1" />
-                        <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
-                    </Style>
-
                     <DataTemplate DataType="{x:Type viewModels:ExplorerViewModel}">
                         <views:ExplorerView />
                     </DataTemplate>

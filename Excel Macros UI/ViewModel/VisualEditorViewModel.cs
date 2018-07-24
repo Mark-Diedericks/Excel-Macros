@@ -23,6 +23,24 @@ namespace Excel_Macros_UI.ViewModel
             Model = new VisualEditorModel();
         }
 
+        public override void Save(Action OnComplete)
+        {
+            throw new NotImplementedException();
+            OnComplete?.Invoke();
+        }
+
+        public override void Start(Action OnComplete)
+        {
+            throw new NotImplementedException();
+            OnComplete?.Invoke();
+        }
+
+        public override void Stop(Action OnComplete)
+        {
+            throw new NotImplementedException();
+            OnComplete?.Invoke();
+        }
+
         #region Model
 
         public new VisualEditorModel Model
