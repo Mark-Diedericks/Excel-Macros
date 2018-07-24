@@ -179,7 +179,7 @@ namespace Excel_Macros_UI.ViewModel.Base
         public DocumentViewModel()
         {
             CanClose = true;
-            CanFloat = false;
+            CanFloat = true;
         }
 
         #region Model
@@ -326,6 +326,27 @@ namespace Excel_Macros_UI.ViewModel.Base
                 {
                     Model.ContentId = value;
                     OnPropertyChanged(nameof(ContentId));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Macro
+
+        public Guid Macro
+        {
+            get
+            {
+                return Model.Macro;
+            }
+
+            set
+            {
+                if (Model.Macro != value)
+                {
+                    Model.Macro = value;
+                    OnPropertyChanged(nameof(Macro));
                 }
             }
         }

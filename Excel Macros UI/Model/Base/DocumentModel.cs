@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Excel_Macros_INTEROP;
+using Excel_Macros_INTEROP.Macros;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +16,25 @@ namespace Excel_Macros_UI.Model.Base
             Title = "";
             ToolTip = "";
             ContentId = "";
+            Macro = Guid.Empty;
+        }
+
+        public static DocumentModel Create(Guid id)
+        {
+            MacroDeclaration declaration = Main.GetDeclaration(id);
+
+            if (declaration == null)
+                return null;
+
+            switch(declaration.type)
+            {
+                case MacroType.PYTHON:
+                    return new TextualEditorModel(id);
+                case MacroType.BLOCKLY:
+                    return new VisualEditorModel(id);
+            }
+
+            return null;
         }
 
         #region IsClosed
@@ -98,6 +119,28 @@ namespace Excel_Macros_UI.Model.Base
                 {
                     m_ContentId = value;
                     OnPropertyChanged(nameof(ContentId));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Macro
+
+        private Guid m_Macro;
+        public Guid Macro
+        {
+            get
+            {
+                return m_Macro;
+            }
+
+            set
+            {
+                if (m_Macro != value)
+                {
+                    m_Macro = value;
+                    OnPropertyChanged(nameof(Macro));
                 }
             }
         }

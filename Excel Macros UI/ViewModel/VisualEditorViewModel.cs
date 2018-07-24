@@ -20,7 +20,7 @@ namespace Excel_Macros_UI.ViewModel
 
         public VisualEditorViewModel()
         {
-            Model = new VisualEditorModel();
+            Model = new VisualEditorModel(Guid.Empty);
         }
 
         public override void Save(Action OnComplete)

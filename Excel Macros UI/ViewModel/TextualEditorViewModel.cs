@@ -21,6 +21,11 @@ namespace Excel_Macros_UI.ViewModel
 {
     public class TextualEditorViewModel : DocumentViewModel
     {
+        public TextualEditorViewModel()
+        {
+            Model = new TextualEditorModel(Guid.Empty);
+        }
+
         public override void Save(Action OnComplete)
         {
             throw new NotImplementedException();
@@ -38,14 +43,8 @@ namespace Excel_Macros_UI.ViewModel
             OnComplete?.Invoke();
         }
 
-        public TextualEditorViewModel()
-        {
-            Model = new TextualEditorModel();
-            Source = new TextDocument();
-        }
-
         #region Model
-        
+
         public new TextualEditorModel Model
         {
             get
@@ -80,27 +79,6 @@ namespace Excel_Macros_UI.ViewModel
                 {
                     Model.Source = value;
                     OnPropertyChanged(nameof(Source));
-                }
-            }
-        }
-
-        #endregion
-
-        #region Macro
-
-        public Guid Macro
-        {
-            get
-            {
-                return Model.Macro;
-            }
-
-            set
-            {
-                if (Model.Macro != value)
-                {
-                    Model.Macro = value;
-                    OnPropertyChanged(nameof(Macro));
                 }
             }
         }

@@ -6,6 +6,7 @@
  */
 
 using Excel_Macros_UI.Model;
+using Excel_Macros_UI.Model.Base;
 using Excel_Macros_UI.ViewModel.Base;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,11 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        public DockManagerViewModel(string docs) : this(LoadVisibleDocuments(docs))
+        {
+
+        }
+
         private void Document_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             DocumentViewModel document = (DocumentViewModel)sender;
@@ -58,6 +64,45 @@ namespace Excel_Macros_UI.ViewModel
                 else
                     Documents.Remove(document);
             }
+        }
+
+        private static List<DocumentViewModel> LoadVisibleDocuments(string docs)
+        {
+            string[] ids = docs.Split(';');
+            List<DocumentViewModel> documents = new List<DocumentViewModel>();
+
+            foreach(string s in ids)
+            {
+                Guid id;
+                if (Guid.TryParse(s, out id))
+                {
+                    DocumentModel model = DocumentModel.Create(id);
+
+                    if(model != null)
+                    {
+                        DocumentViewModel viewModel = new DocumentViewModel() { Model = model };
+                        documents.Add(viewModel);
+                    }
+                }
+            }
+
+            return documents;
+        }
+
+        public string GetVisibleDocuments()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach(DocumentViewModel document in Documents)
+            {
+                if(document.Model.Macro != Guid.Empty)
+                {
+                    sb.Append(document.Model.Macro);
+                    sb.Append(';');
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }

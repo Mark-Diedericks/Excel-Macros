@@ -9,5 +9,11 @@ namespace Excel_Macros_UI.Model
 {
     public class VisualEditorModel : DocumentModel
     {
+
+        public VisualEditorModel(Guid id)
+        {
+
+        }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using Excel_Macros_UI.Model.Base;
+﻿using Excel_Macros_INTEROP;
+using Excel_Macros_INTEROP.Macros;
+using Excel_Macros_UI.Model.Base;
 using ICSharpCode.AvalonEdit.Document;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,20 @@ namespace Excel_Macros_UI.Model
 {
     public class TextualEditorModel : DocumentModel
     {
-        public TextualEditorModel()
+        public TextualEditorModel(Guid id)
         {
+            if(id != Guid.Empty)
+            {
+                IMacro macro = Main.GetMacro(id);
+
+                if (macro != null)
+                {
+                    Source = new TextDocument(Main.GetMacro(id).GetSource());
+                    return;
+                }
+            }
+
             Source = new TextDocument();
-            Macro = Guid.Empty;
         }
 
         #region Source
@@ -32,28 +44,6 @@ namespace Excel_Macros_UI.Model
                 {
                     m_Source = value;
                     OnPropertyChanged(nameof(Source));
-                }
-            }
-        }
-
-        #endregion
-
-        #region Macro
-
-        private Guid m_Macro;
-        public Guid Macro
-        {
-            get
-            {
-                return m_Macro;
-            }
-
-            set
-            {
-                if (m_Macro != value)
-                {
-                    m_Macro = value;
-                    OnPropertyChanged(nameof(Macro));
                 }
             }
         }

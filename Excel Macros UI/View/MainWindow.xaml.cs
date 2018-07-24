@@ -376,7 +376,10 @@ namespace Excel_Macros_UI.View
         private void DockingManager_DockManager_ActiveContentChanged(object sender, EventArgs e)
         {
             if (DockingManager_DockManager.ActiveContent is DocumentViewModel)
+            {
                 ActiveDocument = DockingManager_DockManager.ActiveContent as DocumentViewModel;
+                DocumentChangedEvent?.Invoke(ActiveDocument);
+            }
         }
 
         #endregion

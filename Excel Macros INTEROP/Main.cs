@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 22/07/2018
- * Version 1.0.8
+ * 24/07/2018
+ * Version 1.0.9
  * The main hub of the interop library
  */
 
@@ -246,6 +246,14 @@ namespace Excel_Macros_INTEROP
         public static Dictionary<Guid, IMacro> GetMacros()
         {
             return GetInstance().m_Macros;
+        }
+
+        public static IMacro GetMacro(Guid id)
+        {
+            if (!GetInstance().m_Macros.ContainsKey(id))
+                return null;
+
+            return GetInstance().m_Macros[id];
         }
 
         public static MacroDeclaration GetDeclaration(Guid id)
