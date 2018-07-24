@@ -12,6 +12,7 @@ namespace Excel_Macros_UI.Model.Base
         {
             IsClosed = false;
             Title = "";
+            ToolTip = "";
             ContentId = "";
         }
 
@@ -53,6 +54,28 @@ namespace Excel_Macros_UI.Model.Base
                 {
                     m_Title = value;
                     OnPropertyChanged(nameof(Title));
+                }
+            }
+        }
+
+        #endregion
+
+        #region ToolTip
+
+        private string m_ToolTip;
+        public string ToolTip
+        {
+            get
+            {
+                return m_ToolTip;
+            }
+
+            set
+            {
+                if (m_ToolTip != value)
+                {
+                    m_ToolTip = value;
+                    OnPropertyChanged(nameof(ToolTip));
                 }
             }
         }

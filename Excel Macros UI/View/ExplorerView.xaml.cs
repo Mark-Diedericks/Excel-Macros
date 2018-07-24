@@ -24,11 +24,11 @@ using System.Windows.Shapes;
 namespace Excel_Macros_UI.View
 {
     /// <summary>
-    /// Interaction logic for FileExplorerView.xaml
+    /// Interaction logic for ExplorerView.xaml
     /// </summary>
-    public partial class FileExplorerView : UserControl
+    public partial class ExplorerView : UserControl
     {
-        public FileExplorerView()
+        public ExplorerView()
         {
             InitializeComponent();
         }

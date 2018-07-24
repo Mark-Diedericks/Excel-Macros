@@ -12,36 +12,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Excel_Macros_UI.ViewModel.Base
 {
     public class ToolViewModel : ViewModel
     {
-        private ICommand m_CloseCommand;
-        public ICommand CloseCommand
-        {
-            get
-            {
-                if (m_CloseCommand == null)
-                    m_CloseCommand = new RelayCommand(call => Close());
-                return m_CloseCommand;
-            }
-        }
-
         public ToolViewModel()
         {
-            CanClose = true;
-        }
 
-        public void Close()
-        {
-            IsClosed = true;
-        }
-
-        public void Open()
-        {
-            IsClosed = false;
         }
 
         #region Model
@@ -66,43 +46,21 @@ namespace Excel_Macros_UI.ViewModel.Base
 
         #endregion
 
-        #region CanClose
+        #region IsVisible
 
-        private bool m_CanClose;
-        public bool CanClose
+        public bool IsVisible
         {
             get
             {
-                return m_CanClose;
+                return Model.IsVisible;
             }
 
             set
             {
-                if (m_CanClose != value)
+                if (Model.IsVisible != value)
                 {
-                    m_CanClose = value;
-                    OnPropertyChanged(nameof(CanClose));
-                }
-            }
-        }
-
-        #endregion
-
-        #region IsClosed
-        
-        public bool IsClosed
-        {
-            get
-            {
-                return Model.IsClosed;
-            }
-
-            set
-            {
-                if (Model.IsClosed != value)
-                {
-                    Model.IsClosed = value;
-                    OnPropertyChanged(nameof(IsClosed));
+                    Model.IsVisible = value;
+                    OnPropertyChanged(nameof(IsVisible));
                 }
             }
         }
@@ -110,7 +68,7 @@ namespace Excel_Macros_UI.ViewModel.Base
         #endregion
 
         #region Title
-        
+
         public string Title
         {
             get

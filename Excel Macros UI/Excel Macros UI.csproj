@@ -92,7 +92,7 @@
     <Compile Include="Model\Base\Model.cs" />
     <Compile Include="Model\Base\ToolModel.cs" />
     <Compile Include="Model\ConsoleModel.cs" />
-    <Compile Include="Model\FileExplorerModel.cs" />
+    <Compile Include="Model\ExplorerModel.cs" />
     <Compile Include="Model\TextualEditorModel.cs" />
     <Compile Include="Model\ToolboxModel.cs" />
     <Compile Include="Model\VisualEditorModel.cs" />
@@ -101,6 +101,7 @@
     <Compile Include="Themes\ITheme.cs" />
     <Compile Include="Themes\IThemeManager.cs" />
     <Compile Include="Themes\LightTheme.cs" />
+    <Compile Include="Utilities\PaneStyleSelector.cs" />
     <Compile Include="Utilities\SyntaxStyleLoader.cs" />
     <Compile Include="Utilities\TextBoxWriter.cs" />
     <Compile Include="ViewModel\ConsoleViewModel.cs" />
@@ -113,8 +114,8 @@
     <Compile Include="View\ConsoleView.xaml.cs">
       <DependentUpon>ConsoleView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FileExplorerView.xaml.cs">
-      <DependentUpon>FileExplorerView.xaml</DependentUpon>
+    <Compile Include="View\ExplorerView.xaml.cs">
+      <DependentUpon>ExplorerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SettingsMenuView.xaml.cs">
       <DependentUpon>SettingsMenuView.xaml</DependentUpon>
@@ -143,7 +144,7 @@
     <Compile Include="Routing\EventManager.cs" />
     <Compile Include="ViewModel\DockManagerViewModel.cs" />
     <Compile Include="ViewModel\Base\DocumentViewModel.cs" />
-    <Compile Include="ViewModel\FileExplorerViewModel.cs" />
+    <Compile Include="ViewModel\ExplorerViewModel.cs" />
     <Compile Include="Routing\RelayCommand.cs" />
     <Compile Include="ViewModel\Base\ViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
@@ -162,7 +163,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FileExplorerView.xaml">
+    <Page Include="View\ExplorerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

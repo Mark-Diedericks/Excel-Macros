@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Excel_Macros_UI.ViewModel.Base
@@ -218,7 +219,7 @@ namespace Excel_Macros_UI.ViewModel.Base
         #endregion
 
         #region Title
-        
+
         public string Title
         {
             get
@@ -237,9 +238,30 @@ namespace Excel_Macros_UI.ViewModel.Base
         }
 
         #endregion
-        
+
+        #region ToolTip
+
+        public string ToolTip
+        {
+            get
+            {
+                return Model.ToolTip;
+            }
+
+            set
+            {
+                if (Model.ToolTip != value)
+                {
+                    Model.ToolTip = value;
+                    OnPropertyChanged(nameof(ToolTip));
+                }
+            }
+        }
+
+        #endregion
+
         #region ContentId
-        
+
         public string ContentId
         {
             get

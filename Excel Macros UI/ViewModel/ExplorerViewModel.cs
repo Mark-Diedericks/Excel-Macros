@@ -15,25 +15,25 @@ using System.Threading.Tasks;
 
 namespace Excel_Macros_UI.ViewModel
 {
-    public class FileExplorerViewModel : ToolViewModel
+    public class ExplorerViewModel : ToolViewModel
     {
-        public FileExplorerViewModel()
+        public ExplorerViewModel()
         {
-            Model = new FileExplorerModel();
+            Model = new ExplorerModel();
         }
 
         #region Model
 
-        public new FileExplorerModel Model
+        public new ExplorerModel Model
         {
             get
             {
-                return (FileExplorerModel)base.Model;
+                return (ExplorerModel)base.Model;
             }
 
             set
             {
-                if (((FileExplorerModel)base.Model) != value)
+                if (((ExplorerModel)base.Model) != value)
                 {
                     base.Model = value;
                     OnPropertyChanged(nameof(Model));

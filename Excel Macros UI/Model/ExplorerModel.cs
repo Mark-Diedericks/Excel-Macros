@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Excel_Macros_UI.Model
 {
-    public class FileExplorerModel : ToolModel
+    public class ExplorerModel : ToolModel
     {
-        private static FileExplorerModel s_Instance;
+        private static ExplorerModel s_Instance;
 
-        public static FileExplorerModel GetInstance()
+        public static ExplorerModel GetInstance()
         {
-            return s_Instance != null ? s_Instance : new FileExplorerModel();
+            return s_Instance != null ? s_Instance : new ExplorerModel();
         }
 
-        public FileExplorerModel()
+        public ExplorerModel()
         {
             s_Instance = this;
         }

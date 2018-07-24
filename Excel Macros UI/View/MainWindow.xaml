@@ -14,6 +14,7 @@
         xmlns:avalonDockConverters="clr-namespace:Xceed.Wpf.AvalonDock.Converters;assembly=Xceed.Wpf.AvalonDock"
         xmlns:viewModels="clr-namespace:Excel_Macros_UI.ViewModel"
         xmlns:views="clr-namespace:Excel_Macros_UI.View"
+        xmlns:utils="clr-namespace:Excel_Macros_UI.Utilities"
         xmlns:properties="clr-namespace:Excel_Macros_UI.Properties"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" Dialog:DialogParticipation.Register="{Binding}"
@@ -49,7 +50,7 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
                 <ResourceDictionary>
-                    <avalonDockConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                    <dock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
                     <Style x:Key="HeaderMenuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
                         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -344,7 +345,7 @@
                 </Grid>
             </Grid>
 
-            <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" ActiveContentChanged="DockingManager_DockManager_ActiveContentChanged" Background="{DynamicResource WindowBackgroundBrush}" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents, Mode=TwoWay}" AnchorablesSource="{Binding Tools, Mode=TwoWay}"
+            <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" ActiveContentChanged="DockingManager_DockManager_ActiveContentChanged" Background="{DynamicResource WindowBackgroundBrush}" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents, Mode=OneWay}" AnchorablesSource="{Binding Tools, Mode=OneWay}"
                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockingManager_DockManager_Loaded" Unloaded="DockingManager_DockManager_Unloaded">
 
                 <dock:DockingManager.Resources>
@@ -360,8 +361,8 @@
                         <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
                     </Style>
 
-                    <DataTemplate DataType="{x:Type viewModels:FileExplorerViewModel}">
-                        <views:FileExplorerView />
+                    <DataTemplate DataType="{x:Type viewModels:ExplorerViewModel}">
+                        <views:ExplorerView />
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type viewModels:ToolboxViewModel}">
@@ -381,15 +382,32 @@
                     </DataTemplate>
                 </dock:DockingManager.Resources>
 
-                <dock:DockingManager.LayoutItemContainerStyle>
-                    <Style TargetType="{x:Type dockctrl:LayoutItem}">
-                        <Setter Property="Title" Value="{Binding Model.Title}" />
-                        <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
-                        <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
-                        <Setter Property="CanClose" Value="{Binding Model.CanClose}" />
-                        <Setter Property="CanFloat" Value="{Binding Model.CanFloat}" />
-                    </Style>
-                </dock:DockingManager.LayoutItemContainerStyle>
+                <dock:DockingManager.LayoutItemContainerStyleSelector>
+                    <utils:PaneStyleSelector>
+                        <utils:PaneStyleSelector.DocumentStyle>
+                            <Style TargetType="{x:Type dockctrl:LayoutItem}">
+                                <Setter Property="Title" Value="{Binding Model.Title}" />
+                                <Setter Property="ToolTip" Value="{Binding Model.ToolTip}" />
+                                <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                                <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                                <Setter Property="CanClose" Value="{Binding Model.CanClose}" />
+                                <Setter Property="CanFloat" Value="{Binding Model.CanFloat}" />
+                                <Setter Property="ContextMenu" Value="{DynamicResource DocumentContextMenu}" />
+                            </Style>
+                        </utils:PaneStyleSelector.DocumentStyle>
+                        <utils:PaneStyleSelector.ToolStyle>
+                            <Style TargetType="{x:Type dockctrl:LayoutAnchorableItem}">
+                                <Setter Property="Title" Value="{Binding Model.Title}" />
+                                <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                                <Setter Property="CanFloat" Value="{Binding Model.CanFloat}" />
+                                <Setter Property="Visibility" Value="{Binding Model.IsVisible, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <Setter Property="ContextMenu" Value="{DynamicResource AnchorableContextMenu}" />
+                                <Setter Property="CanHide" Value="true"/>
+                                <Setter Property="CanClose" Value="false" />
+                            </Style>
+                        </utils:PaneStyleSelector.ToolStyle>
+                    </utils:PaneStyleSelector>
+                </dock:DockingManager.LayoutItemContainerStyleSelector>
             </dock:DockingManager>
         </Grid>
     </DockPanel>

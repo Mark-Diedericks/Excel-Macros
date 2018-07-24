@@ -34,6 +34,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml;
 using Xceed.Wpf.AvalonDock.Controls;
+using Xceed.Wpf.AvalonDock.Layout;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace Excel_Macros_UI.View
@@ -501,20 +502,36 @@ namespace Excel_Macros_UI.View
 
         private void Toolbox_Click(object sender, RoutedEventArgs e)
         {
-            ((MainWindowViewModel)DataContext).DockManagerViewModel.Toolbox.Open();
+            ShowAnchorable(((DockManagerViewModel)DockingManager_DockManager.DataContext).Toolbox.ContentId);
         }
 
         private void Explorer_Click(object sender, RoutedEventArgs e)
         {
-            ((MainWindowViewModel)DataContext).DockManagerViewModel.FileExplorer.Open();
+            ShowAnchorable(((DockManagerViewModel)DockingManager_DockManager.DataContext).Explorer.ContentId);
         }
 
         private void Console_Click(object sender, RoutedEventArgs e)
         {
-            ((MainWindowViewModel)DataContext).DockManagerViewModel.Console.Open();
+            ShowAnchorable(((DockManagerViewModel)DockingManager_DockManager.DataContext).Console.ContentId);
+        }
+
+        private void ShowAnchorable(string ContentId)
+        {
+            foreach (ILayoutElement le in DockingManager_DockManager.Layout.Children)
+            {
+                if (le is LayoutAnchorable)
+                {
+                    LayoutAnchorable la = le as LayoutAnchorable;
+
+                    if (la.ContentId == ContentId)
+                    {
+                        la.Show();
+                        return;
+                    }
+                }
+            }
         }
 
         #endregion
-
     }
 }

@@ -10,27 +10,26 @@ namespace Excel_Macros_UI.Model.Base
     {
         public ToolModel()
         {
-            IsClosed = false;
+            IsVisible = true;
             Title = "";
             ContentId = "";
         }
 
-        #region IsClosed
+        #region IsVisible
 
-        private bool m_IsClosed;
-        public bool IsClosed
+        private bool m_IsVisible;
+        public bool IsVisible
         {
             get
             {
-                return m_IsClosed;
+                return m_IsVisible;
             }
-
             set
             {
-                if (m_IsClosed != value)
+                if (m_IsVisible != value)
                 {
-                    m_IsClosed = value;
-                    OnPropertyChanged(nameof(IsClosed));
+                    m_IsVisible = value;
+                    OnPropertyChanged(nameof(IsVisible));
                 }
             }
         }

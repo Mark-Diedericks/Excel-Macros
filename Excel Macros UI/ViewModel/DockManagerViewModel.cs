@@ -1,10 +1,11 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2018
- * Version 1.0.0
+ * 24/07/2018
+ * Version 1.0.3
  * Handles the view models of the primary view model
  */
 
+using Excel_Macros_UI.Model;
 using Excel_Macros_UI.ViewModel.Base;
 using System;
 using System.Collections.Generic;
@@ -17,54 +18,32 @@ namespace Excel_Macros_UI.ViewModel
 {
     public class DockManagerViewModel
     {
-        public ObservableCollection<DocumentViewModel> Documents { get; set; }
-        public ObservableCollection<ToolViewModel> Tools { get; set; }
+        public ObservableCollection<DocumentViewModel> Documents { get; internal set; }
+        public ObservableCollection<ToolViewModel> Tools { get; internal set; }
 
-        public FileExplorerViewModel FileExplorer { get; internal set; }
+        public ExplorerViewModel Explorer { get; internal set; }
         public ToolboxViewModel Toolbox { get; internal set; }
         public ConsoleViewModel Console { get; internal set; }
 
-        public DockManagerViewModel(IEnumerable<DocumentViewModel> DocumentViewModels, IEnumerable<ToolViewModel> ToolViewModels)
+        public DockManagerViewModel(IEnumerable<DocumentViewModel> DocumentViewModels)
         {
             Documents = new ObservableCollection<DocumentViewModel>();
             Tools = new ObservableCollection<ToolViewModel>();
 
-            foreach(DocumentViewModel document in DocumentViewModels)
+            Explorer = new ExplorerViewModel() { Model = new ExplorerModel() { Title = "Explorer", ContentId = "Explorer", IsVisible = true } };
+            Toolbox = new ToolboxViewModel() { Model = new ToolboxModel() { Title = "Toolbox", ContentId = "Toolbox", IsVisible = true } };
+            Console = new ConsoleViewModel() { Model = new ConsoleModel() { Title = "Console", ContentId = "Console", IsVisible = true } };
+
+            Tools.Add(Explorer);
+            Tools.Add(Toolbox);
+            Tools.Add(Console);
+
+            foreach (DocumentViewModel document in DocumentViewModels)
             {
                 document.PropertyChanged += Document_PropertyChanged;
 
                 if (!document.IsClosed)
                     Documents.Add(document);
-            }
-
-            foreach (ToolViewModel tool in ToolViewModels)
-            {
-                tool.PropertyChanged += Tool_PropertyChanged;
-
-                if (tool is FileExplorerViewModel)
-                    FileExplorer = (FileExplorerViewModel)tool;
-
-                if (tool is ToolboxViewModel)
-                    Toolbox = (ToolboxViewModel)tool;
-
-                if (tool is ConsoleViewModel)
-                    Console = (ConsoleViewModel)tool;
-
-                if (!tool.IsClosed)
-                    Tools.Add(tool);
-            }
-        }
-
-        private void Tool_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            ToolViewModel tool = (ToolViewModel)sender;
-
-            if (e.PropertyName == nameof(ToolViewModel.IsClosed))
-            {
-                if (!tool.IsClosed)
-                    Tools.Add(tool);
-                else
-                    Tools.Remove(tool);
             }
         }
 
