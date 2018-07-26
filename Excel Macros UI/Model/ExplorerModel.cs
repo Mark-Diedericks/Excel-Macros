@@ -26,12 +26,13 @@ namespace Excel_Macros_UI.Model
 
             PreferredLocation = PaneLocation.Right;
             SelectedItem = null;
+            ItemSource = new ObservableCollection<CustomTreeViewItem>();
         }
 
         #region SelectedItem
 
-        private TreeViewItem m_SelectedItem;
-        public TreeViewItem SelectedItem
+        private CustomTreeViewItem m_SelectedItem;
+        public CustomTreeViewItem SelectedItem
         {
             get
             {
@@ -52,8 +53,8 @@ namespace Excel_Macros_UI.Model
 
         #region ItemSource
 
-        private ItemCollection m_ItemSource;
-        public ItemCollection ItemSource
+        private ObservableCollection<CustomTreeViewItem> m_ItemSource;
+        public ObservableCollection<CustomTreeViewItem> ItemSource
         {
             get
             {

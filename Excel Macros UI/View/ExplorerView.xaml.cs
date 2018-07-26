@@ -28,17 +28,6 @@ using System.Windows.Threading;
 
 namespace Excel_Macros_UI.View
 {
-    /// <summary>
-    /// Custom data structure for holding the data of each tree view item
-    /// </summary>
-    internal class CustomTreeViewItem
-    {
-        public int level;
-        public string name;
-        public Guid macro;
-        public string root;
-        public List<CustomTreeViewItem> children;
-    }
 
     /// <summary>
     /// Interaction logic for ExplorerView.xaml
@@ -46,16 +35,15 @@ namespace Excel_Macros_UI.View
     public partial class ExplorerView : UserControl
     {
 
-        private bool m_IsCreating = false;
 
         public ExplorerView()
         {
             InitializeComponent();
             
-            this.Loaded += ExplorerView_Loaded;
+            //this.Loaded += ExplorerView_Loaded;
         }
 
-        #region Tree View Population Through Recursion
+        /*#region Tree View Population Through Recursion
 
         private void CheckVisibility()
         {
@@ -868,6 +856,6 @@ namespace Excel_Macros_UI.View
             }
         }
 
-        #endregion
+        #endregion*/
     }
 }
