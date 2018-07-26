@@ -68,14 +68,14 @@ namespace Excel_Macros_UI.Routing
             return s_Instance;
         }
 
-        public static void CreateApplicationInstance(Excel.Application application, string RibbonMacros)
+        public static void CreateApplicationInstance(Excel.Application application, Dispatcher dispatcher, string RibbonMacros)
         {
             new EventManager();
             
             s_UIApp = new App();
             s_UIApp.InitializeComponent();
 
-            Main.Initialize(application, new Action(() =>
+            Main.Initialize(application, dispatcher, new Action(() =>
             {
                 Main.GetInstance().OnFocused += WindowFocusEvent;
                 Main.GetInstance().OnShown += WindowShowEvent;
@@ -111,13 +111,16 @@ namespace Excel_Macros_UI.Routing
                 GetInstance().IOChangedEvent += Main.SetIOSteams;
 
                 LoadCompleted();
-            }), RibbonMacros);
+            }), RibbonMacros, Properties.Settings.Default.ActiveMacro);
 
             GetInstance().ShutdownEvent += () =>
             {
                 MainWindow.GetInstance().Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
                 {
-                    if(MainWindow.GetInstance() != null)
+                    if(Main.GetDeclaration(Main.GetActiveMacro()) != null)
+                        Properties.Settings.Default.ActiveMacro = Main.GetDeclaration(Main.GetActiveMacro()).relativepath;
+
+                    if (MainWindow.GetInstance() != null)
                         MainWindow.GetInstance().SaveAll();
 
                     s_UIApp.Shutdown();
@@ -212,39 +215,39 @@ namespace Excel_Macros_UI.Routing
 
         #region Main to UI Events
 
-        private static void WindowFocusEvent()
+        public static void WindowFocusEvent()
         {
             MainWindow.GetInstance().TryFocus();
         }
 
-        private static void WindowShowEvent()
+        public static void WindowShowEvent()
         {
             MainWindow.GetInstance().ShowWindow();
         }
 
-        private static void WindowHideEvent()
+        public static void WindowHideEvent()
         {
             MainWindow.GetInstance().HideWindow();
         }
 
-        private static void DisplayOkMessage(string content, string title)
+        public static void DisplayOkMessage(string content, string title)
         {
             MainWindow.GetInstance().DisplayOkMessage(content, title);
         }
 
-        private static void DisplayYesNoMessage(string content, string title, Action<bool> OnReturn)
+        public static void DisplayYesNoMessage(string content, string title, Action<bool> OnReturn)
         {
             MainWindow.GetInstance().DisplayYesNoMessage(content, title, OnReturn);
         }
 
-        private static bool DisplayYesNoMessageReturn(string content, string title)
+        public static bool DisplayYesNoMessageReturn(string content, string title)
         {
             Task<bool> t = MainWindow.GetInstance().DisplayYesNoMessageReturn(content, title);
             t.Wait();
             return t.Result;
         }
 
-        private static void ClearAllIO()
+        public static void ClearAllIO()
         {
             GetInstance().ClearAllIOEvent?.Invoke();
         }

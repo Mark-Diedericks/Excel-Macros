@@ -1,0 +1,28 @@
+import clr
+import System
+
+clr.AddReference("Microsoft.Office.Interop.Excel")
+
+import Microsoft.Office.Interop.Excel
+
+from Microsoft.Office.Interop.Excel import Application
+from Microsoft.Office.Interop.Excel import Workbook
+from Microsoft.Office.Interop.Excel import Worksheet
+from Microsoft.Office.Interop.Excel import Range
+
+from Microsoft.Office.Interop.Excel import XlAutoFillType
+
+Utils.FastWorkbook(True)
+
+valueCount = 1000000
+
+ActiveWorksheet.UsedRange.Clear()
+ActiveWorksheet.Range(ActiveWorksheet.Cells[1, 2], ActiveWorksheet.Cells[valueCount, 2]).Value = "Blah Blah Blah"
+
+ActiveWorksheet.Cells[1, 1].Value = 1
+ActiveWorksheet.Cells[1, 1].AutoFill(ActiveWorksheet.Range(ActiveWorksheet.Cells[1, 1], ActiveWorksheet.Cells[valueCount, 1]), XlAutoFillType.xlFillSeries)
+
+for i in range(10, valueCount + 1, 10):
+	ActiveWorksheet.Cells[i, 2].Value = "Test String"
+
+Utils.FastWorkbook(False)

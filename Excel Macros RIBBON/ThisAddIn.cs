@@ -36,11 +36,13 @@ namespace Excel_Macros_RIBBON
             ExcelMacrosRibbonTab.MacroRibbonLoadEvent += MacroRibbonLoaded;
             UI.Routing.EventManager.ApplicationLoaded += MacroEditorLoaded;
 
+            Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
+
             m_Thread = new Thread(() =>
             {
                 //SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
 
-                UI.Routing.EventManager.CreateApplicationInstance(Application, Properties.Settings.Default.RibbonMacros);
+                UI.Routing.EventManager.CreateApplicationInstance(Application, dispatcher, Properties.Settings.Default.RibbonMacros);
             });
 
             m_Thread.SetApartmentState(ApartmentState.STA);

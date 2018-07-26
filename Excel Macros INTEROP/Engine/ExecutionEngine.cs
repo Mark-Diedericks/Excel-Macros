@@ -62,6 +62,8 @@ namespace Excel_Macros_INTEROP.Engine
         private BackgroundWorker m_BackgroundWorker;
         private bool m_IsExecuting;
 
+        public object DispatcherPriorty { get; private set; }
+
         private ExecutionEngine(Dictionary<string, object> args)
         {
             m_ScriptEngine = IronPython.Hosting.Python.CreateEngine(args);
@@ -141,22 +143,25 @@ namespace Excel_Macros_INTEROP.Engine
 
         private void ExecuteSourceSynchronous(string source, Action OnCompletedAction)
         {
-            int profileID = -1;
-            profileID = Utilities.BeginProfileSession();
+            Main.GetApplicationDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                int profileID = -1;
+                profileID = Utilities.BeginProfileSession();
 
-            m_IsExecuting = true;
-            ExecuteSource(source);
+                m_IsExecuting = true;
+                ExecuteSource(source);
 
-            if (Main.GetEngineIOManager() != null)
-            { 
-                Main.GetEngineIOManager().GetOutput().WriteLine("Syncrhonous Execution Completed. Runtime of {0:N2}s", Utilities.GetTimeIntervalSeconds(profileID));
-                Main.GetEngineIOManager().GetOutput().Flush();
-            }
+                if (Main.GetEngineIOManager() != null)
+                {
+                    Main.GetEngineIOManager().GetOutput().WriteLine("Syncrhonous Execution Completed. Runtime of {0:N2}s", Utilities.GetTimeIntervalSeconds(profileID));
+                    Main.GetEngineIOManager().GetOutput().Flush();
+                }
 
-            Utilities.EndProfileSession(profileID);
+                Utilities.EndProfileSession(profileID);
 
-            m_IsExecuting = false;
-            OnCompletedAction?.Invoke();
+                m_IsExecuting = false;
+                OnCompletedAction?.Invoke();
+            }));
         }
 
         private void ExecuteSource(string source)

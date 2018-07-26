@@ -23,11 +23,8 @@ namespace Excel_Macros_UI.Model
             s_Instance = this;
             Output = new TextBoxWriter(null);
             Error = new TextBoxWriter(null);
-        }
 
-        public ConsoleModel(TextBox output, TextBox error, TextBox input)
-        {
-            s_Instance = this;
+            PreferredLocation = PaneLocation.Bottom;
         }
 
         private TextBoxWriter m_Output;

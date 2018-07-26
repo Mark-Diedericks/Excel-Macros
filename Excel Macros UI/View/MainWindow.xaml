@@ -109,7 +109,6 @@
             <MenuItem Header="_File" Style="{DynamicResource HeaderMenuItemStyle}">
                 <MenuItem Header="_New" Click="btnNew_Click"/>
                 <MenuItem Header="_Open" Click="btnOpen_Click"/>
-                <MenuItem Header="Open Recent" />
                 <Separator />
                 <MenuItem Header="_Save" Click="btnSave_Click"/>
                 <MenuItem Header="Export" Click="btnExport_Click"/>
@@ -293,8 +292,8 @@
                     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="182,0,0,0">
                         <ComboBox x:Name="spltBtnExecutionType" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True" SelectedIndex="{Binding Source={x:Static properties:Settings.Default}, Path=ExecutionTypeIndex, Mode=TwoWay}" HorizontalAlignment="Left" Width="112" Height="16">
                             <ComboBox.Items>
-                                <System:String>Asynchronous</System:String>
-                                <System:String>Synchronous</System:String>
+                                <ComboBoxItem ToolTip="Slowest execution that can be terminated.">Asynchronous</ComboBoxItem>
+                                <ComboBoxItem ToolTip="Fastest execution which cannot be terminated.">Synchronous</ComboBoxItem>
                             </ComboBox.Items>
                         </ComboBox>
 
@@ -355,25 +354,31 @@
 
                 <dock:DockingManager.Resources>
                     <DataTemplate DataType="{x:Type viewModels:ExplorerViewModel}">
-                        <views:ExplorerView />
+                        <views:ExplorerView DataContext="{Binding}"/>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type viewModels:ToolboxViewModel}">
-                        <views:ToolboxView />
+                        <views:ToolboxView DataContext="{Binding}"/>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type viewModels:ConsoleViewModel}">
-                        <views:ConsoleView />
+                        <views:ConsoleView DataContext="{Binding}"/>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type viewModels:TextualEditorViewModel}">
-                        <views:TextualEditorView Source="{Binding Source, Mode=TwoWay}"/>
+                        <views:TextualEditorView DataContext="{Binding}"/>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type viewModels:VisualEditorViewModel}">
-                        <views:VisualEditorView />
+                        <views:VisualEditorView DataContext="{Binding}"/>
                     </DataTemplate>
                 </dock:DockingManager.Resources>
+
+                <!--<dock:DockingManager.LayoutItemTemplate>
+                    <DataTemplate>
+                        <ContentPresenter Content="{Binding View, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+                </dock:DockingManager.LayoutItemTemplate>-->
 
                 <dock:DockingManager.LayoutItemContainerStyleSelector>
                     <utils:PaneStyleSelector>
@@ -401,6 +406,18 @@
                         </utils:PaneStyleSelector.ToolStyle>
                     </utils:PaneStyleSelector>
                 </dock:DockingManager.LayoutItemContainerStyleSelector>
+
+                <dock:DockingManager.LayoutUpdateStrategy>
+                    <utils:LayoutInitializer />
+                </dock:DockingManager.LayoutUpdateStrategy>
+
+                <dock:LayoutRoot>
+                    <dock:LayoutPanel x:Name="lpVerticalPanel" Orientation="Vertical">
+                        <dock:LayoutPanel x:Name="lpHorizontalPanel" Orientation="Horizontal">
+                            <dock:LayoutDocumentPane />
+                        </dock:LayoutPanel>
+                    </dock:LayoutPanel>
+                </dock:LayoutRoot>
             </dock:DockingManager>
         </Grid>
     </DockPanel>

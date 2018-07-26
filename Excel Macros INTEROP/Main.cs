@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 24/07/2018
- * Version 1.0.9
+ * 26/07/2018
+ * Version 1.0.12
  * The main hub of the interop library
  */
 
@@ -24,15 +24,25 @@ namespace Excel_Macros_INTEROP
         #region Excel Application
 
         private static Excel.Application s_ExcelApplication;
+        private static Dispatcher s_ExcelDispatcher;
 
         public static Excel.Application GetApplication()
         {
             return s_ExcelApplication;
         }
 
+        public static Dispatcher GetApplicationDispatcher()
+        {
+            return s_ExcelDispatcher;
+        }
+
         #endregion
 
         #region Initialization & Destruction
+
+        //OnLoaded event, for all Forms and GUIs
+        public delegate void OnLoadedEvent();
+        public event OnLoadedEvent OnLoaded;
 
         //OnDestroyed event, for all Forms and GUIs
         public delegate void DestroyEvent();
@@ -54,6 +64,10 @@ namespace Excel_Macros_INTEROP
         public delegate void IOChangedEvent();
         public event IOChangedEvent OnIOChanged;
 
+        //OnMacroCountChanged event, for all Forms and GUIs
+        public delegate void MacroCountChangedEvent();
+        public event MacroCountChangedEvent OnMacroCountChanged;
+
         //MacroRenamed event, for all Forms and GUIs
         public delegate void MacroRenameEvent(Guid id);
         public event MacroRenameEvent OnMacroRenamed;
@@ -62,6 +76,7 @@ namespace Excel_Macros_INTEROP
         private Dictionary<Guid, MacroDeclaration> m_Declarations;
         private Dictionary<Guid, IMacro> m_Macros;
         private HashSet<Guid> m_RibbonMacros;
+        private Guid m_ActiveMacro;
 
         //User Included Assemblies
         private HashSet<AssemblyDeclaration> m_Assemblies;
@@ -72,10 +87,11 @@ namespace Excel_Macros_INTEROP
         //Instancing
         private static Main s_Instance;
 
-        public static void Initialize(Excel.Application application, Action OnLoaded, String RibbonMacros)
+        public static void Initialize(Excel.Application application, Dispatcher dispatcher, Action OnLoaded, string RibbonMacros, string ActiveMacroRelativePath)
         {
             //Set local reference to excel application
             s_ExcelApplication = application;
+            s_ExcelDispatcher = dispatcher;
 
             new Action(() =>
             {
@@ -107,6 +123,8 @@ namespace Excel_Macros_INTEROP
                     GetInstance().m_Macros.Add(md.id, im);
                 }
 
+                GetInstance().OnMacroCountChanged?.Invoke();
+
                 //Parse ribbon macros
                 GetInstance().m_RibbonMacros = new HashSet<Guid>();
 
@@ -122,13 +140,22 @@ namespace Excel_Macros_INTEROP
                     }
                 }
 
+                //Get the active macro
+                if (!String.IsNullOrEmpty(ActiveMacroRelativePath))
+                    GetInstance().m_ActiveMacro = GetIDFromRelativePath(ActiveMacroRelativePath);
+                else
+                    GetInstance().m_ActiveMacro = GetInstance().m_Macros.Keys.FirstOrDefault<Guid>();
+
                 //Get Assemblies
                 //if (Properties.Settings.Default.IncludedAssemblies != null)
                 //    GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>(Properties.Settings.Default.IncludedAssemblies);
                 //else
                 GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>();
                 
-            }).BeginInvoke(new AsyncCallback((result) => OnLoaded?.Invoke()), null);
+            }).BeginInvoke(new AsyncCallback((result) => {
+                OnLoaded?.Invoke();
+                GetInstance().OnLoaded?.Invoke();
+                }), null);
         }
 
         public static void Destroy()
@@ -147,6 +174,18 @@ namespace Excel_Macros_INTEROP
         }
 
         #endregion
+
+        #region Getters, Setters and Passthrough Functions
+
+        public static Guid GetActiveMacro()
+        {
+            return s_Instance.m_ActiveMacro;
+        }
+
+        public static void SetActiveMacro(Guid macro)
+        {
+            s_Instance.m_ActiveMacro = macro;
+        }
 
         public static void SetIOSteams(TextWriter output, TextWriter error)
         {
@@ -292,6 +331,7 @@ namespace Excel_Macros_INTEROP
 
             GetInstance().m_Declarations.Add(id, declaration);
             GetInstance().m_Macros.Add(id, macro);
+            GetInstance().OnMacroCountChanged?.Invoke();
 
             return id;
         }
@@ -299,6 +339,7 @@ namespace Excel_Macros_INTEROP
         public static void RemoveMacro(Guid id)
         {
             GetInstance().m_Macros.Remove(id);
+            GetInstance().OnMacroCountChanged?.Invoke();
         }
 
         public static Guid GetGuidFromRelativePath(string relativepath)
@@ -365,5 +406,8 @@ namespace Excel_Macros_INTEROP
                 OnReturn?.Invoke(true);
             }));
         }
+
+        #endregion
     }
+
 }

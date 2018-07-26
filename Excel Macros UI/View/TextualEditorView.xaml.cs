@@ -35,19 +35,6 @@ namespace Excel_Macros_UI.View
     /// </summary>
     public partial class TextualEditorView : UserControl
     {
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(TextDocument), typeof(TextualEditorView));
-
-        public TextDocument Source
-        {
-            get
-            {
-                return (TextDocument)GetValue(SourceProperty);
-            }
-            set
-            {
-                SetValue(SourceProperty, value);
-            }
-        }
 
         public TextualEditorView()
         {

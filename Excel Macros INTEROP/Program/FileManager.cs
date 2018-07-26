@@ -184,9 +184,6 @@ namespace Excel_Macros_INTEROP
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                //if (Main.GetMacroManager().Visibility == System.Windows.Visibility.Visible)
-                //    Main.GetMacroManager().TryFocus();
-
                 Main.FireShowFocusEvent();
 
                 bool pyext = Path.GetExtension(ofd.FileName).ToLower().Trim() == PYTHON_FILE_EXT.ToLower().Trim();
@@ -209,19 +206,16 @@ namespace Excel_Macros_INTEROP
                     {
                         if (!result)
                             OnReturn?.Invoke(Guid.Empty);
-
-                        File.Copy(ofd.FileName, fullpath, true);
-
-                        MacroDeclaration declaration = new MacroDeclaration(macroType, ofd.SafeFileName, relativepath);
-                        IMacro macro = LoadMacro(macroType, relativepath);
-
-                        OnReturn?.Invoke(Main.AddMacro(declaration, macro));
                     }));
                 }
-            }
 
-            //if (Main.GetMacroManager().Visibility == System.Windows.Visibility.Visible)
-            //    Main.GetMacroManager().TryFocus();
+                File.Copy(ofd.FileName, fullpath, true);
+
+                MacroDeclaration declaration = new MacroDeclaration(macroType, ofd.SafeFileName, relativepath);
+                IMacro macro = LoadMacro(macroType, relativepath);
+
+                OnReturn?.Invoke(Main.AddMacro(declaration, macro));
+            }
 
             Main.FireShowFocusEvent();
 

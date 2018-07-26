@@ -1,0 +1,18 @@
+import clr
+import System
+
+clr.AddReference("Microsoft.Office.Interop.Excel")
+
+import Microsoft.Office.Interop.Excel
+
+from Microsoft.Office.Interop.Excel import Application
+from Microsoft.Office.Interop.Excel import Workbook
+from Microsoft.Office.Interop.Excel import Worksheet
+from Microsoft.Office.Interop.Excel import Range
+
+Utils.FastWorkbook(True)
+
+ActiveWorksheet.UsedRange.Clear()
+ActiveWorksheet.Cells[1, 1].Value = 99
+
+Utils.FastWorkbook(False)

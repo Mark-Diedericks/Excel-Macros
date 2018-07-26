@@ -5,6 +5,7 @@
  * Document window view model
  */
 
+using Excel_Macros_UI.Model;
 using Excel_Macros_UI.Model.Base;
 using Excel_Macros_UI.Routing;
 using System;
@@ -180,6 +181,17 @@ namespace Excel_Macros_UI.ViewModel.Base
         {
             CanClose = true;
             CanFloat = true;
+        }
+
+        public static DocumentViewModel Create(DocumentModel model)
+        {
+            if(model is TextualEditorModel)
+                return new TextualEditorViewModel() { Model = (TextualEditorModel)model };
+
+            if (model is VisualEditorModel)
+                return new VisualEditorViewModel() { Model = (VisualEditorModel)model };
+
+            return new DocumentViewModel() { Model = model };
         }
 
         #region Model

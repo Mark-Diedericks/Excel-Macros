@@ -20,6 +20,11 @@ namespace Excel_Macros_UI.Model
 
                 if (macro != null)
                 {
+                    Title = Main.GetMacro(id).GetName();
+                    ToolTip = Main.GetMacro(id).GetRelativePath();
+                    ContentId = Main.GetMacro(id).GetRelativePath();
+                    Macro = id;
+                    IsClosed = false;
                     Source = new TextDocument(Main.GetMacro(id).GetSource());
                     return;
                 }

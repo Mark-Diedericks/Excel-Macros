@@ -1,0 +1,16 @@
+import clr
+
+clr.AddReference("Microsoft.Office.Interop.Excel")
+import Microsoft.Office.Interop.Excel
+
+from Microsoft.Office.Interop.Excel import Application
+from Microsoft.Office.Interop.Excel import Range
+from Microsoft.Office.Interop.Excel import Workbook
+from Microsoft.Office.Interop.Excel import Worksheet
+
+Utils.FastWorkbook(True)
+
+ActiveWorksheet.UsedRange.Clear()
+ActiveWorksheet.Cells[1, 1].Value = "HELLO"
+
+Utils.FastWorkbook(False)

@@ -6,7 +6,9 @@
  */
 
 using Excel_Macros_INTEROP;
+using Excel_Macros_INTEROP.Macros;
 using Excel_Macros_UI.Model;
+using Excel_Macros_UI.Model.Base;
 using Excel_Macros_UI.Themes;
 using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.ViewModel;
@@ -129,6 +131,7 @@ namespace Excel_Macros_UI.View
             Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(delegate ()
             {
                 SaveAvalonDockLayout();
+                Properties.Settings.Default.OpenDocuments = ((DockManagerViewModel)DockingManager_DockManager.DataContext).GetVisibleDocuments();
                 Properties.Settings.Default.Theme = ActiveTheme.Name;
                 Properties.Settings.Default.Save();
             }));
@@ -371,7 +374,18 @@ namespace Excel_Macros_UI.View
 
         #region Active Documents
 
-        private DocumentViewModel ActiveDocument;
+        private DocumentViewModel m_ActiveDocument;
+        public DocumentViewModel ActiveDocument
+        {
+            get
+            {
+                return m_ActiveDocument;
+            }
+            set
+            {
+                m_ActiveDocument = value;
+            }
+        }
 
         private void DockingManager_DockManager_ActiveContentChanged(object sender, EventArgs e)
         {
@@ -380,6 +394,12 @@ namespace Excel_Macros_UI.View
                 ActiveDocument = DockingManager_DockManager.ActiveContent as DocumentViewModel;
                 DocumentChangedEvent?.Invoke(ActiveDocument);
             }
+        }
+
+        private void ChangeActiveDocument(DocumentViewModel document)
+        {
+            if(((DockManagerViewModel)DockingManager_DockManager.DataContext).Documents.Contains(document))
+                DockingManager_DockManager.ActiveContent = document;
         }
 
         #endregion
@@ -512,11 +532,14 @@ namespace Excel_Macros_UI.View
 
                 ActiveDocument.StartCommand.Execute(new Action(() =>
                 {
-                    btnStop.IsEnabled = false;
-                    btnStop.Visibility = Visibility.Hidden;
+                    GetInstance().Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                    {
+                        btnStop.IsEnabled = false;
+                        btnStop.Visibility = Visibility.Hidden;
 
-                    btnRun.IsEnabled = true;
-                    btnRun.Visibility = Visibility.Visible;
+                        btnRun.IsEnabled = true;
+                        btnRun.Visibility = Visibility.Visible;
+                    }));
                 }));
             }
         }
@@ -610,6 +633,66 @@ namespace Excel_Macros_UI.View
                 }
             }
         }
+
+        #endregion
+
+        #region Macro Related Actions
+        
+        public Guid CreateMacro(MacroType type, string relativepath)
+        {
+            return FileManager.CreateMacro(type, relativepath);
+        }
+
+        public void ImportMacro(string relativepath, Action<Guid> OnReturn)
+        {
+            FileManager.ImportMacro(relativepath, OnReturn);
+        }
+
+        public void OpenMacroForEditing(Guid id)
+        {
+            if (id == Guid.Empty)
+                return;
+
+            Dispatcher.Invoke(() => Main.SetActiveMacro(id));
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => 
+            {
+                if (id != Guid.Empty)
+                {
+                    DocumentModel model = DocumentModel.Create(id);
+
+                    if (model != null)
+                    {
+                        DocumentViewModel viewModel = DocumentViewModel.Create(model);
+                        ((DockManagerViewModel)DockingManager_DockManager.DataContext).AddDocument(viewModel);
+                        ChangeActiveDocument(viewModel);
+                    }
+                }
+            }));
+        }
+
+        public void ExecuteMacro(bool async)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                AsyncExecution = async;
+                btnRun_Click(null, null);
+            }));
+        }
+
+        /*public void CreateMacroAsync(TreeViewItem parent, MacroType type, string root)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => m_MacroExplorer.CreateMacro(parent, type, root)));
+        }
+
+        public void ImportMacroAsync(TreeViewItem parent, string root)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => m_MacroExplorer.ImportMacro(parent, root)));
+        }
+
+        public void ExecuteMacro(bool async)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => m_MacroEditor.BeginExecution(async)));
+        }*/
 
         #endregion
     }

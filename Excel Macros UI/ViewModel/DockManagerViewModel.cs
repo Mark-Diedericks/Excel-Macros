@@ -5,6 +5,8 @@
  * Handles the view models of the primary view model
  */
 
+using Excel_Macros_INTEROP;
+using Excel_Macros_INTEROP.Macros;
 using Excel_Macros_UI.Model;
 using Excel_Macros_UI.Model.Base;
 using Excel_Macros_UI.ViewModel.Base;
@@ -48,6 +50,14 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        public void AddDocument(DocumentViewModel document)
+        {
+            document.PropertyChanged += Document_PropertyChanged;
+
+            if (!document.IsClosed)
+                Documents.Add(document);
+        }
+
         public DockManagerViewModel(string docs) : this(LoadVisibleDocuments(docs))
         {
 
@@ -68,19 +78,19 @@ namespace Excel_Macros_UI.ViewModel
 
         private static List<DocumentViewModel> LoadVisibleDocuments(string docs)
         {
-            string[] ids = docs.Split(';');
+            string[] paths = docs.Split(';');
             List<DocumentViewModel> documents = new List<DocumentViewModel>();
 
-            foreach(string s in ids)
+            foreach(string s in paths)
             {
-                Guid id;
-                if (Guid.TryParse(s, out id))
+                Guid id = Main.GetGuidFromRelativePath(s);
+                if (id != Guid.Empty)
                 {
                     DocumentModel model = DocumentModel.Create(id);
 
-                    if(model != null)
+                    if (model != null)
                     {
-                        DocumentViewModel viewModel = new DocumentViewModel() { Model = model };
+                        DocumentViewModel viewModel = DocumentViewModel.Create(model);
                         documents.Add(viewModel);
                     }
                 }
@@ -97,8 +107,13 @@ namespace Excel_Macros_UI.ViewModel
             {
                 if(document.Model.Macro != Guid.Empty)
                 {
-                    sb.Append(document.Model.Macro);
-                    sb.Append(';');
+                    IMacro macro = Main.GetMacro(document.Model.Macro);
+
+                    if(macro != null)
+                    {
+                        sb.Append(macro.GetRelativePath());
+                        sb.Append(';');
+                    }
                 }
             }
 

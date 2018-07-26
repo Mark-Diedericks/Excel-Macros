@@ -1,0 +1,42 @@
+import clr
+import System
+
+clr.AddReference("Microsoft.Office.Interop.Excel")
+
+import Microsoft.Office.Interop.Excel
+
+from Microsoft.Office.Interop.Excel import Application
+from Microsoft.Office.Interop.Excel import Workbook
+from Microsoft.Office.Interop.Excel import Worksheet
+from Microsoft.Office.Interop.Excel import Range
+
+from Microsoft.Office.Interop.Excel import XlCellType
+from Microsoft.Office.Interop.Excel import XlDirection
+from Microsoft.Office.Interop.Excel import XlSortOrder
+from Microsoft.Office.Interop.Excel import XlYesNoGuess
+from Microsoft.Office.Interop.Excel import XlLookAt
+from Microsoft.Office.Interop.Excel import XlSearchDirection
+
+Utils.FastWorkbook(False)
+
+selectedRange = Utils.RequestRangeInput("Select the (N=) range to be checked")
+
+Utils.StartDebugSession()
+Utils.FastWorkbook(True)
+
+lastRow = selectedRange.SpecialCells(XlCellType.xlCellTypeLastCell).Row
+indexCell = ActiveWorksheet.Cells[1, 1]
+
+if selectedRange.Rows.Count > 1:
+	sortRange = ActiveWorksheet.Range(indexCell, ActiveWorksheet.Cells[lastRow, 16384].End(XlDirection.xlToLeft))
+	sortRange.Sort(selectedRange.Cells[1, 1])
+	startVals = selectedRange.Find("Test String", MissingType, MissingType, XlLookAt.xlWhole, MissingType, XlSearchDirection.xlNext, True, MissingType, MissingType).Row	
+	endVals = selectedRange.Find("Test String", MissingType, MissingType, XlLookAt.xlWhole, MissingType, XlSearchDirection.xlPrevious, True, MissingType, MissingType).Row	
+	ActiveWorksheet.Range(ActiveWorksheet.Rows(startVals), ActiveWorksheet.Rows(endVals)).EntireRow.Delete()
+	sortRange.Sort(indexCell)
+
+t = str(Utils.GetTimeInterval())
+Utils.DisplayMessage("Milliseconds: " + t, "Time")
+
+Utils.FastWorkbook(False)
+Utils.StopDebugSession()

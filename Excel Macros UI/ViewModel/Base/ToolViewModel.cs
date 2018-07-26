@@ -7,6 +7,7 @@
 
 using Excel_Macros_UI.Model.Base;
 using Excel_Macros_UI.Routing;
+using Excel_Macros_UI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,27 @@ namespace Excel_Macros_UI.ViewModel.Base
                 {
                     Model.IsVisible = value;
                     OnPropertyChanged(nameof(IsVisible));
+                }
+            }
+        }
+
+        #endregion
+
+        #region PreferredLocation
+
+        public PaneLocation PreferredLocation
+        {
+            get
+            {
+                return Model.PreferredLocation;
+            }
+
+            set
+            {
+                if (Model.PreferredLocation != value)
+                {
+                    Model.PreferredLocation = value;
+                    OnPropertyChanged(nameof(PreferredLocation));
                 }
             }
         }

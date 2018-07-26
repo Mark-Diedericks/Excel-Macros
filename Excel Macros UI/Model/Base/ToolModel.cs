@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Excel_Macros_UI.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Excel_Macros_UI.Model.Base
         public ToolModel()
         {
             IsVisible = true;
+            m_PreferredLocation = PaneLocation.Left;
             Title = "";
             ContentId = "";
         }
@@ -30,6 +32,27 @@ namespace Excel_Macros_UI.Model.Base
                 {
                     m_IsVisible = value;
                     OnPropertyChanged(nameof(IsVisible));
+                }
+            }
+        }
+
+        #endregion
+
+        #region PreferredLocation
+
+        private PaneLocation m_PreferredLocation;
+        public PaneLocation PreferredLocation
+        {
+            get
+            {
+                return m_PreferredLocation;
+            }
+            set
+            {
+                if (m_PreferredLocation != value)
+                {
+                    m_PreferredLocation = value;
+                    OnPropertyChanged(nameof(PreferredLocation));
                 }
             }
         }

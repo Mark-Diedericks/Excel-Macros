@@ -5,6 +5,7 @@
  * Textual editor view model
  */
 
+using Excel_Macros_INTEROP;
 using Excel_Macros_UI.Model;
 using Excel_Macros_UI.Routing;
 using Excel_Macros_UI.View;
@@ -28,7 +29,8 @@ namespace Excel_Macros_UI.ViewModel
 
         public override void Save(Action OnComplete)
         {
-            throw new NotImplementedException();
+            Main.GetMacro(Macro).SetSource(Source.Text);
+            Main.GetMacro(Macro).Save();
             OnComplete?.Invoke();
         }
 
@@ -39,7 +41,7 @@ namespace Excel_Macros_UI.ViewModel
 
         public override void Stop(Action OnComplete)
         {
-            throw new NotImplementedException();
+            Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().TerminateExecution();
             OnComplete?.Invoke();
         }
 

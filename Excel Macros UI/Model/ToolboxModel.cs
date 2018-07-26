@@ -1,4 +1,5 @@
 ﻿using Excel_Macros_UI.Model.Base;
+using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.View;
 using System;
 using System.Collections.Generic;
@@ -21,12 +22,14 @@ namespace Excel_Macros_UI.Model
         {
             s_Instance = this;
             MainWindow.DocumentChangedEvent += MainWindow_DocumentChangedEvent;
+
+            PreferredLocation = PaneLocation.Left;
         }
 
         private void MainWindow_DocumentChangedEvent(ViewModel.Base.DocumentViewModel vm)
         {
             //Change between textual and visual toolbox items
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }
