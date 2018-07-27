@@ -235,7 +235,7 @@ namespace Excel_Macros_UI.ViewModel
 
                     if (root == null)
                     {
-                        root = new DataTreeViewItem() { level = 1, name = fileitems[0], macro = id, root = "/", folder = !(fileitems[0].ToLower().EndsWith(".ipy") || fileitems[0].ToLower().EndsWith(".ipy")), children = new List<DataTreeViewItem>() };
+                        root = new DataTreeViewItem() { level = 1, name = fileitems[0], macro = id, root = "/", folder = !fileitems[0].ToLower().EndsWith(".ipy"), children = new List<DataTreeViewItem>() };
                         items.Add(root);
                     }
 
@@ -250,7 +250,7 @@ namespace Excel_Macros_UI.ViewModel
 
                             if (child == null)
                             {
-                                child = new DataTreeViewItem() { level = lev, name = fileitems[i], macro = id, root = parent.root + "/" + parent.name, folder = !(fileitems[i].ToLower().EndsWith(".ipy") || fileitems[i].ToLower().EndsWith(".ipy")), children = new List<DataTreeViewItem>() };
+                                child = new DataTreeViewItem() { level = lev, name = fileitems[i], macro = id, root = parent.root + "/" + parent.name, folder = !fileitems[i].ToLower().EndsWith(".ipy"), children = new List<DataTreeViewItem>() };
                                 parent.children.Add(child);
                             }
 
