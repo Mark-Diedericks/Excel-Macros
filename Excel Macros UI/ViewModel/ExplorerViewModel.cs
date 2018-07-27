@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -21,21 +22,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Excel_Macros_UI.ViewModel
 {
-    /// <summary>
-    /// Custom data structure for holding the data of each tree view item
-    /// </summary>
-    public class CustomTreeViewItem
-    {
-        public int level;
-        public string name;
-        public Guid macro;
-        public string root;
-        public List<CustomTreeViewItem> children;
-    }
-
     public class ExplorerViewModel : ToolViewModel
     {
         private bool m_IsCreating = false;
@@ -68,7 +58,7 @@ namespace Excel_Macros_UI.ViewModel
 
         #region SelectedItem
 
-        public CustomTreeViewItem SelectedItem
+        public DisplayableTreeViewItem SelectedItem
         {
             get
             {
@@ -88,7 +78,7 @@ namespace Excel_Macros_UI.ViewModel
 
         #region ItemSource
 
-        public ObservableCollection<CustomTreeViewItem> ItemSource
+        public ObservableCollection<DisplayableTreeViewItem> ItemSource
         {
             get
             {
@@ -106,128 +96,132 @@ namespace Excel_Macros_UI.ViewModel
 
         #endregion
 
-        /*#region Tree View Population Through Recursion
+        #region LabelVisibility
+
+        public Visibility LabelVisibility
+        {
+            get
+            {
+                return Model.LabelVisibility;
+            }
+            set
+            {
+                if(Model.LabelVisibility != value)
+                {
+                    Model.LabelVisibility = value;
+                    OnPropertyChanged(nameof(LabelVisibility));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Tree View Population Through Recursion
 
         private void CheckVisibility()
         {
             Dictionary<Guid, IMacro>.KeyCollection keys = Main.GetMacros().Keys;
             if (keys.Count == 0)
-                lblNoMacros.Visibility = Visibility.Visible;
+                LabelVisibility = Visibility.Visible;
             else
-                lblNoMacros.Visibility = Visibility.Hidden;
+                LabelVisibility = Visibility.Hidden;
         }
 
         private void Initialize()
         {
-            if (((ExplorerViewModel)DataContext).ItemSource == null)
+            Dictionary<Guid, IMacro>.KeyCollection keys = Main.GetMacros().Keys;
+            HashSet<DataTreeViewItem> items = CreateTreeViewItemStructure(keys.ToList<Guid>());
+
+            foreach (DataTreeViewItem item in items)
             {
-                Dictionary<Guid, IMacro>.KeyCollection keys = Main.GetMacros().Keys;
-                HashSet<CustomTreeViewItem> items = CreateTreeViewItemStructure(keys.ToList<Guid>());
+                DisplayableTreeViewItem tvi = CreateTreeViewItem(null, item);
 
-                foreach (CustomTreeViewItem item in items)
-                {
-                    tvMacroView.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-                    {
-                        TreeViewItem tvi = CreateTreeViewItem(null, item);
-
-                        if (tvi != null)
-                            tvMacroView.Items.Add(tvi);
-                    }));
-                }
-
-                tvMacroView.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => tvMacroView.Items.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending))));
-                tvMacroView.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => tvMacroView.Items.Refresh()));
-
-                ((ExplorerViewModel)DataContext).ItemSource = tvMacroView.Items;
+                if (tvi != null)
+                    ItemSource.Add(tvi);
             }
-            else
-            {
-                foreach (TreeViewItem tvi in ((ExplorerViewModel)DataContext).ItemSource)
-                    tvMacroView.Items.Add(AddEvent(tvi));
-            }
+
+            //tvMacroView.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => tvMacroView.Items.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending))));
+            //tvMacroView.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => tvMacroView.Items.Refresh()));
 
             CheckVisibility();
             Main.GetInstance().OnMacroCountChanged += CheckVisibility;
         }
 
-        private TreeViewItem AddEvent(TreeViewItem item)
+        private DisplayableTreeViewItem AddEvent(DisplayableTreeViewItem item)
         {
             if (item == null)
                 return item;
 
-            item.PreviewMouseRightButtonDown += TreeViewItem_OnPreviewMouseRightButtonDown;
+            item.RightClickEvent += TreeViewItem_OnPreviewMouseRightButtonDown;
 
             for (int i = 0; i < item.Items.Count; i++)
-                item.Items[i] = AddEvent(item.Items[i] as TreeViewItem);
+                item.Items[i] = AddEvent(item.Items[i] as DisplayableTreeViewItem);
 
             return item;
         }
 
-        private TreeViewItem CreateTreeViewItem(TreeViewItem parent, CustomTreeViewItem ctvi)
+        private DisplayableTreeViewItem CreateTreeViewItem(DisplayableTreeViewItem parent, DataTreeViewItem data)
         {
-            TreeViewItem tvi = new TreeViewItem();
-            tvi.DataContext = ctvi;
-            tvi.Header = ctvi.name;
+            DisplayableTreeViewItem item = new DisplayableTreeViewItem();
+            item.Header = data.name;
+            item.IsFolder = data.folder;
 
-            if (ctvi.children != null)
+            if (data.children != null)
             {
-                foreach (CustomTreeViewItem child in ctvi.children)
+                foreach (DataTreeViewItem child in data.children)
                 {
-                    TreeViewItem node = CreateTreeViewItem(tvi, child);
+                    DisplayableTreeViewItem node = CreateTreeViewItem(item, child);
 
                     if (node != null)
-                        tvMacroView.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => tvi.Items.Add(node)));
+                        item.Items.Add(node);
                 }
             }
 
-            if (ctvi.name.ToLower().Trim().EndsWith(FileManager.PYTHON_FILE_EXT))
+            if (!data.folder)
             {
-                tvi.Tag = ctvi.macro.ToString();
-                tvi.PreviewMouseRightButtonDown += TreeViewItem_OnPreviewMouseRightButtonDown;
+                item.ID = data.macro;
 
-                tvi.Selected += delegate (object sender, RoutedEventArgs args) { ((ExplorerViewModel)DataContext).SelectedItem = tvi; };
-                tvi.MouseDoubleClick += delegate (object sender, MouseButtonEventArgs args) { OpenMacro(ctvi.macro); args.Handled = true; };
-            }
-            else
-            {
-                tvi.Tag = ctvi.root;
-                tvi.PreviewMouseRightButtonDown += TreeViewItem_OnPreviewMouseRightButtonDown;
+                item.SelectedEvent += delegate (object sender, RoutedEventArgs args) { SelectedItem = item; };
+                item.DoubleClickEvent += delegate (object sender, MouseButtonEventArgs args) { OpenMacro(data.macro); args.Handled = true; };
             }
 
-            return tvi;
+            item.Root = data.root;
+            item.RightClickEvent += TreeViewItem_OnPreviewMouseRightButtonDown;
+
+            return item;
         }
 
-        private HashSet<CustomTreeViewItem> CreateTreeViewItemStructure(List<Guid> macros)
+        private HashSet<DataTreeViewItem> CreateTreeViewItemStructure(List<Guid> macros)
         {
-            HashSet<CustomTreeViewItem> items = new HashSet<CustomTreeViewItem>();
+            HashSet<DataTreeViewItem> items = new HashSet<DataTreeViewItem>();
 
             foreach (Guid id in macros)
             {
-                string path = tvMacroView.Dispatcher.Invoke(() => Regex.Replace(Main.GetDeclaration(id).relativepath, @"/+", System.IO.Path.DirectorySeparatorChar.ToString()));
+                string path = Regex.Replace(Main.GetDeclaration(id).relativepath, @"/+", System.IO.Path.DirectorySeparatorChar.ToString());
                 string[] fileitems = path.Split(System.IO.Path.DirectorySeparatorChar).Where<string>(x => !String.IsNullOrEmpty(x)).ToArray<string>();
 
                 if (fileitems.Any())
                 {
-                    CustomTreeViewItem root = items.FirstOrDefault(x => x.name.Equals(fileitems[0]) && x.level.Equals(1));
+                    DataTreeViewItem root = items.FirstOrDefault(x => x.name.Equals(fileitems[0]) && x.level.Equals(1));
 
                     if (root == null)
                     {
-                        root = new CustomTreeViewItem() { level = 1, name = fileitems[0], macro = id, root = "/", children = new List<CustomTreeViewItem>() };
+                        root = new DataTreeViewItem() { level = 1, name = fileitems[0], macro = id, root = "/", folder = true, children = new List<DataTreeViewItem>() };
                         items.Add(root);
                     }
 
                     if (fileitems.Length > 1)
                     {
-                        CustomTreeViewItem parent = root;
+                        DataTreeViewItem parent = root;
                         int lev = 2;
 
                         for (int i = 1; i < fileitems.Length; i++)
                         {
-                            CustomTreeViewItem child = parent.children.FirstOrDefault(x => x.name.Equals(fileitems[i]) && x.level.Equals(lev));
+                            DataTreeViewItem child = parent.children.FirstOrDefault(x => x.name.Equals(fileitems[i]) && x.level.Equals(lev));
 
                             if (child == null)
                             {
-                                child = new CustomTreeViewItem() { level = lev, name = fileitems[i], macro = id, root = parent.root + "/" + parent.name, children = new List<CustomTreeViewItem>() };
+                                child = new DataTreeViewItem() { level = lev, name = fileitems[i], macro = id, root = parent.root + "/" + parent.name, folder = !(fileitems[i].ToLower().EndsWith(".ipy") || fileitems[i].ToLower().EndsWith(".ipy")), children = new List<DataTreeViewItem>() };
                                 parent.children.Add(child);
                             }
 
@@ -245,7 +239,7 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Tree View Context Menu
 
-        private void ExplorerView_Loaded(object s, RoutedEventArgs e)
+        public ContextMenu CreateTreeViewContextMenu()
         {
             ContextMenu cm = new ContextMenu();
             cm.Style = Resources["ContextMenuMetroStyle"] as Style;
@@ -255,9 +249,8 @@ namespace Excel_Macros_UI.ViewModel
             mi_create.Click += delegate (object sender, RoutedEventArgs args)
             {
                 CreateMacro(null, MacroType.PYTHON, "/");
-                tvMacroView.ContextMenu.IsOpen = false;
+                cm.IsOpen = false;
             };
-            mi_create.DataContext = tvMacroView;
             mi_create.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_create);
 
@@ -266,9 +259,8 @@ namespace Excel_Macros_UI.ViewModel
             mi_folder.Click += delegate (object sender, RoutedEventArgs args)
             {
                 CreateFolder(null, "/");
-                tvMacroView.ContextMenu.IsOpen = false;
+                cm.IsOpen = false;
             };
-            mi_folder.DataContext = tvMacroView;
             mi_folder.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_folder);
 
@@ -277,23 +269,19 @@ namespace Excel_Macros_UI.ViewModel
             mi_import.Click += delegate (object sender, RoutedEventArgs args)
             {
                 ImportMacro(null, "/");
-                tvMacroView.ContextMenu.IsOpen = false;
+                cm.IsOpen = false;
             };
-            mi_import.DataContext = tvMacroView;
             mi_import.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_import);
-
-            tvMacroView.ContextMenu = cm;
-            tvMacroView.MouseRightButtonDown += delegate (object sender, MouseButtonEventArgs args) { tvMacroView.ContextMenu.IsOpen = true; args.Handled = true; };
-
-            Initialize();
+            
+            return cm;
         }
 
         #endregion
 
         #region Tree View Item Context Menu
 
-        private ContextMenu CreateContextMenuFolder(TreeViewItem item, string name, string path)
+        private ContextMenu CreateContextMenuFolder(DisplayableTreeViewItem item, string name, string path)
         {
             ContextMenu cm = new ContextMenu();
             cm.Style = Resources["ContextMenuMetroStyle"] as Style;
@@ -304,9 +292,8 @@ namespace Excel_Macros_UI.ViewModel
             {
                 item.IsExpanded = true;
                 CreateMacro(item, MacroType.PYTHON, path + "/" + name + "/");
-                item.ContextMenu.IsOpen = false;
+                cm.IsOpen = false;
             };
-            mi_create.DataContext = item;
             mi_create.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_create);
 
@@ -316,9 +303,8 @@ namespace Excel_Macros_UI.ViewModel
             {
                 item.IsExpanded = true;
                 CreateFolder(item, path + "/" + name + "/");
-                item.ContextMenu.IsOpen = false;
+                cm.IsOpen = false;
             };
-            mi_folder.DataContext = item;
             mi_folder.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_folder);
 
@@ -328,9 +314,8 @@ namespace Excel_Macros_UI.ViewModel
             {
                 item.IsExpanded = true;
                 ImportMacro(item, path + "/" + name + "/");
-                item.ContextMenu.IsOpen = false;
+                cm.IsOpen = false;
             };
-            mi_import.DataContext = item;
             mi_import.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_import);
 
@@ -347,7 +332,6 @@ namespace Excel_Macros_UI.ViewModel
                 args.Handled = true;
                 cm.IsOpen = false;
             };
-            mi_del.DataContext = item;
             mi_del.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_del);
 
@@ -358,91 +342,88 @@ namespace Excel_Macros_UI.ViewModel
                 args.Handled = true;
                 cm.IsOpen = false;
 
-                string previousname = item.Header.ToString();
+                DisplayableTreeViewItem parentitem = item.Parent;
 
-                TextBox inputBox = new TextBox();
-                inputBox.BorderThickness = new Thickness(1);
+                string previousname = item.Header;
+                int index = -1;
 
-                inputBox.KeyUp += delegate (object s, KeyEventArgs a)
+                if (parentitem == null)
+                    index = ItemSource.IndexOf(item);
+                else
+                    index = parentitem.Items.IndexOf(item);
+
+                if (index == -1)
+                    return;
+
+                //TextBox inputBox = new TextBox();
+                //inputBox.BorderThickness = new Thickness(1);
+
+                InputableTreeViewItem inputitem = new InputableTreeViewItem();
+
+                inputitem.KeyUpEvent = delegate (object s, KeyEventArgs a)
                 {
                     if (a.Key == Key.Return)
                     {
-                        Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { item.Focus(); Keyboard.ClearFocus(); }));
+                        MainWindow.GetInstance().Focus();
+                        Keyboard.ClearFocus();
                     }
                     else if (a.Key == Key.Escape)
                     {
-                        inputBox.Visibility = Visibility.Hidden;
+                        inputitem.Visibility = Visibility.Hidden;
                         item.Header = previousname;
                     }
                 };
 
-                inputBox.LostFocus += delegate (object s, RoutedEventArgs a)
+                inputitem.FocusLostEvent = delegate (object s, RoutedEventArgs a)
                 {
-                    if (!inputBox.IsVisible)
+                    if (inputitem.Visibility != Visibility.Visible)
                         return;
-
-                    if (item.Header.GetType() != typeof(TextBox))
-                    {
-                        Routing.EventManager.DisplayOkMessage("Error renaming the folder.", "Renaming Error");
-                        if (item.Parent is TreeViewItem)
-                            (item.Parent as TreeViewItem).Items.Remove(item);
-                        else
-                            tvMacroView.Items.Remove(item);
-                        return;
-                    }
-                    else if (String.IsNullOrEmpty((item.Header as TextBox).Text))
+                    
+                    if (String.IsNullOrEmpty(inputitem.Header))
                     {
                         Routing.EventManager.DisplayOkMessage("Please enter a valid name.", "Invalid Name");
-                        Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { inputBox.Focus(); }));
+                        inputitem.FocusEvent?.BeginInvoke(null, null);
                         return;
                     }
 
-                    int index = -1;
-
-                    DependencyObject parentobj = item.Parent;
-                    TreeViewItem parentitem = GetDependencyObjectFromVisualTree(parentobj, typeof(TreeViewItem)) as TreeViewItem;
+                    string newname = inputitem.Header;
+                    Main.RenameFolder(path + name, path + newname);
+                    item.Header = newname;
 
                     if (parentitem == null)
-                        index = tvMacroView.Items.IndexOf(item);
+                        ItemSource.Remove(inputitem);
                     else
-                        index = parentitem.Items.IndexOf(item);
-
-                    if (index == -1)
-                        return;
-
-                    string newname = (item.Header as TextBox).Text;
-                    Dispatcher.Invoke(() => Main.RenameFolder(path + name, path + newname));
-                    item.Header = (item.Header as TextBox).Text;
-
-                    ((ExplorerViewModel)DataContext).ItemSource = tvMacroView.Items;
+                        parentitem.Items.Remove(inputitem);
                 };
 
-                item.Header = inputBox;
-                Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { inputBox.Focus(); }));
-            };
+                item.Visibility = Visibility.Hidden;
 
-            mi_rename.DataContext = item;
+                if (parentitem == null)
+                    ItemSource.Add(inputitem);
+                else
+                    parentitem.Items.Add(inputitem);
+            };
+            
             mi_rename.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_rename);
 
             return cm;
         }
 
-        private ContextMenu CreateContextMenuMacro(TreeViewItem item, string name, Guid id)
+        private ContextMenu CreateContextMenuMacro(DisplayableTreeViewItem item, string name, Guid id)
         {
             ContextMenu cm = new ContextMenu();
             cm.Style = Resources["ContextMenuMetroStyle"] as Style;
 
-            DependencyObject parentobj = item.Parent;
-            TreeViewItem parentitem = GetDependencyObjectFromVisualTree(parentobj, typeof(TreeViewItem)) as TreeViewItem;
+            DisplayableTreeViewItem parentitem = item.Parent;
 
-            if (!Dispatcher.Invoke(() => Main.GetMacros().ContainsKey(id)))
+            if (Main.GetMacro(id) == null)
             {
                 Routing.EventManager.DisplayOkMessage("Could not find the macro (when attempting to create a context menu): " + name, "Macro Error");
                 return null;
             }
 
-            IMacro macro = Dispatcher.Invoke(() => Main.GetMacros()[id]);
+            IMacro macro = Main.GetMacro(id);
 
             MenuItem mi_edit = new MenuItem();
             mi_edit.Header = "Edit";
@@ -452,7 +433,6 @@ namespace Excel_Macros_UI.ViewModel
                 args.Handled = true;
                 cm.IsOpen = false;
             };
-            mi_edit.DataContext = item;
             mi_edit.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_edit);
 
@@ -465,7 +445,6 @@ namespace Excel_Macros_UI.ViewModel
                 args.Handled = true;
                 cm.IsOpen = false;
             };
-            mi_execute.DataContext = item;
             mi_execute.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_execute);
 
@@ -478,7 +457,6 @@ namespace Excel_Macros_UI.ViewModel
                 args.Handled = true;
                 cm.IsOpen = false;
             };
-            mi_executea.DataContext = item;
             mi_executea.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_executea);
 
@@ -494,7 +472,6 @@ namespace Excel_Macros_UI.ViewModel
                 args.Handled = true;
                 cm.IsOpen = false;
             };
-            mi_export.DataContext = item;
             mi_export.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_export);
 
@@ -502,12 +479,11 @@ namespace Excel_Macros_UI.ViewModel
             mi_del.Header = "Delete";
             mi_del.Click += delegate (object sender, RoutedEventArgs args)
             {
-                DeleteMacro(parentitem, item, macro);
+                DeleteMacro(item, macro);
 
                 args.Handled = true;
                 cm.IsOpen = false;
             };
-            mi_del.DataContext = item;
             mi_del.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_del);
 
@@ -518,78 +494,73 @@ namespace Excel_Macros_UI.ViewModel
                 args.Handled = true;
                 cm.IsOpen = false;
 
-                string previousname = item.Header.ToString();
+                string previousname = item.Header;
+                int index = -1;
 
-                TextBox inputBox = new TextBox();
-                inputBox.BorderThickness = new Thickness(1);
+                if (parentitem == null)
+                    index = ItemSource.IndexOf(item);
+                else
+                    index = parentitem.Items.IndexOf(item);
 
-                inputBox.KeyUp += delegate (object s, KeyEventArgs a)
+                if (index == -1)
+                    return;
+
+                //TextBox inputBox = new TextBox();
+                //inputBox.BorderThickness = new Thickness(1);
+
+                InputableTreeViewItem inputitem = new InputableTreeViewItem();
+
+                inputitem.KeyUpEvent = delegate (object s, KeyEventArgs a)
                 {
                     if (a.Key == Key.Return)
                     {
-                        Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { item.Focus(); Keyboard.ClearFocus(); }));
+                        MainWindow.GetInstance().Focus();
+                        Keyboard.ClearFocus();
                     }
                     else if (a.Key == Key.Escape)
                     {
-                        inputBox.Visibility = Visibility.Hidden;
-                        item.Header = previousname;
+                        inputitem.Visibility = Visibility.Hidden;
+                        inputitem.Header = previousname;
                     }
                 };
 
-                inputBox.LostFocus += delegate (object s, RoutedEventArgs a)
+                inputitem.FocusLostEvent = delegate (object s, RoutedEventArgs a)
                 {
-                    if (!inputBox.IsVisible)
+                    if (inputitem.Visibility != Visibility.Visible)
                         return;
 
-                    if (item.Header.GetType() != typeof(TextBox))
-                    {
-                        Routing.EventManager.DisplayOkMessage("Error renaming the macro.", "Renaming Error");
-                        tvMacroView.Items.Remove(item);
-                        return;
-                    }
-                    else if (String.IsNullOrEmpty((item.Header as TextBox).Text))
+                    
+                    if (String.IsNullOrEmpty(inputitem.Header))
                     {
                         Routing.EventManager.DisplayOkMessage("Please enter a valid name.", "Invalid Name");
-                        Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { inputBox.Focus(); }));
+                        inputitem.FocusEvent?.Invoke();
                         return;
                     }
 
-                    if (!(item.Header as TextBox).Text.EndsWith(FileManager.PYTHON_FILE_EXT))
-                        (item.Header as TextBox).Text += FileManager.PYTHON_FILE_EXT;
+                    if (!inputitem.Header.EndsWith(FileManager.PYTHON_FILE_EXT))
+                        inputitem.Header += FileManager.PYTHON_FILE_EXT;
 
-                    int index = -1;
 
+                    string newname = inputitem.Header;
+                    Guid decl = Main.RenameMacro(id, newname);
+                    item.Header = newname;
+                    item.Visibility = Visibility.Visible;
+                    
                     if (parentitem == null)
-                    {
-
-                        index = tvMacroView.Items.IndexOf(item);
-
-                        if (index == -1)
-                            return;
-
-                        string newname = (item.Header as TextBox).Text;
-                        Guid decl = Dispatcher.Invoke(() => Main.RenameMacro(id, newname));
-                        (tvMacroView.Items[index] as TreeViewItem).Header = Dispatcher.Invoke(() => Main.GetDeclaration(decl).name);
-                    }
+                        ItemSource.Remove(inputitem);
                     else
-                    {
-                        index = parentitem.Items.IndexOf(item);
-
-                        if (index == -1)
-                            return;
-
-                        string newname = (item.Header as TextBox).Text;
-                        Guid decl = Dispatcher.Invoke(() => Main.RenameMacro(id, newname));
-                        (parentitem.Items[index] as TreeViewItem).Header = Dispatcher.Invoke(() => Main.GetDeclaration(decl).name);
-                    }
-
-                    ((ExplorerViewModel)DataContext).ItemSource = tvMacroView.Items;
+                        parentitem.Items.Remove(inputitem);
                 };
 
-                item.Header = inputBox;
-                Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { inputBox.Focus(); }));
+                item.Visibility = Visibility.Hidden;
+
+                if (parentitem == null)
+                    ItemSource.Add(inputitem);
+                else
+                    parentitem.Items.Add(inputitem);
+
+                inputitem.FocusEvent?.BeginInvoke(null, null);
             };
-            mi_rename.DataContext = item;
             mi_rename.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_rename);
 
@@ -601,18 +572,17 @@ namespace Excel_Macros_UI.ViewModel
 
             mi_add.Click += delegate (object sender, RoutedEventArgs args)
             {
-                if (Dispatcher.Invoke(() => Main.IsRibbonMacro(id)))
+                if (Main.IsRibbonMacro(id))
                     Main.AddRibbonMacro(id);
                 else
                     Main.RemoveRibbonMacro(id);
 
-                mi_add.Header = Dispatcher.Invoke(() => Main.IsRibbonMacro(id)) ? "Remove From Ribbon" : "Add To Ribbon";
+                mi_add.Header = Main.IsRibbonMacro(id) ? "Remove From Ribbon" : "Add To Ribbon";
                 args.Handled = true;
                 cm.IsOpen = false;
             };
 
-            mi_add.Header = Dispatcher.Invoke(() => Main.IsRibbonMacro(id)) ? "Remove From Ribbon" : "Add To Ribbon";
-            mi_add.DataContext = item;
+            mi_add.Header = Main.IsRibbonMacro(id) ? "Remove From Ribbon" : "Add To Ribbon";
             mi_add.Style = Resources["MenuItemMetroStyle"] as Style;
             cm.Items.Add(mi_add);
 
@@ -622,23 +592,21 @@ namespace Excel_Macros_UI.ViewModel
         private void TreeViewItem_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs args)
         {
             DependencyObject obj = args.OriginalSource as DependencyObject;
-            TreeViewItem item = GetDependencyObjectFromVisualTree(obj, typeof(TreeViewItem)) as TreeViewItem;
+            TreeViewItem tvi = obj as TreeViewItem;
+            DisplayableTreeViewItem item = tvi.DataContext as DisplayableTreeViewItem;
 
-            item.IsSelected = true;
-
-            string header = item.Header.ToString();
-            string tagstring = item.Tag as string;
+            SelectedItem = item;
 
             ContextMenu cm;
             //ThemeManager.ChangeAppStyle(Main.GetExcelDispatcher().Invoke(() => Main.GetMacroManager()), ThemeManager.GetAccent("ExcelAccent"), ThemeManager.GetAppTheme("BaseLight"));
 
-            if (header.ToLower().Trim().EndsWith(FileManager.PYTHON_FILE_EXT))
+            if (!item.IsFolder)
             {
-                cm = CreateContextMenuMacro(item, header, Guid.Parse(tagstring));
+                cm = CreateContextMenuMacro(item, item.Header, item.ID);
             }
             else
             {
-                cm = CreateContextMenuFolder(item, header, tagstring);
+                cm = CreateContextMenuFolder(item, item.Header, item.Root);
             }
 
             if (cm == null)
@@ -647,263 +615,248 @@ namespace Excel_Macros_UI.ViewModel
                 return;
             }
 
-            item.ContextMenu = cm;
-            item.ContextMenu.IsOpen = true;
+            tvi.ContextMenu = cm;
+            tvi.ContextMenu.IsOpen = true;
         }
 
         #endregion
 
         #region Tree View Functions & Item Functions
-
-        private DependencyObject GetDependencyObjectFromVisualTree(DependencyObject obj, Type type)
+        
+        public void DeleteFolder(DisplayableTreeViewItem item, string path, string name)
         {
-            DependencyObject parent = obj;
-
-            while (parent != null)
-            {
-                if (type.IsInstanceOfType(parent))
-                    break;
-
-                parent = VisualTreeHelper.GetParent(parent);
-            }
-
-            return parent;
-        }
-
-        public void DeleteFolder(TreeViewItem item, string path, string name)
-        {
-            Main.DeleteFolder(path + "/" + name, async (result) =>
+            Main.DeleteFolder(path + "/" + name, (result) =>
             {
                 if (result)
                 {
-                    if (item.Parent is TreeViewItem)
-                        await Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { (item.Parent as TreeViewItem).Items.Remove(item); }));
+                    if (item.Parent is DisplayableTreeViewItem)
+                        (item.Parent as DisplayableTreeViewItem).Items.Remove(item);
                     else
-                        await Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { tvMacroView.Items.Remove(item); }));
-
-                    await Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => ((ExplorerViewModel)DataContext).ItemSource = tvMacroView.Items));
+                        ItemSource.Remove(item);
                 }
             });
         }
 
-        public void DeleteMacro(TreeViewItem parent, TreeViewItem item, IMacro macro)
+        public void DeleteMacro(DisplayableTreeViewItem item, IMacro macro)
         {
-            macro.Delete(async (result) =>
+            macro.Delete((result) =>
             {
                 if (result)
                 {
-                    if (item.Parent is TreeViewItem)
-                        await Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { (item.Parent as TreeViewItem).Items.Remove(item); }));
+                    if (item.Parent != null)
+                        (item.Parent as DisplayableTreeViewItem).Items.Remove(item);
                     else
-                        await Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { tvMacroView.Items.Remove(item); }));
-
-                    await Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => ((ExplorerViewModel)DataContext).ItemSource = tvMacroView.Items));
+                        ItemSource.Remove(item);
                 }
             });
         }
 
-        public void ImportMacro(TreeViewItem parent, string relativepath)
+        public void ImportMacro(DisplayableTreeViewItem parent, string relativepath)
         {
             MainWindow.GetInstance().ImportMacro(relativepath, (id) =>
             {
                 if (id == Guid.Empty)
                     return;
 
-                TreeViewItem tvi = new TreeViewItem();
-                tvi.Header = tvMacroView.Dispatcher.Invoke(() => Main.GetDeclaration(id).name);
-                tvi.Tag = id.ToString(); ;
+                DisplayableTreeViewItem item = new DisplayableTreeViewItem();
+                item.Header = Main.GetDeclaration(id).name;
+                item.IsFolder = false;
+                item.ID = id;
 
-                tvi.PreviewMouseRightButtonDown += TreeViewItem_OnPreviewMouseRightButtonDown;
+                item.RightClickEvent = TreeViewItem_OnPreviewMouseRightButtonDown;
 
-                tvi.Selected += delegate (object sender, RoutedEventArgs args) { ((ExplorerViewModel)DataContext).SelectedItem = tvi; };
-                tvi.MouseDoubleClick += delegate (object sender, MouseButtonEventArgs args) { OpenMacro(id); args.Handled = true; };
+                item.SelectedEvent = delegate (object sender, RoutedEventArgs args) { SelectedItem = item; };
+                item.DoubleClickEvent = delegate (object sender, MouseButtonEventArgs args) { OpenMacro(id); args.Handled = true; };
 
                 if (parent == null)
-                    tvMacroView.Items.Add(tvi);
+                {
+                    item.Root = "/";
+                    ItemSource.Add(item);
+                }
                 else
-                    parent.Items.Add(tvi);
-
-                ((ExplorerViewModel)DataContext).ItemSource = tvMacroView.Items;
-
+                {
+                    item.Root = parent.Root + "/" + parent.Header + "/";
+                    parent.Items.Add(item);
+                }
+                
                 OpenMacro(id);
             });
         }
 
-        public void CreateMacro(TreeViewItem parent, MacroType type, string root)
+        public void CreateMacro(DisplayableTreeViewItem parent, MacroType type, string root)
         {
             if (m_IsCreating)
                 return;
 
             m_IsCreating = true;
 
-            TextBox inputBox = new TextBox();
-            inputBox.BorderThickness = new Thickness(1);
+            //TextBox inputBox = new TextBox();
+            //inputBox.BorderThickness = new Thickness(1);
 
-            TreeViewItem tvi = new TreeViewItem();
+            InputableTreeViewItem item = new InputableTreeViewItem();
 
-            inputBox.KeyUp += delegate (object s, KeyEventArgs a)
+            item.KeyUpEvent = delegate (object s, KeyEventArgs a)
             {
                 if (a.Key == Key.Return)
                 {
-                    Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { tvi.Focus(); Keyboard.ClearFocus(); }));
+                    MainWindow.GetInstance().Focus();
+                    Keyboard.ClearFocus();
                 }
                 else if (a.Key == Key.Escape)
                 {
-                    inputBox.Visibility = Visibility.Hidden;
+                    item.Visibility = Visibility.Hidden;
 
                     if (parent == null)
-                        tvMacroView.Items.Remove(tvi);
+                        ItemSource.Remove(item);
                     else
-                        parent.Items.Remove(tvi);
+                        parent.Items.Remove(item);
                 }
             };
 
-            inputBox.LostFocus += delegate (object s, RoutedEventArgs a)
+            item.FocusLostEvent = delegate (object s, RoutedEventArgs a)
             {
-                if (!inputBox.IsVisible)
+                if (item.Visibility != Visibility.Visible)
                     return;
-
-                if (tvi.Header.GetType() != typeof(TextBox))
-                {
-                    Routing.EventManager.DisplayOkMessage("Error creating the macro.", "Creation error");
-                    tvMacroView.Items.Remove(tvi);
-                    return;
-                }
-                else if (String.IsNullOrEmpty((tvi.Header as TextBox).Text))
+                
+                if (String.IsNullOrEmpty(item.Header))
                 {
                     Routing.EventManager.DisplayOkMessage("Please enter a valid name.", "Invalid name");
-                    tvMacroView.Items.Remove(tvi);
+
+                    if (parent == null)
+                        ItemSource.Remove(item);
+                    else
+                        parent.Items.Remove(item);
+
                     CreateMacro(parent, type, root);
                     return;
                 }
 
-                if (!(tvi.Header as TextBox).Text.EndsWith(FileManager.PYTHON_FILE_EXT))
-                    (tvi.Header as TextBox).Text += FileManager.PYTHON_FILE_EXT;
+                if (!item.Header.EndsWith(FileManager.PYTHON_FILE_EXT))
+                    item.Header += FileManager.PYTHON_FILE_EXT;
 
-                (tvi.Header as TextBox).Text = Regex.Replace((tvi.Header as TextBox).Text, "[^0-9a-zA-Z ._-]", "");
+                item.Header = Regex.Replace(item.Header, "[^0-9a-zA-Z ._-]", "");
 
-                Guid id = MainWindow.GetInstance().CreateMacro(type, root + "/" + (tvi.Header as TextBox).Text);
+                Guid id = MainWindow.GetInstance().CreateMacro(type, root + "/" + item.Header);
+                
+                if (parent == null)
+                    ItemSource.Remove(item);
+                else
+                    parent.Items.Remove(item);
 
                 if (id == Guid.Empty)
-                {
-                    tvMacroView.Items.Remove(tvi);
-
-                    if (parent == null)
-                        tvMacroView.Items.Refresh();
-                    else
-                        parent.Items.Refresh();
-
                     return;
-                }
 
-                tvi.Header = tvMacroView.Dispatcher.Invoke(() => Main.GetDeclaration(id).name);
-                tvi.DataContext = new CustomTreeViewItem() { name = Main.GetDeclaration(id).name, macro = id, root = root };
-                tvi.Tag = id.ToString();
+                DisplayableTreeViewItem newItem = new DisplayableTreeViewItem();
 
+                newItem.Header = Main.GetDeclaration(id).name;
+                newItem.ID = id;
+                newItem.Root = root;
+                newItem.Parent = parent;
+                newItem.IsFolder = false;
+
+                newItem.RightClickEvent = TreeViewItem_OnPreviewMouseRightButtonDown;
+
+                newItem.SelectedEvent = delegate (object sender, RoutedEventArgs args) { SelectedItem = newItem; };
+                newItem.DoubleClickEvent = delegate (object sender, MouseButtonEventArgs args) { OpenMacro(id); args.Handled = true; };
+                
                 if (parent == null)
-                    tvMacroView.Items.Refresh();
+                    ItemSource.Add(newItem);
                 else
-                    parent.Items.Refresh();
-
-                tvi.PreviewMouseRightButtonDown += TreeViewItem_OnPreviewMouseRightButtonDown;
-
-                tvi.Selected += delegate (object sender, RoutedEventArgs args) { ((ExplorerViewModel)DataContext).SelectedItem = tvi; };
-                tvi.MouseDoubleClick += delegate (object sender, MouseButtonEventArgs args) { OpenMacro(id); args.Handled = true; };
-
-                ((ExplorerViewModel)DataContext).ItemSource = tvMacroView.Items;
+                    parent.Items.Add(newItem);
 
                 m_IsCreating = false;
                 OpenMacro(id);
             };
-
-            tvi.Header = inputBox;
-
+            
             if (parent == null)
-                tvMacroView.Items.Add(tvi);
+                ItemSource.Add(item);
             else
-                parent.Items.Add(tvi);
+                parent.Items.Add(item);
 
-            Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { inputBox.Focus(); }));
+            item.FocusEvent?.BeginInvoke(null, null);
         }
 
-        private void CreateFolder(TreeViewItem parent, string root)
+        private void CreateFolder(DisplayableTreeViewItem parent, string root)
         {
             if (m_IsCreating)
                 return;
 
             m_IsCreating = true;
 
-            TextBox inputBox = new TextBox();
-            inputBox.BorderThickness = new Thickness(1);
+            //TextBox inputBox = new TextBox();
+            //inputBox.BorderThickness = new Thickness(1);
 
-            TreeViewItem tvi = new TreeViewItem();
+            InputableTreeViewItem item = new InputableTreeViewItem();
 
-            inputBox.KeyUp += delegate (object s, KeyEventArgs a)
+            item.KeyUpEvent = delegate (object s, KeyEventArgs a)
             {
                 if (a.Key == Key.Return)
                 {
-                    Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { tvi.Focus(); Keyboard.ClearFocus(); }));
+                    MainWindow.GetInstance().Focus();
+                    Keyboard.ClearFocus();
                 }
                 else if (a.Key == Key.Escape)
                 {
-                    inputBox.Visibility = Visibility.Hidden;
+                    item.Visibility = Visibility.Hidden;
 
                     if (parent == null)
-                        tvMacroView.Items.Remove(tvi);
+                        ItemSource.Remove(item);
                     else
-                        parent.Items.Remove(tvi);
+                        parent.Items.Remove(item);
                 }
             };
 
-            inputBox.LostFocus += delegate (object s, RoutedEventArgs a)
+            item.FocusLostEvent = delegate (object s, RoutedEventArgs a)
             {
-                if (tvi.Header.GetType() != typeof(TextBox))
-                {
-                    Routing.EventManager.DisplayOkMessage("Error creating the folder.", "Creation Error");
-                    tvMacroView.Items.Remove(tvi);
-                    return;
-                }
-                else if (String.IsNullOrEmpty((tvi.Header as TextBox).Text))
+                if (String.IsNullOrEmpty(item.Header))
                 {
                     Routing.EventManager.DisplayOkMessage("Please enter a valid name.", "Invalid Name");
                     CreateFolder(parent, root);
                     return;
                 }
 
-                (tvi.Header as TextBox).Text = Regex.Replace((tvi.Header as TextBox).Text, @"[^0-9a-zA-Z]+", "");
+                item.Header = Regex.Replace(item.Header, @"[^0-9a-zA-Z]+", "");
 
-                string newname = (tvi.Header as TextBox).Text;
-                Dispatcher.Invoke(() => FileManager.CreateFolder((root + "/" + newname).Replace('\\', '/').Replace("//", "/")));
-
-                tvi.PreviewMouseRightButtonDown += TreeViewItem_OnPreviewMouseRightButtonDown;
-
-                tvi.Header = (tvi.Header as TextBox).Text;
+                string newname = item.Header;
+                FileManager.CreateFolder((root + "/" + newname).Replace('\\', '/').Replace("//", "/"));
 
                 if (parent == null)
-                    tvMacroView.Items.Refresh();
+                    ItemSource.Remove(item);
                 else
-                    parent.Items.Refresh();
+                    parent.Items.Remove(item);
 
-                ((ExplorerViewModel)DataContext).ItemSource = tvMacroView.Items;
+                DisplayableTreeViewItem newItem = new DisplayableTreeViewItem();
+
+                newItem.RightClickEvent = TreeViewItem_OnPreviewMouseRightButtonDown;
+
+                newItem.Header = newname;
+                newItem.Root = root;
+                newItem.IsFolder = true;
+                newItem.IsExpanded = false;
+                newItem.Parent = parent;
+
+                if (parent == null)
+                    ItemSource.Add(newItem);
+                else
+                    parent.Items.Add(newItem);
 
                 m_IsCreating = false;
             };
-
-            tvi.Header = inputBox;
-            tvi.Tag = root;
-            tvi.Items.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending));
+            
+            item.Root = root;
+            //tvi.Items.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending));
 
             if (parent == null)
-                tvMacroView.Items.Add(tvi);
+                ItemSource.Add(item);
             else
-                parent.Items.Add(tvi);
+                parent.Items.Add(item);
 
-            Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(delegate () { inputBox.Focus(); }));
+            item.FocusEvent?.BeginInvoke(null, null);
         }
 
         public void OpenMacro(Guid id)
         {
-            Dispatcher.Invoke(() => MainWindow.GetInstance().OpenMacroForEditing(id));
+            MainWindow.GetInstance().OpenMacroForEditing(id);
         }
 
         public void ExecuteMacro(Guid id, IMacro macro, bool async)
@@ -919,6 +872,6 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
-        #endregion*/
+        #endregion
     }
 }

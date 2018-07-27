@@ -39,9 +39,18 @@ namespace Excel_Macros_UI.View
         public ExplorerView()
         {
             InitializeComponent();
-            
-            //this.Loaded += ExplorerView_Loaded;
+
+            DataContextChanged += ExplorerView_DataContextChanged;
         }
+
+        private void ExplorerView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+            tvMacroView.ContextMenu = ((ExplorerViewModel)DataContext).CreateTreeViewContextMenu();
+            tvMacroView.MouseRightButtonDown += delegate (object s, MouseButtonEventArgs args) { tvMacroView.ContextMenu.IsOpen = true; args.Handled = true; };
+        }
+
+
 
         /*#region Tree View Population Through Recursion
 
