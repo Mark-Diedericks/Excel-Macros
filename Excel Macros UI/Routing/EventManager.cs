@@ -57,15 +57,22 @@ namespace Excel_Macros_UI.Routing
 
         private static EventManager s_Instance;
         private static App s_UIApp;
+        private static bool s_IsLoaded;
 
         private EventManager()
         {
             s_Instance = this;
+            s_IsLoaded = false;
         }
 
         public static EventManager GetInstance()
         {
             return s_Instance;
+        }
+
+        public static bool IsLoaded()
+        {
+            return s_IsLoaded;
         }
 
         public static void CreateApplicationInstance(Excel.Application application, Dispatcher dispatcher, string RibbonMacros)
@@ -208,6 +215,7 @@ namespace Excel_Macros_UI.Routing
 
         public static void LoadCompleted()
         {
+            s_IsLoaded = true;
             ApplicationLoaded?.Invoke();
         }
 

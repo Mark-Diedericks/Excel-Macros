@@ -36,12 +36,75 @@ namespace Excel_Macros_UI.Model
             Header = "";
             IsExpanded = false;
             IsFolder = false;
+            IsInputting = false;
             Root = "";
             ID = Guid.Empty;
-            Visibility = Visibility.Visible;
             Parent = null;
             Items = new ObservableCollection<DisplayableTreeViewItem>();
         }
+
+        public void Selected(object sender, RoutedEventArgs args)
+        {
+            SelectedEvent?.Invoke(sender, args);
+        }
+
+        public void DoubleClick(object sender, MouseButtonEventArgs args)
+        {
+            DoubleClickEvent?.Invoke(sender, args);
+        }
+
+        public void RightClick(object sender, MouseButtonEventArgs args)
+        {
+            RightClickEvent?.Invoke(sender, args);
+        }
+
+        public void FocusLost(object sender, RoutedEventArgs args)
+        {
+            FocusLostEvent?.Invoke(sender, args);
+        }
+
+        public void KeyUp(object sender, KeyEventArgs args)
+        {
+            KeyUpEvent?.Invoke(sender, args);
+        }
+        
+        #region IsInputting & IsDisplaying
+        private bool m_IsInputting;
+        public bool IsInputting
+        {
+            get
+            {
+                return m_IsInputting;
+            }
+            set
+            {
+                if (m_IsInputting != value)
+                {
+                    m_IsInputting = value;
+
+                    OnPropertyChanged(nameof(IsDisplaying));
+                    OnPropertyChanged(nameof(IsInputting));
+                }
+            }
+        }
+        public bool IsDisplaying
+        {
+            get
+            {
+                return !m_IsInputting;
+            }
+            set
+            {
+                if ((!m_IsInputting) != value)
+                {
+                    m_IsInputting = !value;
+
+                    OnPropertyChanged(nameof(IsDisplaying));
+                    OnPropertyChanged(nameof(IsInputting));
+                }
+            }
+        }
+        #endregion
 
         #region Header
         private string m_Header;
@@ -169,26 +232,6 @@ namespace Excel_Macros_UI.Model
             }
         }
         #endregion
-        #region Visibility
-
-        private Visibility m_Visibility;
-        public Visibility Visibility
-        {
-            get
-            {
-                return m_Visibility;
-            }
-            set
-            {
-                if (m_Visibility != value)
-                {
-                    m_Visibility = value;
-                    OnPropertyChanged(nameof(Visibility));
-                }
-            }
-        }
-
-        #endregion
 
         #region SelectedEvent
         private Action<object, RoutedEventArgs> m_SelectedEvent;
@@ -244,35 +287,7 @@ namespace Excel_Macros_UI.Model
             }
         }
         #endregion 
-    }
-    
-    /// <summary>
-    /// Custom Data Strcture for inputable Tree View Items
-    /// </summary>
-    public class InputableTreeViewItem : DisplayableTreeViewItem
-    {
-        public InputableTreeViewItem() : base()
-        {
-        }
 
-        #region FocusEvent
-        private Action m_FocusEvent;
-        public Action FocusEvent
-        {
-            get
-            {
-                return m_FocusEvent;
-            }
-            set
-            {
-                if(m_FocusEvent != value)
-                {
-                    m_FocusEvent = value;
-                    OnPropertyChanged(nameof(FocusEvent));
-                }
-            }
-        }
-        #endregion
         #region FocusLostEvent
         private Action<object, RoutedEventArgs> m_FocusLostEvent;
         public Action<object, RoutedEventArgs> FocusLostEvent

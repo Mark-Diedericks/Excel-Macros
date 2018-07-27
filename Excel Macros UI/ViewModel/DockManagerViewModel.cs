@@ -58,6 +58,15 @@ namespace Excel_Macros_UI.ViewModel
                 Documents.Add(document);
         }
 
+        public DocumentViewModel GetDocument(Guid id)
+        {
+            foreach (DocumentViewModel document in Documents)
+                if (document.Macro == id)
+                    return document;
+
+            return null;
+        }
+
         public DockManagerViewModel(string docs) : this(LoadVisibleDocuments(docs))
         {
 

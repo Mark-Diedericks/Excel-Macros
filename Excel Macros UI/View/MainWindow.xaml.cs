@@ -64,9 +64,12 @@ namespace Excel_Macros_UI.View
 
             ThemeManager.AddAccent("ExcelAccent", new Uri("pack://application:,,,/Excel Macros UI;component/Themes/ExcelAccent.xaml"));
             ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent("ExcelAccent"), ThemeManager.GetAppTheme("BaseLight"));
-            
-            DockingManager_DockManager.DocumentContextMenu.ContextMenuOpening += DocumentContextMenu_ContextMenuOpening;
-            DockingManager_DockManager.AnchorableContextMenu.ContextMenuOpening += AnchorableContextMenu_ContextMenuOpening;
+
+            DocumentContextMenu = DockingManager_DockManager.DocumentContextMenu;
+            AnchorableContextMenu = DockingManager_DockManager.AnchorableContextMenu;
+
+            DocumentContextMenu.ContextMenuOpening += DocumentContextMenu_ContextMenuOpening;
+            AnchorableContextMenu.ContextMenuOpening += AnchorableContextMenu_ContextMenuOpening;
 
             Themes = new ObservableCollection<ITheme>();
             
@@ -246,7 +249,7 @@ namespace Excel_Macros_UI.View
 
         #endregion
 
-        #region IThemeManager
+        #region Themes & Styles
 
         public ResourceDictionary ThemeDictionary
         {
@@ -296,11 +299,7 @@ namespace Excel_Macros_UI.View
                     flyoutSettings.Theme = FlyoutTheme.Accent;
                     flyoutSettings.Theme = FlyoutTheme.Adapt;
 
-                    //DockingManager_DockManager.DocumentContextMenu = null;
-                    //DockingManager_DockManager.DocumentContextMenu = CreateDocumentContextMenu();
-
-                    //DockingManager_DockManager.AnchorableContextMenu = null;
-                    //DockingManager_DockManager.AnchorableContextMenu = CreateAnchorableContextMenu();
+                    ContextMenuThemeChange();
 
                     return true;
                 }
@@ -308,18 +307,48 @@ namespace Excel_Macros_UI.View
 
             return false;
         }
+
+        public object GetResource(string resource)
+        {
+            return Resources[resource];
+        }
+
+        public ResourceDictionary GetResources()
+        {
+            return Resources;
+        }
+
         #endregion
 
         #region Context Menus
 
-        private ContextMenu CreateDocumentContextMenu()
-        {
-            return FindResource("DocumentContextMenu") as ContextMenu;
-        }
+        private ContextMenu DocumentContextMenu;
+        private ContextMenu AnchorableContextMenu;
 
-        private ContextMenu CreateAnchorableContextMenu()
+        private void ContextMenuThemeChange()
         {
-            return FindResource("AnchorableContextMenu") as ContextMenu;
+            Style ContextMenuStyle = GetResource("MetroContextMenuStyle") as Style;
+            Style MenuItemStyle = GetResource("MetroMenuItemStyle") as Style;
+
+            DocumentContextMenu.Resources.MergedDictionaries.Add(Resources);
+            DocumentContextMenu.Style = ContextMenuStyle;
+            DocumentContextMenu.ItemContainerStyle = MenuItemStyle;
+
+            foreach (MenuItem item in DocumentContextMenu.Items)
+                item.Style = MenuItemStyle;
+
+            DockingManager_DockManager.DocumentContextMenu = null;
+            DockingManager_DockManager.DocumentContextMenu = DocumentContextMenu;
+
+            AnchorableContextMenu.Resources.MergedDictionaries.Add(Resources);
+            AnchorableContextMenu.Style = ContextMenuStyle;
+            AnchorableContextMenu.ItemContainerStyle = MenuItemStyle;
+
+            foreach (MenuItem item in AnchorableContextMenu.Items)
+                item.Style = MenuItemStyle;
+
+            DockingManager_DockManager.AnchorableContextMenu = null;
+            DockingManager_DockManager.AnchorableContextMenu = AnchorableContextMenu;
         }
 
         private void DocumentContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -333,14 +362,8 @@ namespace Excel_Macros_UI.View
                 if (model != null && model != DockingManager_DockManager.ActiveContent)
                     DockingManager_DockManager.ActiveContent = model;
 
-                /*ContextMenu cm = CreateDocumentContextMenu();
-                cm.DataContext = document;
-
-                ((ContextMenu)sender).IsOpen = false;
-                cm.IsOpen = true;
-
                 e.Handled = true;
-                return;*/
+                return;
             }
 
             e.Handled = false;
@@ -357,14 +380,8 @@ namespace Excel_Macros_UI.View
                 if (model != null && model != DockingManager_DockManager.ActiveContent)
                     DockingManager_DockManager.ActiveContent = model;
 
-                /*ContextMenu cm = CreateDocumentContextMenu();
-                cm.DataContext = tool;
-                
-                ((ContextMenu)sender).IsOpen = false;
-                cm.IsOpen = true;
-
                 e.Handled = true;
-                return;*/
+                return;
             }
             
             e.Handled = false;
@@ -404,7 +421,7 @@ namespace Excel_Macros_UI.View
 
         #endregion
 
-        #region Toolbar Event Callbacks
+        #region Toolbar & MenuBar Event Callbacks
 
         public bool AsyncExecution
         {
@@ -421,24 +438,25 @@ namespace Excel_Macros_UI.View
 
         private void btnNew_Click(object sender, RoutedEventArgs e)
         {
-            //FileManager.CreateMacro(Excel_Macros_INTEROP.Macros.MacroType.PYTHON, "");
-            throw new NotImplementedException();
+            ((DockManagerViewModel)DockingManager_DockManager.DataContext).Explorer.CreateMacro(MacroType.PYTHON);
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
-            //FileManager.ImportMacro("", null);
-            throw new NotImplementedException();
+            ((DockManagerViewModel)DockingManager_DockManager.DataContext).Explorer.ImportMacro();
         }
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
         {
-            //if (ActiveDocument == null)
-            //    return;
-            //
-            //if (ActiveDocument.SaveCommand.CanExecute(e))
-            //    ActiveDocument.SaveCommand.Execute(e);
-            throw new NotImplementedException();
+            if (ActiveDocument == null)
+                return;
+
+            IMacro macro = Main.GetMacro(ActiveDocument.Macro);
+
+            if (macro == null)
+                return;
+
+            macro.Export();
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -564,7 +582,7 @@ namespace Excel_Macros_UI.View
 
         #endregion
 
-        #region Menu Items
+        #region Menu Bar Event Callbacks
         
         private void Options_Click(object sender, RoutedEventArgs e)
         {
@@ -638,6 +656,13 @@ namespace Excel_Macros_UI.View
 
         #region Macro Related Actions
         
+        public void CloseMacro(Guid id)
+        {
+            DocumentViewModel dvm = ((DockManagerViewModel)DockingManager_DockManager.DataContext).GetDocument(id);
+            if (dvm != null)
+                dvm.IsClosed = true;
+        }
+
         public Guid CreateMacro(MacroType type, string relativepath)
         {
             return FileManager.CreateMacro(type, relativepath);
@@ -648,10 +673,42 @@ namespace Excel_Macros_UI.View
             FileManager.ImportMacro(relativepath, OnReturn);
         }
 
+        public void RenameFolder(string olddir, string newdir)
+        {
+            foreach(Guid id in Main.RenameFolder(olddir, newdir))
+            {
+                DocumentViewModel dvm = ((DockManagerViewModel)DockingManager_DockManager.DataContext).GetDocument(id);
+                if (dvm != null)
+                {
+                    dvm.ToolTip = Main.GetDeclaration(id).relativepath;
+                    dvm.ContentId = Main.GetDeclaration(id).relativepath;
+                }
+            }
+        }
+
+        public void RenameMacro(Guid id, string newName)
+        {
+            Main.RenameMacro(id, newName);
+
+            DocumentViewModel dvm = ((DockManagerViewModel)DockingManager_DockManager.DataContext).GetDocument(id);
+            if (dvm != null)
+            { 
+                dvm.Title = Main.GetDeclaration(id).name;
+                dvm.ContentId = Main.GetDeclaration(id).relativepath;
+            }
+        }
+
         public void OpenMacroForEditing(Guid id)
         {
             if (id == Guid.Empty)
                 return;
+
+            DocumentViewModel dvm = ((DockManagerViewModel)DockingManager_DockManager.DataContext).GetDocument(id);
+            if (dvm != null)
+            {
+                DockingManager_DockManager.ActiveContent = dvm;
+                return;
+            }
 
             Dispatcher.Invoke(() => Main.SetActiveMacro(id));
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => 

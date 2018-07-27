@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 26/07/2018
- * Version 1.0.12
+ * 27/07/2018
+ * Version 1.0.13
  * The main hub of the interop library
  */
 
@@ -93,7 +93,9 @@ namespace Excel_Macros_INTEROP
             s_ExcelApplication = application;
             s_ExcelDispatcher = dispatcher;
 
-            new Action(() =>
+            Dispatcher ui = Dispatcher.CurrentDispatcher;
+
+            Task.Run(() =>
             {
                 //Create Instance
                 Main m = new Main();
@@ -129,7 +131,7 @@ namespace Excel_Macros_INTEROP
                 GetInstance().m_RibbonMacros = new HashSet<Guid>();
 
                 string[] paths = RibbonMacros.Split(';');
-                foreach(string file in paths)
+                foreach (string file in paths)
                 {
                     foreach (Guid key in GetInstance().m_Declarations.Keys)
                     {
@@ -151,11 +153,12 @@ namespace Excel_Macros_INTEROP
                 //    GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>(Properties.Settings.Default.IncludedAssemblies);
                 //else
                 GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>();
-                
-            }).BeginInvoke(new AsyncCallback((result) => {
-                OnLoaded?.Invoke();
-                GetInstance().OnLoaded?.Invoke();
-                }), null);
+
+                ui.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+                    OnLoaded?.Invoke();
+                    GetInstance().OnLoaded?.Invoke();
+                }));
+            });
         }
 
         public static void Destroy()
@@ -353,12 +356,12 @@ namespace Excel_Macros_INTEROP
             return Guid.Empty;
         }
 
-        public static Guid RenameMacro(Guid id, string newname)
+        public static void RenameMacro(Guid id, string newname)
         {
             if (!GetInstance().m_Macros.ContainsKey(id))
             {
                 MessageManager.DisplayOkMessage("Could not find the macro: " + GetDeclaration(id).name, "Rename Macro Error");
-                return id;
+                return;
             }
 
             IMacro macro = GetInstance().m_Macros[id];
@@ -368,11 +371,9 @@ namespace Excel_Macros_INTEROP
             macro.Save();
 
             GetInstance().OnMacroRenamed?.Invoke(id);
-
-            return id;
         }
 
-        public static void RenameFolder(string olddir, string newdir)
+        public static HashSet<Guid> RenameFolder(string olddir, string newdir)
         {
             HashSet<Guid> affectedMacros = new HashSet<Guid>();
 
@@ -380,8 +381,15 @@ namespace Excel_Macros_INTEROP
             string relativepath = FileManager.CalculateRelativePath(FileManager.CalculateFullPath(olddir));
 
             foreach (Guid id in GetInstance().m_Declarations.Keys)
+            {
                 if (GetDeclaration(id).relativepath.ToLower().Trim().StartsWith(relativepath.ToLower().Trim()))
+                {
+                    affectedMacros.Add(id);
                     GetInstance().m_Declarations[id].relativepath = GetDeclaration(id).relativepath.Replace(relativepath, FileManager.CalculateRelativePath(FileManager.CalculateFullPath(newdir)));
+                }
+            }
+
+            return affectedMacros;
         }
 
         public static void DeleteFolder(string directory, Action<bool> OnReturn)

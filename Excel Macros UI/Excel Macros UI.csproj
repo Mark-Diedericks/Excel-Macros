@@ -97,10 +97,10 @@
     <Compile Include="Model\ToolboxModel.cs" />
     <Compile Include="Model\VisualEditorModel.cs" />
     <Compile Include="Themes\DarkTheme.cs" />
-    <Compile Include="Themes\DefaultTheme.cs" />
     <Compile Include="Themes\ITheme.cs" />
     <Compile Include="Themes\IThemeManager.cs" />
     <Compile Include="Themes\LightTheme.cs" />
+    <Compile Include="Utilities\FocusUtility.cs" />
     <Compile Include="Utilities\LayoutInitializer.cs" />
     <Compile Include="Utilities\PaneStyleSelector.cs" />
     <Compile Include="Utilities\SyntaxStyleLoader.cs" />

@@ -4,11 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Excel_Macros_UI.View"
+             xmlns:model="clr-namespace:Excel_Macros_UI.Model"
+             xmlns:utils="clr-namespace:Excel_Macros_UI.Utilities"
+             xmlns:dock="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" DataContextChanged="ExplorerView_DataContextChanged">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -24,30 +28,40 @@
                         <ResourceDictionary Source="pack://application:,,,/Excel Macros UI;component/Themes/ExcelAccent.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
+                <ResourceDictionary x:Name="ThemeDictionary">
+                    <ResourceDictionary.MergedDictionaries>
+                        <!--AppTheme setting -->
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-            
-            <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
-                <StackPanel Margin="-20,0,0,0" Background="White"/>
-            </ItemsPanelTemplate>
-
-            <Style x:Key="MetroMenuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
-                <Setter Property="HorizontalContentAlignment" Value="Left" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="ItemsPanel" Value="{DynamicResource MenuItemPanelTemplate}" />
-            </Style>
-
-            <Style x:Key="MetroContextMenuStyle" TargetType="{x:Type ContextMenu}" BasedOn="{StaticResource MetroContextMenu}">
-                <Setter Property="Background" Value="{DynamicResource ContextMenuBackgroundBrush}" />
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="BorderBrush" Value="{DynamicResource BlackBrush}" />
-                <Setter Property="ItemsPanel" Value="{DynamicResource MenuItemPanelTemplate}" />
-            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
     
     <Grid Background="{DynamicResource GrayBrush10}">
-        <TreeView x:Name="tvMacroView" ItemsSource="{Binding ItemSource}" Margin="0,0,0,0" Padding="4,4,4,4" BorderBrush="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" Style="{DynamicResource VirtualizedMetroTreeView}" />
-        <Label x:Name="lblNoMacros" Margin="4,8,4,4" VerticalAlignment="Top" HorizontalAlignment="Center" Visibility="Hidden">No Macros</Label>
+        <Grid.Resources>
+            <Style x:Key="BoundTreeViewItemStyle" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
+                <EventSetter Event="TreeViewItem.Selected" Handler="TreeViewItem_Selected" />
+                <EventSetter Event="TreeViewItem.MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick" />
+                <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="IsExpanded" Value="{Binding DataContext.IsExpanded, Mode=TwoWay}" />
+                <Setter Property="ItemContainerStyle" Value="{DynamicResource BoundTreeViewItemStyle}" />
+            </Style>
+        </Grid.Resources>
+
+        <TreeView x:Name="tvMacroView" ItemsSource="{Binding ItemSource}" ItemContainerStyle="{DynamicResource BoundTreeViewItemStyle}" Margin="0,0,0,0" Background="{DynamicResource GrayBrush10}" Padding="4,4,4,4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MouseRightButtonDown="tvMacroView_MouseRightButtonDown" Style="{DynamicResource MetroTreeView}">
+            <TreeView.Resources>
+                <dock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                
+                <HierarchicalDataTemplate DataType="{x:Type model:DisplayableTreeViewItem}" ItemsSource="{Binding Items}">
+                    <Grid>
+                        <TextBlock x:Name="LabelBox" Background="Transparent" Text="{Binding Header}" Visibility="{Binding IsDisplaying, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <TextBox x:Name="InputBox" Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Foreground}" Visibility="{Binding IsInputting, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}" utils:FocusUtility.IsFocused="{Binding IsInputting}" CaretIndex="{x:Static System:Int32.MaxValue}" IsVisibleChanged="InputBox_IsVisibleChanged" FontWeight="DemiBold" BorderThickness="0" Background="#08000000" Text="{Binding Header}" IsReadOnly="False" LostFocus="TextBox_LostFocus" KeyUp="TextBox_KeyUp"/>
+                    </Grid>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+        <Label x:Name="lblNoMacros" Margin="4,8,4,4" VerticalAlignment="Top" HorizontalAlignment="Center" Visibility="{Binding LabelVisibility}">No Macros</Label>
     </Grid>
 </UserControl>
