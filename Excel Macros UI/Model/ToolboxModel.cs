@@ -22,8 +22,6 @@ namespace Excel_Macros_UI.Model
         {
             s_Instance = this;
             MainWindow.DocumentChangedEvent += MainWindow_DocumentChangedEvent;
-
-            PreferredLocation = PaneLocation.Left;
         }
 
         private void MainWindow_DocumentChangedEvent(ViewModel.Base.DocumentViewModel vm)

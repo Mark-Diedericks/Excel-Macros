@@ -12,7 +12,6 @@ namespace Excel_Macros_UI.Model.Base
         public ToolModel()
         {
             IsVisible = true;
-            m_PreferredLocation = PaneLocation.Left;
             Title = "";
             ContentId = "";
         }
@@ -37,28 +36,6 @@ namespace Excel_Macros_UI.Model.Base
         }
 
         #endregion
-
-        #region PreferredLocation
-
-        private PaneLocation m_PreferredLocation;
-        public PaneLocation PreferredLocation
-        {
-            get
-            {
-                return m_PreferredLocation;
-            }
-            set
-            {
-                if (m_PreferredLocation != value)
-                {
-                    m_PreferredLocation = value;
-                    OnPropertyChanged(nameof(PreferredLocation));
-                }
-            }
-        }
-
-        #endregion
-
         #region Title
 
         private string m_Title;

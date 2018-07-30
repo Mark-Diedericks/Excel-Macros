@@ -68,27 +68,6 @@ namespace Excel_Macros_UI.ViewModel.Base
 
         #endregion
 
-        #region PreferredLocation
-
-        public PaneLocation PreferredLocation
-        {
-            get
-            {
-                return Model.PreferredLocation;
-            }
-
-            set
-            {
-                if (Model.PreferredLocation != value)
-                {
-                    Model.PreferredLocation = value;
-                    OnPropertyChanged(nameof(PreferredLocation));
-                }
-            }
-        }
-
-        #endregion
-
         #region Title
 
         public string Title

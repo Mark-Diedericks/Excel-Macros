@@ -387,10 +387,6 @@
                     </utils:PaneStyleSelector>
                 </dock:DockingManager.LayoutItemContainerStyleSelector>
 
-                <dock:DockingManager.LayoutUpdateStrategy>
-                    <utils:LayoutInitializer />
-                </dock:DockingManager.LayoutUpdateStrategy>
-
                 <dock:LayoutRoot>
                     <dock:LayoutPanel x:Name="lpVerticalPanel" Orientation="Vertical">
                         <dock:LayoutPanel x:Name="lpHorizontalPanel" Orientation="Horizontal">

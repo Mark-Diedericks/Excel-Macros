@@ -338,8 +338,7 @@ namespace Excel_Macros_UI.Model
         public ExplorerModel()
         {
             s_Instance = this;
-
-            PreferredLocation = PaneLocation.Right;
+            
             SelectedItem = null;
             ItemSource = new ObservableCollection<DisplayableTreeViewItem>();
             LabelVisibility = Visibility.Hidden;

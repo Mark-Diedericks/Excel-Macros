@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2018
- * Version 1.0.0
+ * 30/07/2018
+ * Version 1.0.1
  * Textual Macro data structure
  */
 
@@ -27,7 +27,7 @@ namespace Excel_Macros_INTEROP.Macros
 
         public void CreateBlankMacro()
         {
-            m_Source = "import clr" + "\n\n\n";
+            m_Source = "\n";
         }
 
         public Guid GetID()

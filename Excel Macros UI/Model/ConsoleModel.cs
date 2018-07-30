@@ -23,8 +23,6 @@ namespace Excel_Macros_UI.Model
             s_Instance = this;
             Output = new TextBoxWriter(null);
             Error = new TextBoxWriter(null);
-
-            PreferredLocation = PaneLocation.Bottom;
         }
 
         private TextBoxWriter m_Output;

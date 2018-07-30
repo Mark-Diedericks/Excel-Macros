@@ -28,7 +28,6 @@ namespace Excel_Macros_UI.ViewModel
 {
     public class ExplorerViewModel : ToolViewModel
     {
-
         private bool m_IsCreating = false;
 
         public ExplorerViewModel()
@@ -148,13 +147,179 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Tree View Population Through Recursion
 
+        private void Rename(DisplayableTreeViewItem parent, DisplayableTreeViewItem item)
+        {
+            ObservableCollection<DisplayableTreeViewItem> siblings;
+
+            if (parent == null)
+                siblings = ItemSource;
+            else
+                siblings = parent.Items;
+
+            int index = FindIndex(siblings, item);
+
+            if (index == -1)
+                index = 0;
+
+            if (parent == null)
+            {
+                ItemSource.Remove(item);
+                ItemSource.Insert(index, item);
+            }
+            else
+            {
+                parent.Items.Remove(item);
+                parent.Items.Insert(index, item);
+            }
+        }
+
+        private void Add(DisplayableTreeViewItem parent, DisplayableTreeViewItem item)
+        {
+            ObservableCollection<DisplayableTreeViewItem> siblings;
+
+            if (parent == null)
+                siblings = ItemSource;
+            else
+                siblings = parent.Items;
+            
+            int index = FindIndex(siblings, item);
+
+            if (index == -1)
+                index = 0;
+
+            if (parent == null)
+                ItemSource.Insert(index, item);
+            else
+                parent.Items.Insert(index, item);
+
+            CheckVisibility();
+        }
+
+        private void Remove(DisplayableTreeViewItem parent, DisplayableTreeViewItem item)
+        {
+            if (parent == null)
+                ItemSource.Remove(item);
+            else
+                parent.Items.Remove(item);
+
+            CheckVisibility();
+        }
+
         private void CheckVisibility()
         {
-            Dictionary<Guid, IMacro>.KeyCollection keys = Main.GetMacros().Keys;
-            if (keys.Count == 0)
+            if (ItemSource.Count == 0)
                 LabelVisibility = Visibility.Visible;
             else
                 LabelVisibility = Visibility.Hidden;
+        }
+
+        private int FindIndex(ObservableCollection<DisplayableTreeViewItem> items, DisplayableTreeViewItem item)
+        {
+            int count = items.Count - 1;
+
+            int start = 0;
+            int end = count;
+            int mid = (int)Math.Floor(((float)(start + end) / 2.0f));
+
+            while(start <= end)
+            {
+                mid = (int)Math.Floor(((float)(start + end) / 2.0f));
+
+                bool less = String.Compare(item.Header, items[mid].Header) < 0;
+                bool more = String.Compare(item.Header, items[mid].Header) > 0;
+
+                if (mid - 1 >= 0)
+                    if (less && String.Compare(item.Header, items[mid - 1].Header) > 0)
+                        return mid;
+
+                if(mid + 1 <= count - 1)
+                    if (more && String.Compare(item.Header, items[mid + 1].Header) < 0)
+                        return mid;
+
+                if (less)
+                    end = mid - 1;
+                else if (more)
+                    start = mid + 1;
+                else
+                    return mid;
+            }
+
+            return -1;
+        }
+
+        private int Partition(ObservableCollection<DisplayableTreeViewItem> items, int start, int end)
+        {
+            int pivot = end;
+            int i = start;
+            int j = end;
+
+            DisplayableTreeViewItem temp;
+            while(i < j)
+            {
+                while (i < end && String.Compare(items[i].Header, items[pivot].Header) < 0)
+                    i++;
+
+                while (j > start && String.Compare(items[j].Header, items[pivot].Header) > 0)
+                    j--;
+
+                if(i < j)
+                {
+                    temp = items[i];
+                    items[i] = items[j];
+                    items[j] = temp;
+                }
+            }
+
+            temp = items[pivot];
+            items[pivot] = items[j];
+            items[j] = temp;
+
+            return j;
+        }
+
+        private void QuickSort(ref ObservableCollection<DisplayableTreeViewItem> items, int start, int end)
+        {
+            if(start < end)
+            {
+                int pivot = Partition(items, start, end);
+                QuickSort(ref items, start, pivot - 1);
+                QuickSort(ref items, pivot + 1, end);
+            }
+        }
+
+        private void Sort()
+        {
+#if false
+            List<DisplayableTreeViewItem> items = ItemSource.ToList<DisplayableTreeViewItem>();
+            items.Sort();
+
+            ItemSource.Clear();
+            for (int i = 0; i < items.Count; i++)
+                ItemSource.Insert(i, Sort(items[i]));
+#else
+            ObservableCollection<DisplayableTreeViewItem> items = ItemSource;
+            QuickSort(ref items, 0, ItemSource.Count - 1);
+            ItemSource = items;
+#endif
+        }
+
+        private DisplayableTreeViewItem Sort(DisplayableTreeViewItem item)
+        {
+#if false
+            List<DisplayableTreeViewItem> items = item.Items.ToList<DisplayableTreeViewItem>();
+            items.Sort();
+
+            item.Items.Clear();
+            for (int i = 0; i < items.Count; i++)
+                item.Items.Insert(i, Sort(items[i]));
+
+            return item;
+#else
+            ObservableCollection<DisplayableTreeViewItem> items = item.Items;
+            QuickSort(ref items, 0, item.Items.Count - 1);
+            item.Items = items;
+            return item;
+#endif
         }
 
         private void Initialize()
@@ -264,7 +429,7 @@ namespace Excel_Macros_UI.ViewModel
             return items;
         }
 
-        #endregion
+#endregion
 
         #region Tree View Context Menu
 
@@ -310,9 +475,9 @@ namespace Excel_Macros_UI.ViewModel
             return cm;
         }
 
-        #endregion
+#endregion
 
-        #region Tree View Item Context Menu
+#region Tree View Item Context Menu
 
         private ContextMenu CreateContextMenuFolder(DisplayableTreeViewItem item, string name, string path)
         {
@@ -414,6 +579,7 @@ namespace Excel_Macros_UI.ViewModel
                     }
                     
                     MainWindow.GetInstance().RenameFolder(path + name, path + item.Header);
+                    Rename(parentitem, item);
 
                     item.IsInputting = false;
                 };
@@ -552,7 +718,9 @@ namespace Excel_Macros_UI.ViewModel
                         item.Header += FileManager.PYTHON_FILE_EXT;
 
                     
-                    MainWindow.GetInstance().RenameMacro(id, item.Header);
+                    MainWindow.GetInstance().RenameMacro(id, item.Header);Rename(parentitem, item);
+                    Rename(parentitem, item);
+
                     item.IsInputting = false;
                 };
 
@@ -614,9 +782,9 @@ namespace Excel_Macros_UI.ViewModel
             tvi.ContextMenu.IsOpen = true;
         }
 
-        #endregion
+#endregion
 
-        #region Tree View Functions & Item Functions
+#region Tree View Functions & Item Functions
         
         private void CloseItemMacro(DisplayableTreeViewItem item)
         {
@@ -633,9 +801,9 @@ namespace Excel_Macros_UI.ViewModel
                 if (result)
                 {
                     if (item.Parent is DisplayableTreeViewItem)
-                        (item.Parent as DisplayableTreeViewItem).Items.Remove(item);
+                        Remove((item.Parent as DisplayableTreeViewItem), item);
                     else
-                        ItemSource.Remove(item);
+                        Remove(null, item);
 
                     CloseItemMacro(item);
                 }
@@ -648,10 +816,10 @@ namespace Excel_Macros_UI.ViewModel
             {
                 if (result)
                 {
-                    if (item.Parent != null)
-                        (item.Parent as DisplayableTreeViewItem).Items.Remove(item);
+                    if (item.Parent is DisplayableTreeViewItem)
+                        Remove((item.Parent as DisplayableTreeViewItem), item);
                     else
-                        ItemSource.Remove(item);
+                        Remove(null, item);
 
                     CloseItemMacro(item);
                 }
@@ -686,15 +854,11 @@ namespace Excel_Macros_UI.ViewModel
                 item.DoubleClickEvent = delegate (object sender, MouseButtonEventArgs args) { OpenMacro(id); args.Handled = true; };
 
                 if (parent == null)
-                {
                     item.Root = "/";
-                    ItemSource.Add(item);
-                }
                 else
-                {
                     item.Root = parent.Root + "/" + parent.Header + "/";
-                    parent.Items.Add(item);
-                }
+
+                Add(parent, item);
                 
                 OpenMacro(id);
             });
@@ -737,11 +901,7 @@ namespace Excel_Macros_UI.ViewModel
             {
                 if (String.IsNullOrEmpty(item.Header) || (!item.IsInputting))
                 {
-                    if (parent == null)
-                        ItemSource.Remove(item);
-                    else
-                        parent.Items.Remove(item);
-
+                    Remove(parent, item);
                     m_IsCreating = false;
                     return;
                 }
@@ -752,14 +912,11 @@ namespace Excel_Macros_UI.ViewModel
                 item.Header = Regex.Replace(item.Header, "[^0-9a-zA-Z ._-]", "");
 
                 Guid id = MainWindow.GetInstance().CreateMacro(type, root + "/" + item.Header);
+                Rename(parent, item);
 
                 if (id == Guid.Empty)
                 {
-                    if (parent == null)
-                        ItemSource.Remove(item);
-                    else
-                        parent.Items.Remove(item);
-
+                    Remove(parent, item);
                     return;
                 }
 
@@ -779,11 +936,8 @@ namespace Excel_Macros_UI.ViewModel
                 m_IsCreating = false;
                 OpenMacro(id);
             };
-            
-            if (parent == null)
-                ItemSource.Add(item);
-            else
-                parent.Items.Add(item);
+
+            Add(parent, item);
 
             item.IsInputting = true;
         }
@@ -815,11 +969,7 @@ namespace Excel_Macros_UI.ViewModel
             {
                 if (String.IsNullOrEmpty(item.Header) || (!item.IsInputting))
                 {
-                    if (parent == null)
-                        ItemSource.Remove(item);
-                    else
-                        parent.Items.Remove(item);
-
+                    Remove(parent, item);
                     m_IsCreating = false;
                     return;
                 }
@@ -829,13 +979,10 @@ namespace Excel_Macros_UI.ViewModel
 
                 if (!FileManager.CreateFolder((root + "/" + item.Header).Replace('\\', '/').Replace("//", "/")))
                 {
-                    if (parent == null)
-                        ItemSource.Remove(item);
-                    else
-                        parent.Items.Remove(item);
-
+                    Remove(parent, item);
                     return;
                 }
+                Rename(parent, item);
 
                 item.RightClickEvent = TreeViewItem_OnPreviewMouseRightButtonDown;
                 
@@ -850,11 +997,8 @@ namespace Excel_Macros_UI.ViewModel
             };
 
             //tvi.Items.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending));
-            
-            if (parent == null)
-                ItemSource.Add(item);
-            else
-                parent.Items.Add(item);
+
+            Add(parent, item);
 
             item.IsInputting = true;
         }
@@ -877,6 +1021,6 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
-        #endregion
+#endregion
     }
 }
