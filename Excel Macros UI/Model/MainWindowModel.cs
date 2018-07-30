@@ -1,14 +1,6 @@
-﻿/*
- * Mark Diedericks
- * 24/07/2018
- * Version 1.0.4
- * Primary view model for handling main window's views
- */
-
-using Excel_Macros_UI.Model;
-using Excel_Macros_UI.Themes;
+﻿using Excel_Macros_UI.Themes;
+using Excel_Macros_UI.ViewModel;
 using Excel_Macros_UI.ViewModel.Base;
-using ICSharpCode.AvalonEdit.Document;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,59 +9,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace Excel_Macros_UI.ViewModel
+namespace Excel_Macros_UI.Model
 {
-    public class MainWindowViewModel : Base.ViewModel, IThemeManager
+    public class MainWindowModel : Base.Model
     {
-        private static MainWindowViewModel s_Instance;
 
-        public MainWindowViewModel()
+        public MainWindowModel()
         {
-            s_Instance = this;
-
-            Model = new MainWindowModel();
-            DockManager = new DockManagerViewModel(Properties.Settings.Default.OpenDocuments);
+            DockManager = new DockManagerViewModel(new List<DocumentViewModel>());
+            IsClosing = false;
+            SettingsMenu = new SettingsMenuViewModel();
+            Themes = new ObservableCollection<ITheme>;
         }
-
-        public MainWindowViewModel GetInstance()
-        {
-            return s_Instance;
-        }
-
-        #region Model
-
-        private MainWindowModel m_Model;
-        public MainWindowModel Model
-        {
-            get
-            {
-                return m_Model;
-            }
-            set
-            {
-                if(m_Model != value)
-                {
-                    m_Model = value;
-                    OnPropertyChanged(nameof(Model));
-                }
-            }
-        }
-
-        #endregion
 
         #region DockManager
 
+        private DockManagerViewModel m_DockManager;
         public DockManagerViewModel DockManager
         {
             get
             {
-                return Model.DockManager;
+                return m_DockManager;
             }
             set
             {
-                if(Model.DockManager != value)
+                if (m_DockManager != value)
                 {
-                    Model.DockManager = value;
+                    m_DockManager = value;
                     OnPropertyChanged(nameof(DockManager));
                 }
             }
@@ -79,17 +45,18 @@ namespace Excel_Macros_UI.ViewModel
 
         #region IsClosing
 
+        private bool m_IsClosing;
         public bool IsClosing
         {
             get
             {
-                return Model.IsClosing;
+                return m_IsClosing;
             }
             set
             {
-                if(Model.IsClosing != value)
+                if (m_IsClosing != value)
                 {
-                    Model.IsClosing = value;
+                    m_IsClosing = value;
                     OnPropertyChanged(nameof(IsClosing));
                 }
             }
@@ -99,17 +66,18 @@ namespace Excel_Macros_UI.ViewModel
 
         #region SettingsMenu
 
+        private SettingsMenuViewModel m_SettingsMenu;
         public SettingsMenuViewModel SettingsMenu
         {
             get
             {
-                return Model.SettingsMenu;
+                return m_SettingsMenu;
             }
             set
             {
-                if(Model.SettingsMenu != value)
+                if (m_SettingsMenu != value)
                 {
-                    Model.SettingsMenu = value;
+                    m_SettingsMenu = value;
                     OnPropertyChanged(nameof(SettingsMenu));
                 }
             }
@@ -119,17 +87,18 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Themes
 
+        private ObservableCollection<ITheme> m_Themes;
         public ObservableCollection<ITheme> Themes
         {
             get
             {
-                return Model.Themes;
+                return m_Themes;
             }
             set
             {
-                if(Model.Themes != value)
+                if (m_Themes != value)
                 {
-                    Model.Themes = value;
+                    m_Themes = value;
                     OnPropertyChanged(nameof(Themes));
                 }
             }
@@ -139,17 +108,18 @@ namespace Excel_Macros_UI.ViewModel
 
         #region ActiveTheme
 
+        private ITheme m_ActiveTheme;
         public ITheme ActiveTheme
         {
             get
             {
-                return Model.ActiveTheme;
+                return m_ActiveTheme;
             }
             set
             {
-                if(Model.ActiveTheme != value)
+                if(m_ActiveTheme != value)
                 {
-                    Model.ActiveTheme = value;
+                    m_ActiveTheme = value;
                     OnPropertyChanged(nameof(ActiveTheme));
                 }
             }
@@ -159,17 +129,18 @@ namespace Excel_Macros_UI.ViewModel
 
         #region DocumentContextMenu
 
+        private ContextMenu m_DocumentContextMenu;
         public ContextMenu DocumentContextMenu
         {
             get
             {
-                return Model.DocumentContextMenu;
+                return m_DocumentContextMenu;
             }
             set
             {
-                if(Model.DocumentContextMenu != value)
+                if(m_DocumentContextMenu != value)
                 {
-                    Model.DocumentContextMenu = value;
+                    m_DocumentContextMenu = value;
                     OnPropertyChanged(nameof(DocumentContextMenu));
                 }
             }
@@ -179,17 +150,18 @@ namespace Excel_Macros_UI.ViewModel
 
         #region AnchorableContextMenu
 
+        private ContextMenu m_AnchorableContextMenu;
         public ContextMenu AnchorableContextMenu
         {
             get
             {
-                return Model.AnchorableContextMenu;
+                return m_AnchorableContextMenu;
             }
             set
             {
-                if (Model.AnchorableContextMenu != value)
+                if (m_AnchorableContextMenu != value)
                 {
-                    Model.AnchorableContextMenu = value;
+                    m_AnchorableContextMenu = value;
                     OnPropertyChanged(nameof(AnchorableContextMenu));
                 }
             }
@@ -199,17 +171,18 @@ namespace Excel_Macros_UI.ViewModel
 
         #region ActiveDocument
 
+        private DocumentViewModel m_ActiveDocument;
         public DocumentViewModel ActiveDocument
         {
             get
             {
-                return Model.ActiveDocument;
+                return m_ActiveDocument;
             }
             set
             {
-                if (Model.ActiveDocument != value)
+                if(m_ActiveDocument != value)
                 {
-                    Model.ActiveDocument = value;
+                    m_ActiveDocument = value;
                     OnPropertyChanged(nameof(ActiveDocument));
                 }
             }
@@ -219,17 +192,18 @@ namespace Excel_Macros_UI.ViewModel
 
         #region SelectedExecutionIndex
 
+        private int m_SelectedExecutionIndex;
         public int SelectedExecutionIndex
         {
             get
             {
-                return Model.SelectedExecutionIndex;
+                return m_SelectedExecutionIndex;
             }
             set
             {
-                if(Model.SelectedExecutionIndex != value)
+                if(m_SelectedExecutionIndex != value)
                 {
-                    Model.SelectedExecutionIndex = value;
+                    m_SelectedExecutionIndex = value;
                     OnPropertyChanged(nameof(SelectedExecutionIndex));
                     OnPropertyChanged(nameof(AsyncExecution));
                 }
@@ -244,18 +218,19 @@ namespace Excel_Macros_UI.ViewModel
         {
             get
             {
-                return Model.AsyncExecution;
+                return SelectedExecutionIndex == 0;
             }
             set
             {
-                if(Model.AsyncExecution != value)
+                if((SelectedExecutionIndex == 0) != value)
                 {
-                    Model.AsyncExecution = value;
+                    SelectedExecutionIndex = value ? 0 : 1;
                     OnPropertyChanged(nameof(AsyncExecution));
                 }
             }
         }
 
         #endregion
+
     }
 }

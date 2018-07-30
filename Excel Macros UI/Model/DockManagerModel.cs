@@ -1,0 +1,133 @@
+﻿/*
+ * Mark Diedericks
+ * 31/07/2018
+ * Version 1.0.0
+ * Handles the data of the dock view model
+ */
+
+using Excel_Macros_UI.ViewModel;
+using Excel_Macros_UI.ViewModel.Base;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Excel_Macros_UI.Model
+{
+    public class DockManagerModel : Base.Model
+    {
+
+        public DockManagerModel()
+        {
+            Documents = new ObservableCollection<DocumentViewModel>();
+            Tools = new ObservableCollection<ToolViewModel>();
+        }
+
+        #region Documents
+
+        private ObservableCollection<DocumentViewModel> m_Documents;
+        public ObservableCollection<DocumentViewModel> Documents
+        {
+            get
+            {
+                return m_Documents;
+            }
+            set
+            {
+                if(m_Documents != value)
+                {
+                    m_Documents = value;
+                    OnPropertyChanged(nameof(Documents));
+                }
+            }
+        }
+
+        #endregion
+        
+        #region Tools
+
+        private ObservableCollection<ToolViewModel> m_Tools;
+        public ObservableCollection<ToolViewModel> Tools
+        {
+            get
+            {
+                return m_Tools;
+            }
+            set
+            {
+                if (m_Tools != value)
+                {
+                    m_Tools = value;
+                    OnPropertyChanged(nameof(Tools));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Explorer
+
+        private ExplorerViewModel m_Explorer;
+        public ExplorerViewModel Explorer
+        {
+            get
+            {
+                return m_Explorer;
+            }
+            set
+            {
+                if(m_Explorer != value)
+                {
+                    m_Explorer = value;
+                    OnPropertyChanged(nameof(Explorer));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Toolbox
+
+        private ToolboxViewModel m_Toolbox;
+        public ToolboxViewModel Toolbox
+        {
+            get
+            {
+                return m_Toolbox;
+            }
+            set
+            {
+                if(m_Toolbox != value)
+                {
+                    m_Toolbox = value;
+                    OnPropertyChanged(nameof(Toolbox));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Console
+
+        private ConsoleViewModel m_Console;
+        public ConsoleViewModel Console
+        {
+            get
+            {
+                return m_Console;
+            }
+            set
+            {
+                if(m_Console != value)
+                {
+                    m_Console = value;
+                    OnPropertyChanged(nameof(Console));
+                }
+            }
+        }
+
+        #endregion
+    }
+}

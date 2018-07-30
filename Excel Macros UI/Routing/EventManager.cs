@@ -19,6 +19,7 @@ using Excel_Macros_UI.View;
 using Excel_Macros_UI.Model;
 using System.IO;
 using MahApps.Metro.Controls.Dialogs;
+using Excel_Macros_UI.ViewModel.Base;
 
 namespace Excel_Macros_UI.Routing
 {
@@ -40,8 +41,8 @@ namespace Excel_Macros_UI.Routing
         public event MacroEditEvent RenameRibbonMacroEvent;
 
         public delegate void LoadEvent();
-        public static event LoadEvent ApplicationLoaded;
-        public static event LoadEvent RibbonLoaded;
+        public static event LoadEvent ApplicationLoadedEvent;
+        public static event LoadEvent RibbonLoadedEvent;
         private event LoadEvent ShutdownEvent;
         
         public delegate void InputMessageEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type, Action<object> OnResult);
@@ -51,11 +52,17 @@ namespace Excel_Macros_UI.Routing
         public event InputMessageReturnEvent DisplayInputMessageReturnEvent;
 
         public delegate void SetEnabled(bool enabled);
-        public event SetEnabled SetExcelInteractive;
+        public event SetEnabled SetExcelInteractiveEvent;
         public event SetEnabled FastWorkbookEvent;
 
         public delegate void SetEnabledWorksheet(Excel.Worksheet worksheet, bool enabled);
         public event SetEnabledWorksheet FastWorksheetEvent;
+
+        public delegate void ThemeEvent();
+        public static event ThemeEvent ThemeChangedEvent;
+
+        public delegate void DocumentEvent(DocumentViewModel vm);
+        public static event DocumentEvent DocumentChangedEvent;
 
         private static EventManager s_Instance;
         private static App s_UIApp;
@@ -90,7 +97,7 @@ namespace Excel_Macros_UI.Routing
             s_UIApp = new App();
             s_UIApp.InitializeComponent();
 
-            RibbonLoaded += Main.LoadRibbonMacros;
+            RibbonLoadedEvent += Main.LoadRibbonMacros;
 
             Main.Initialize(application, dispatcher, new Action(() =>
             {
@@ -112,7 +119,7 @@ namespace Excel_Macros_UI.Routing
 
                 Excel_Macros_INTEROP.EventManager.GetInstance().SetExcelInteractive += (enabled) => 
                 {
-                    GetInstance().SetExcelInteractive?.Invoke(enabled);
+                    GetInstance().SetExcelInteractiveEvent?.Invoke(enabled);
                 };
 
                 Excel_Macros_INTEROP.EventManager.GetInstance().FastWorkbookEvent += (enabled) =>
@@ -149,6 +156,20 @@ namespace Excel_Macros_UI.Routing
 
             s_UIApp.Run();
         }
+
+        #region UI Events
+
+        public static void ThemeChanged()
+        {
+            ThemeChangedEvent?.Invoke();
+        }
+
+        public static void DocumentChanged(DocumentViewModel document)
+        {
+            DocumentChangedEvent?.Invoke(document);
+        }
+
+        #endregion
 
         #region Main to UI to Excel Events
 
@@ -209,7 +230,7 @@ namespace Excel_Macros_UI.Routing
         public static void MacroRibbonLoaded()
         {
             s_IsRibbonLoaded = true;
-            RibbonLoaded?.Invoke();
+            RibbonLoadedEvent?.Invoke();
         }
 
         #endregion
@@ -235,7 +256,7 @@ namespace Excel_Macros_UI.Routing
         public static void LoadCompleted()
         {
             s_IsLoaded = true;
-            ApplicationLoaded?.Invoke();
+            ApplicationLoadedEvent?.Invoke();
         }
 
         #endregion

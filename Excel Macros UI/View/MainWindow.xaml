@@ -82,7 +82,7 @@
 
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
-            <views:SettingsMenuView x:Name="flyoutSettings" />
+            <views:SettingsMenuView x:Name="flyoutSettings" DataContext="{Binding SettingsMenu}"/>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
@@ -331,7 +331,7 @@
                 </Grid>
             </Grid>
 
-            <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" ActiveContentChanged="DockingManager_DockManager_ActiveContentChanged" Background="{DynamicResource WindowBackgroundBrush}" DataContext="{Binding DockManagerViewModel}" DocumentsSource="{Binding Documents, Mode=OneWay}" AnchorablesSource="{Binding Tools, Mode=OneWay}"
+            <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" ActiveContentChanged="DockingManager_DockManager_ActiveContentChanged" Background="{DynamicResource WindowBackgroundBrush}" DataContext="{Binding DockManager}" DocumentsSource="{Binding Documents, Mode=OneWay}" AnchorablesSource="{Binding Tools, Mode=OneWay}"
                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockingManager_DockManager_Loaded" Unloaded="DockingManager_DockManager_Unloaded">
 
                 <dock:DockingManager.Resources>

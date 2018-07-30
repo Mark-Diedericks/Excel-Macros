@@ -1,8 +1,8 @@
 ﻿/*
  * Mark Diedericks
- * 24/07/2018
- * Version 1.0.3
- * Handles the view models of the primary view model
+ * 31/07/2018
+ * Version 1.0.4
+ * Handles the interaction logic of the dock view
  */
 
 using Excel_Macros_INTEROP;
@@ -19,19 +19,11 @@ using System.Threading.Tasks;
 
 namespace Excel_Macros_UI.ViewModel
 {
-    public class DockManagerViewModel
+    public class DockManagerViewModel : Base.ViewModel
     {
-        public ObservableCollection<DocumentViewModel> Documents { get; internal set; }
-        public ObservableCollection<ToolViewModel> Tools { get; internal set; }
-
-        public ExplorerViewModel Explorer { get; internal set; }
-        public ToolboxViewModel Toolbox { get; internal set; }
-        public ConsoleViewModel Console { get; internal set; }
-
         public DockManagerViewModel(IEnumerable<DocumentViewModel> DocumentViewModels)
         {
-            Documents = new ObservableCollection<DocumentViewModel>();
-            Tools = new ObservableCollection<ToolViewModel>();
+            Model = new DockManagerModel();
 
             Explorer = new ExplorerViewModel() { Model = new ExplorerModel() { Title = "Explorer", ContentId = "Explorer", IsVisible = true } };
             Toolbox = new ToolboxViewModel() { Model = new ToolboxModel() { Title = "Toolbox", ContentId = "Toolbox", IsVisible = true } };
@@ -128,5 +120,126 @@ namespace Excel_Macros_UI.ViewModel
 
             return sb.ToString();
         }
+
+        #region Model
+
+        private DockManagerModel m_Model;
+        public DockManagerModel Model
+        {
+            get
+            {
+                return m_Model;
+            }
+            set
+            {
+                if(m_Model != value)
+                {
+                    m_Model = value;
+                    OnPropertyChanged(nameof(Model));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Documents
+
+        public ObservableCollection<DocumentViewModel> Documents
+        {
+            get
+            {
+                return Model.Documents;
+            }
+            set
+            {
+                if(Model.Documents != value)
+                {
+                    Model.Documents = value;
+                    OnPropertyChanged(nameof(Documents));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Tools
+
+        public ObservableCollection<ToolViewModel> Tools
+        {
+            get
+            {
+                return Model.Tools;
+            }
+            set
+            {
+                if (Model.Tools != value)
+                {
+                    Model.Tools = value;
+                    OnPropertyChanged(nameof(Tools));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Explorer
+
+        public ExplorerViewModel Explorer
+        {
+            get
+            {
+                return Model.Explorer;
+            }
+            set
+            {
+                if (Model.Explorer != value)
+                {
+                    Model.Explorer = value;
+                    OnPropertyChanged(nameof(Explorer));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Toolbox
+
+        public ToolboxViewModel Toolbox
+        {
+            get
+            {
+                return Model.Toolbox;
+            }
+            set
+            {
+                if (Model.Toolbox != value)
+                {
+                    Model.Toolbox = value;
+                    OnPropertyChanged(nameof(Toolbox));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Console
+
+        public ConsoleViewModel Console
+        {
+            get
+            {
+                return Model.Console;
+            }
+            set
+            {
+                if (Model.Console != value)
+                {
+                    Model.Console = value;
+                    OnPropertyChanged(nameof(Console));
+                }
+            }
+        }
+
+        #endregion
     }
 }

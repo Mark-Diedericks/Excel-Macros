@@ -44,23 +44,12 @@ namespace Excel_Macros_UI.View
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow, IThemeManager
+    public partial class MainWindow : MetroWindow
     {
-        public delegate void ThemeEvent();
-        public static event ThemeEvent ThemeChanged;
-
-        public delegate void DocumentEvent(DocumentViewModel vm);
-        public static event DocumentEvent DocumentChangedEvent;
-
-        private static MainWindow s_Instance;
-        private bool m_IsClosing;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            s_Instance = this;
-            m_IsClosing = false;
 
             ThemeManager.AddAccent("ExcelAccent", new Uri("pack://application:,,,/Excel Macros UI;component/Themes/ExcelAccent.xaml"));
             ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent("ExcelAccent"), ThemeManager.GetAppTheme("BaseLight"));
@@ -70,20 +59,11 @@ namespace Excel_Macros_UI.View
 
             DocumentContextMenu.ContextMenuOpening += DocumentContextMenu_ContextMenuOpening;
             AnchorableContextMenu.ContextMenuOpening += AnchorableContextMenu_ContextMenuOpening;
-
-            Themes = new ObservableCollection<ITheme>();
             
             AddTheme(new LightTheme());
             AddTheme(new DarkTheme());
 
             SetTheme(Properties.Settings.Default.Theme);
-
-            flyoutSettings.DataContext = new SettingsMenuViewModel();
-        }
-
-        public static MainWindow GetInstance()
-        {
-            return s_Instance;
         }
 
         #region Window Event Callbacks & Overrides
@@ -285,10 +265,6 @@ namespace Excel_Macros_UI.View
             }
         }
 
-        public ObservableCollection<ITheme> Themes { get; internal set; }
-
-        public ITheme ActiveTheme { get; internal set; }
-
         public bool AddTheme(ITheme theme)
         {
             if (Themes.Contains(theme))
@@ -347,10 +323,7 @@ namespace Excel_Macros_UI.View
         #endregion
 
         #region Context Menus
-
-        private ContextMenu DocumentContextMenu;
-        private ContextMenu AnchorableContextMenu;
-
+        
         private void ContextMenuThemeChange()
         {
             Style ContextMenuStyle = GetResource("MetroContextMenuStyle") as Style;
@@ -416,20 +389,7 @@ namespace Excel_Macros_UI.View
         #endregion
 
         #region Active Documents
-
-        private DocumentViewModel m_ActiveDocument;
-        public DocumentViewModel ActiveDocument
-        {
-            get
-            {
-                return m_ActiveDocument;
-            }
-            set
-            {
-                m_ActiveDocument = value;
-            }
-        }
-
+        
         private void DockingManager_DockManager_ActiveContentChanged(object sender, EventArgs e)
         {
             if (DockingManager_DockManager.ActiveContent is DocumentViewModel)
@@ -448,19 +408,6 @@ namespace Excel_Macros_UI.View
         #endregion
 
         #region Toolbar & MenuBar Event Callbacks
-
-        public bool AsyncExecution
-        {
-            get
-            {
-                return spltBtnExecutionType.SelectedIndex == 0;
-            }
-
-            set
-            {
-                spltBtnExecutionType.SelectedIndex = value ?  0 : 1;
-            }
-        }
 
         private void btnNew_Click(object sender, RoutedEventArgs e)
         {

@@ -34,7 +34,7 @@ namespace Excel_Macros_RIBBON
         private void ThisAddIn_Startup(object sender, EventArgs e)
         {
             ExcelMacrosRibbonTab.MacroRibbonLoadEvent += MacroRibbonLoaded;
-            UI.Routing.EventManager.ApplicationLoaded += MacroEditorLoaded;
+            UI.Routing.EventManager.ApplicationLoadedEvent += MacroEditorLoaded;
 
             Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
 
@@ -106,7 +106,7 @@ namespace Excel_Macros_RIBBON
             m_EventManager.RemoveRibbonMacroEvent += m_RibbonTab.RemoveMacro;
             m_EventManager.RenameRibbonMacroEvent += m_RibbonTab.RenameMacro;
 
-            m_EventManager.SetExcelInteractive += (enable) =>
+            m_EventManager.SetExcelInteractiveEvent += (enable) =>
             {
                 if (Application.Interactive == enable)
                     return;

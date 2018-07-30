@@ -37,7 +37,7 @@ namespace Excel_Macros_UI.ViewModel
             if (Routing.EventManager.IsLoaded())
                 Initialize();
             else
-                Routing.EventManager.ApplicationLoaded += Initialize;
+                Routing.EventManager.ApplicationLoadedEvent += Initialize;
         }
 
         private void Focus()
