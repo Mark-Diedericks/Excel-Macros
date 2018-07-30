@@ -87,6 +87,8 @@ namespace Excel_Macros_RIBBON
         {
             if (menuExecuteMacro.Items.Count <= 0)
                 menuExecuteMacro.Enabled = false;
+            else
+                menuExecuteMacro.Enabled = true;
         }
 
         #endregion
@@ -157,6 +159,8 @@ namespace Excel_Macros_RIBBON
             button.ScreenTip = macroPath;
 
             button.Click += delegate (object sender, RibbonControlEventArgs args) { macroClickEvent.Invoke(); };
+
+            RemoveMacro(id);
 
             m_Buttons.Add(id, button);
             m_Macros.Add(id, new RibbonMacroData() { name = macroName, path = macroPath});

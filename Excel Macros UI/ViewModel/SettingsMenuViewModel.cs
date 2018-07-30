@@ -1,7 +1,17 @@
-﻿using Excel_Macros_UI.Utilities;
+﻿/*
+ * Mark Diedericks
+ * 30/06/2018
+ * Version 1.0.1
+ * Settings menu view model
+ */
+
+using Excel_Macros_UI.Model;
+using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.View;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +22,12 @@ namespace Excel_Macros_UI.ViewModel
     public class SettingsMenuViewModel : Base.ViewModel
     {
         private string PreviousTheme;
+        private static SettingsMenuViewModel s_Instance;
 
         public SettingsMenuViewModel()
         {
+            s_Instance = this;
+            Model = new SettingsMenuModel();
             MainWindow.ThemeChanged += MainWindow_ThemeChanged;
             PreviousTheme = MainWindow.GetInstance().ActiveTheme.Name;
             LoadColors();
@@ -58,21 +71,41 @@ namespace Excel_Macros_UI.ViewModel
             SetSyntaxStyle(values);
         }
 
+        #region Model
+
+        private SettingsMenuModel m_Model;
+        public SettingsMenuModel Model
+        {
+            get
+            {
+                return m_Model;
+            }
+            set
+            {
+                if(m_Model != value)
+                {
+                    m_Model = value;
+                    OnPropertyChanged(nameof(Model));
+                }
+            }
+        }
+
+        #endregion
+
         #region FunctionColor
 
-        private string m_FunctionColor;
         public string FunctionColor
         {
             get
             {
-                return m_FunctionColor;
+                return Model.FunctionColor;
             }
 
             set
             {
-                if (m_FunctionColor != value)
+                if (Model.FunctionColor != value)
                 {
-                    m_FunctionColor = value;
+                    Model.FunctionColor = value;
                     OnPropertyChanged(nameof(FunctionColor));
                     SetColors();
                 }
@@ -82,20 +115,19 @@ namespace Excel_Macros_UI.ViewModel
         #endregion
 
         #region DigitColor
-
-        private string m_DigitColor;
+        
         public string DigitColor
         {
             get
             {
-                return m_DigitColor;
+                return Model.DigitColor;
             }
 
             set
             {
-                if (m_DigitColor != value)
+                if (Model.DigitColor != value)
                 {
-                    m_DigitColor = value;
+                    Model.DigitColor = value;
                     OnPropertyChanged(nameof(DigitColor));
                     SetColors();
                 }
@@ -105,20 +137,19 @@ namespace Excel_Macros_UI.ViewModel
         #endregion
 
         #region CommentColor
-
-        private string m_CommentColor;
+        
         public string CommentColor
         {
             get
             {
-                return m_CommentColor;
+                return Model.CommentColor;
             }
 
             set
             {
-                if (m_CommentColor != value)
+                if (Model.CommentColor != value)
                 {
-                    m_CommentColor = value;
+                    Model.CommentColor = value;
                     OnPropertyChanged(nameof(CommentColor));
                     SetColors();
                 }
@@ -128,20 +159,19 @@ namespace Excel_Macros_UI.ViewModel
         #endregion
 
         #region StringColor
-
-        private string m_StringColor;
+        
         public string StringColor
         {
             get
             {
-                return m_StringColor;
+                return Model.StringColor;
             }
 
             set
             {
-                if (m_StringColor != value)
+                if (Model.StringColor != value)
                 {
-                    m_StringColor = value;
+                    Model.StringColor = value;
                     OnPropertyChanged(nameof(StringColor));
                     SetColors();
                 }
@@ -151,20 +181,19 @@ namespace Excel_Macros_UI.ViewModel
         #endregion
 
         #region PairColor
-
-        private string m_PairColor;
+        
         public string PairColor
         {
             get
             {
-                return m_PairColor;
+                return Model.PairColor;
             }
 
             set
             {
-                if (m_PairColor != value)
+                if (Model.PairColor != value)
                 {
-                    m_PairColor = value;
+                    Model.PairColor = value;
                     OnPropertyChanged(nameof(PairColor));
                     SetColors();
                 }
@@ -174,20 +203,19 @@ namespace Excel_Macros_UI.ViewModel
         #endregion
 
         #region ClassColor
-
-        private string m_ClassColor;
+        
         public string ClassColor
         {
             get
             {
-                return m_ClassColor;
+                return Model.ClassColor;
             }
 
             set
             {
-                if (m_ClassColor != value)
+                if (Model.ClassColor != value)
                 {
-                    m_ClassColor = value;
+                    Model.ClassColor = value;
                     OnPropertyChanged(nameof(ClassColor));
                     SetColors();
                 }
@@ -197,20 +225,19 @@ namespace Excel_Macros_UI.ViewModel
         #endregion
 
         #region StatementColor
-
-        private string m_StatementColor;
+        
         public string StatementColor
         {
             get
             {
-                return m_StatementColor;
+                return Model.StatementColor;
             }
 
             set
             {
-                if (m_StatementColor != value)
+                if (Model.StatementColor != value)
                 {
-                    m_StatementColor = value;
+                    Model.StatementColor = value;
                     OnPropertyChanged(nameof(StatementColor));
                     SetColors();
                 }
@@ -220,20 +247,19 @@ namespace Excel_Macros_UI.ViewModel
         #endregion
 
         #region BooleanColor
-
-        private string m_BooleanColor;
+        
         public string BooleanColor
         {
             get
             {
-                return m_BooleanColor;
+                return Model.BooleanColor;
             }
 
             set
             {
-                if (m_BooleanColor != value)
+                if (Model.BooleanColor != value)
                 {
-                    m_BooleanColor = value;
+                    Model.BooleanColor = value;
                     OnPropertyChanged(nameof(BooleanColor));
                     SetColors();
                 }
@@ -242,5 +268,152 @@ namespace Excel_Macros_UI.ViewModel
 
         #endregion
 
+        #region RibbonItems
+
+        public ObservableCollection<DisplayableTreeViewItem> RibbonItems
+        {
+            get
+            {
+                return Model.RibbonItems;
+            }
+            set
+            {
+                if (Model.RibbonItems != value)
+                {
+                    Model.RibbonItems = value;
+                    OnPropertyChanged(nameof(RibbonItems));
+                }
+            }
+        }
+
+        #endregion
+
+        #region LabelVisible
+
+        public bool LabelVisible
+        {
+            get
+            {
+                return Model.LabelVisible;
+            }
+            set
+            {
+                if(Model.LabelVisible != value)
+                {
+                    Model.LabelVisible = value;
+                    OnPropertyChanged(nameof(LabelVisible));
+                }
+            }
+        }
+
+        #endregion
+
+        #region LightTheme
+
+        public bool LightTheme
+        {
+            get
+            {
+                return Model.LightTheme;
+            }
+            set
+            {
+                if (Model.LightTheme != value)
+                {
+                    Model.LightTheme = value;
+                    OnPropertyChanged(nameof(LightTheme));
+                    OnPropertyChanged(nameof(DarkTheme));
+                }
+            }
+        }
+
+        #endregion
+
+        #region DarkTheme
+
+        public bool DarkTheme
+        {
+            get
+            {
+                return Model.DarkTheme;
+            }
+            set
+            {
+                if (Model.DarkTheme != value)
+                {
+                    Model.DarkTheme = value;
+                    OnPropertyChanged(nameof(LightTheme));
+                    OnPropertyChanged(nameof(DarkTheme));
+                }
+            }
+        }
+
+        #endregion
+
+        #region StyleActive
+
+        public bool StyleActive
+        {
+            get
+            {
+                return Model.StyleActive;
+            }
+            set
+            {
+                if (Model.StyleActive != value)
+                {
+                    Model.StyleActive = value;
+                    OnPropertyChanged(nameof(StyleActive));
+                    OnPropertyChanged(nameof(LibraryActive));
+                    OnPropertyChanged(nameof(RibbonActive));
+                }
+            }
+        }
+
+        #endregion
+
+        #region LibraryActive
+
+        public bool LibraryActive
+        {
+            get
+            {
+                return Model.LibraryActive;
+            }
+            set
+            {
+                if (Model.LibraryActive != value)
+                {
+                    Model.LibraryActive = value;
+                    OnPropertyChanged(nameof(StyleActive));
+                    OnPropertyChanged(nameof(LibraryActive));
+                    OnPropertyChanged(nameof(RibbonActive));
+                }
+            }
+        }
+
+        #endregion
+
+        #region RibbonActive
+
+        public bool RibbonActive
+        {
+            get
+            {
+                return Model.RibbonActive;
+            }
+            set
+            {
+                if (Model.RibbonActive != value)
+                {
+                    Model.RibbonActive = value;
+                    OnPropertyChanged(nameof(StyleActive));
+                    OnPropertyChanged(nameof(LibraryActive));
+                    OnPropertyChanged(nameof(RibbonActive));
+                }
+            }
+        }
+
+        #endregion
     }
 }

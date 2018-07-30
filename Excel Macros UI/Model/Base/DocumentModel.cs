@@ -59,6 +59,28 @@ namespace Excel_Macros_UI.Model.Base
 
         #endregion
 
+        #region IsSaved
+
+        private bool m_IsSaved;
+        public bool IsSaved
+        {
+            get
+            {
+                return m_IsSaved;
+            }
+
+            set
+            {
+                if (m_IsSaved != value)
+                {
+                    m_IsSaved = value;
+                    OnPropertyChanged(nameof(IsSaved));
+                }
+            }
+        }
+
+        #endregion
+
         #region Title
 
         private string m_Title;

@@ -93,6 +93,7 @@
     <Compile Include="Model\Base\ToolModel.cs" />
     <Compile Include="Model\ConsoleModel.cs" />
     <Compile Include="Model\ExplorerModel.cs" />
+    <Compile Include="Model\SettingsMenuModel.cs" />
     <Compile Include="Model\TextualEditorModel.cs" />
     <Compile Include="Model\ToolboxModel.cs" />
     <Compile Include="Model\VisualEditorModel.cs" />

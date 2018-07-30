@@ -79,7 +79,6 @@ namespace Excel_Macros_UI.View
             SetTheme(Properties.Settings.Default.Theme);
 
             flyoutSettings.DataContext = new SettingsMenuViewModel();
-            flyoutSettings.CreateSettingsMenu();
         }
 
         public static MainWindow GetInstance()
@@ -219,7 +218,7 @@ namespace Excel_Macros_UI.View
         public void DisplayOkMessage(string message, string caption)
         {
             if (IsVisible)
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(async () => { await this.ShowMessageAsync(caption, message, MessageDialogStyle.Affirmative); }));
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(async () => { await this.ShowMessageAsync(caption, message, MessageDialogStyle.Affirmative, new MetroDialogSettings() { AffirmativeButtonText = "Ok" }); }));
             else
                 System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.OK);
         }
@@ -229,11 +228,38 @@ namespace Excel_Macros_UI.View
             if (IsVisible)
                 Dispatcher.Invoke(async () =>
                 {
-                    bool result = (await this.ShowMessageAsync(caption, message, MessageDialogStyle.AffirmativeAndNegative)) == MessageDialogResult.Affirmative;
+                    bool result = (await this.ShowMessageAsync(caption, message, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AffirmativeButtonText = "Yes", NegativeButtonText = "No" })) == MessageDialogResult.Affirmative;
                     OnReturn?.Invoke(result);
                 });
             else
                 OnReturn?.Invoke(System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.OK) == System.Windows.Forms.DialogResult.OK);
+        }
+
+        public void DisplayYesNoCancelMessage(string message, string caption, string aux, Action<MessageDialogResult> OnReturn)
+        {
+            if (IsVisible)
+                Dispatcher.Invoke(async () =>
+                {
+                    MessageDialogResult result = (await this.ShowMessageAsync(caption, message, MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, new MetroDialogSettings() { AffirmativeButtonText = "Yes", NegativeButtonText = "Cancel", FirstAuxiliaryButtonText = aux }));
+                    OnReturn?.Invoke(result);
+                });
+            else
+                OnReturn?.Invoke(ConvertResult(System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.YesNoCancel)));
+        }
+
+        private MessageDialogResult ConvertResult(System.Windows.Forms.DialogResult result)
+        {
+            switch(result)
+            {
+                case System.Windows.Forms.DialogResult.Yes:
+                    return MessageDialogResult.Affirmative;
+                case System.Windows.Forms.DialogResult.No:
+                    return MessageDialogResult.Negative;
+                case System.Windows.Forms.DialogResult.Cancel:
+                    return MessageDialogResult.Canceled;
+                default:
+                    return MessageDialogResult.Canceled;
+            }
         }
 
         public async Task<bool> DisplayYesNoMessageReturn(string message, string caption)
@@ -589,7 +615,7 @@ namespace Excel_Macros_UI.View
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 flyoutSettings.IsOpen = true;
-                flyoutSettings.SetActiveSettingsPage(SettingsMenuView.SettingsPage.Style);
+                ((SettingsMenuViewModel)flyoutSettings.DataContext).StyleActive = true;
             }));
         }
 
@@ -598,7 +624,7 @@ namespace Excel_Macros_UI.View
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 flyoutSettings.IsOpen = true;
-                flyoutSettings.SetActiveSettingsPage(SettingsMenuView.SettingsPage.Style);
+                ((SettingsMenuViewModel)flyoutSettings.DataContext).StyleActive = true;
             }));
         }
 
@@ -607,7 +633,7 @@ namespace Excel_Macros_UI.View
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 flyoutSettings.IsOpen = true;
-                flyoutSettings.SetActiveSettingsPage(SettingsMenuView.SettingsPage.Libraries);
+                ((SettingsMenuViewModel)flyoutSettings.DataContext).LibraryActive = true;
             }));
         }
 
@@ -616,7 +642,7 @@ namespace Excel_Macros_UI.View
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 flyoutSettings.IsOpen = true;
-                flyoutSettings.SetActiveSettingsPage(SettingsMenuView.SettingsPage.Macro);
+                ((SettingsMenuViewModel)flyoutSettings.DataContext).RibbonActive = true;
             }));
         }
 
@@ -736,20 +762,15 @@ namespace Excel_Macros_UI.View
             }));
         }
 
-        /*public void CreateMacroAsync(TreeViewItem parent, MacroType type, string root)
+        public void CreateMacroAsync(MacroType type)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => m_MacroExplorer.CreateMacro(parent, type, root)));
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => btnNew_Click(null, null)));
         }
 
-        public void ImportMacroAsync(TreeViewItem parent, string root)
+        public void ImportMacroAsync()
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => m_MacroExplorer.ImportMacro(parent, root)));
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => btnOpen_Click(null, null)));
         }
-
-        public void ExecuteMacro(bool async)
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => m_MacroEditor.BeginExecution(async)));
-        }*/
 
         #endregion
     }

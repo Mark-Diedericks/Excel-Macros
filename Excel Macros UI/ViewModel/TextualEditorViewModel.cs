@@ -25,24 +25,26 @@ namespace Excel_Macros_UI.ViewModel
         public TextualEditorViewModel()
         {
             Model = new TextualEditorModel(Guid.Empty);
+            IsSaved = true;
         }
 
         public override void Save(Action OnComplete)
         {
             Main.GetMacro(Macro).SetSource(Source.Text);
             Main.GetMacro(Macro).Save();
-            OnComplete?.Invoke();
+            base.Stop(OnComplete);
         }
 
         public override void Start(Action OnComplete)
         {
             Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().ExecuteMacro(Source.Text, OnComplete, MainWindow.GetInstance().AsyncExecution);
+            base.Stop(OnComplete);
         }
 
         public override void Stop(Action OnComplete)
         {
             Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().TerminateExecution();
-            OnComplete?.Invoke();
+            base.Stop(OnComplete);
         }
 
         #region Model

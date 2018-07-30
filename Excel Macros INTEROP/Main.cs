@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 27/07/2018
- * Version 1.0.13
+ * 30/07/2018
+ * Version 1.0.14
  * The main hub of the interop library
  */
 
@@ -72,6 +72,9 @@ namespace Excel_Macros_INTEROP
         public delegate void MacroRenameEvent(Guid id);
         public event MacroRenameEvent OnMacroRenamed;
 
+        //Temporary path storage
+        private string[] m_RibbonMacroPaths;
+
         //Macros
         private Dictionary<Guid, MacroDeclaration> m_Declarations;
         private Dictionary<Guid, IMacro> m_Macros;
@@ -129,18 +132,7 @@ namespace Excel_Macros_INTEROP
 
                 //Parse ribbon macros
                 GetInstance().m_RibbonMacros = new HashSet<Guid>();
-
-                string[] paths = RibbonMacros.Split(';');
-                foreach (string file in paths)
-                {
-                    foreach (Guid key in GetInstance().m_Declarations.Keys)
-                    {
-                        string path = GetInstance().m_Declarations[key].relativepath;
-
-                        if (path.Trim().ToLower() == file.Trim().ToLower())
-                            AddRibbonMacro(key);
-                    }
-                }
+                GetInstance().m_RibbonMacroPaths = RibbonMacros.Split(';');
 
                 //Get the active macro
                 if (!String.IsNullOrEmpty(ActiveMacroRelativePath))
@@ -180,6 +172,14 @@ namespace Excel_Macros_INTEROP
 
         #region Getters, Setters and Passthrough Functions
 
+        public static void LoadRibbonMacros()
+        {
+            GetInstance().m_RibbonMacros.Clear();
+
+            foreach (string file in GetInstance().m_RibbonMacroPaths)
+                AddRibbonMacro(GetIDFromRelativePath(file));
+        }
+
         public static Guid GetActiveMacro()
         {
             return s_Instance.m_ActiveMacro;
@@ -208,6 +208,9 @@ namespace Excel_Macros_INTEROP
 
         public static void AddRibbonMacro(Guid id)
         {
+            if (id == Guid.Empty || IsRibbonMacro(id))
+                return;
+
             GetInstance().m_RibbonMacros.Add(id);
 
             MacroDeclaration md = GetInstance().m_Declarations[id];

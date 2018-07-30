@@ -1,11 +1,12 @@
 ﻿/*
  * Mark Diedericks
- * 19/07/2018
- * Version 1.0.4
+ * 30/07/2018
+ * Version 1.0.6
  * Settings menu basic view logic
  */
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Excel_Macros_INTEROP;
 using Excel_Macros_INTEROP.Macros;
+using Excel_Macros_UI.Model;
 using Excel_Macros_UI.ViewModel;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
@@ -35,11 +37,12 @@ namespace Excel_Macros_UI.View
         public SettingsMenuView()
         {
             InitializeComponent();
-            SetActiveSettingsPage(SettingsPage.Style);
+            DataContextChanged += SettingsMenuView_DataContextChanged;
+        }
 
-            bool light = Properties.Settings.Default.Theme == "Light";
-            rdbtnThemeLight.IsChecked = light;
-            rdbtnThemeDark.IsChecked = !light;
+        private void SettingsMenuView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            ((SettingsMenuViewModel)DataContext).LightTheme = Properties.Settings.Default.Theme == "Light";
         }
 
         public ResourceDictionary ThemeDictionary
@@ -48,127 +51,6 @@ namespace Excel_Macros_UI.View
             {
                 return Resources.MergedDictionaries[1];
             }
-        }
-
-        public enum SettingsPage
-        {
-            Style = 0,
-            Libraries = 1,
-            Macro = 2
-        }
-
-        public void CreateSettingsMenu()
-        {
-            //CREATE EDITOR SETTINGS TAB
-
-            //Nothing Needs to be done
-
-            //CREATE LIBRARY SETTINGS TAB
-
-
-
-            //CREATE RIBBON SETTINGS TAB
-
-            Dictionary<Guid, IMacro> macros = Main.GetMacros();
-            listSettingsRibbonMacro.Items.Clear();
-            foreach (Guid id in macros.Keys)
-                listSettingsRibbonMacro.Items.Add(CreateRibbonMacroListItem(id, macros[id]));
-
-            //Set default page
-            SetActiveSettingsPage(SettingsPage.Style);
-        }
-
-        private ListViewItem CreateRibbonMacroListItem(Guid id, IMacro macro)
-        {
-            MacroDeclaration md = Main.GetDeclaration(id);
-            ListViewItem lvi = new ListViewItem();
-            CheckBox cb = new CheckBox();
-
-            cb.Content = md.name;
-            cb.ToolTip = md.relativepath;
-            cb.IsChecked = Main.IsRibbonMacro(id);
-
-            cb.Checked += delegate (object sender, RoutedEventArgs args) { Main.AddRibbonMacro(id); };
-            cb.Unchecked += delegate (object sender, RoutedEventArgs args) { Main.RemoveRibbonMacro(id); };
-
-            lvi.Content = cb;
-
-            return lvi;
-        }
-
-        private void btnSettingsEditor_Click(object sender, RoutedEventArgs e)
-        {
-            SetActiveSettingsPage(SettingsPage.Style);
-        }
-
-        private void btnSettingsLibraries_Click(object sender, RoutedEventArgs e)
-        {
-            SetActiveSettingsPage(SettingsPage.Libraries);
-        }
-
-        private void btnSettingsRibbon_Click(object sender, RoutedEventArgs e)
-        { 
-
-            Dictionary<Guid, IMacro> macros = Main.GetMacros();
-            lblEmpty.Visibility = macros.Count() > 0 ? Visibility.Hidden : Visibility.Visible;
-
-            listSettingsRibbonMacro.Items.Clear();
-            foreach (Guid id in macros.Keys)
-                listSettingsRibbonMacro.Items.Add(CreateRibbonMacroListItem(id, macros[id]));
-
-            SetActiveSettingsPage(SettingsPage.Macro);
-        }
-
-        public void SetActiveSettingsPage(SettingsPage page)
-        {
-            if (page == SettingsPage.Style)
-            {
-                gridSettingsEditor.Visibility = Visibility.Visible;
-                gridSettingsLibraries.Visibility = Visibility.Hidden;
-                gridSettingsRibbon.Visibility = Visibility.Hidden;
-
-                btnSettingsEditor.IsChecked = true;
-                btnSettingsLibraries.IsChecked = false;
-                btnSettingsRibbon.IsChecked = false;
-            }
-
-            if (page == SettingsPage.Libraries)
-            {
-                gridSettingsEditor.Visibility = Visibility.Hidden;
-                gridSettingsLibraries.Visibility = Visibility.Visible;
-                gridSettingsRibbon.Visibility = Visibility.Hidden;
-
-                btnSettingsEditor.IsChecked = false;
-                btnSettingsLibraries.IsChecked = true;
-                btnSettingsRibbon.IsChecked = false;
-            }
-
-            if (page == SettingsPage.Macro)
-            {
-                gridSettingsEditor.Visibility = Visibility.Hidden;
-                gridSettingsLibraries.Visibility = Visibility.Hidden;
-                gridSettingsRibbon.Visibility = Visibility.Visible;
-
-                btnSettingsEditor.IsChecked = false;
-                btnSettingsLibraries.IsChecked = false;
-                btnSettingsRibbon.IsChecked = true;
-            }
-        }
-
-        private void rdbtnThemeLight_Checked(object sender, RoutedEventArgs e)
-        {
-            if (MainWindow.GetInstance() == null)
-                return;
-
-            MainWindow.GetInstance().SetTheme("Light");
-        }
-
-        private void rdbtnThemeDark_Checked(object sender, RoutedEventArgs e)
-        {
-            if (MainWindow.GetInstance() == null)
-                return;
-
-            MainWindow.GetInstance().SetTheme("Dark");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
  * 30/07/2018
- * Version 1.0.1
+ * Version 1.0.2
  * Textual Macro data structure
  */
 
@@ -27,7 +27,7 @@ namespace Excel_Macros_INTEROP.Macros
 
         public void CreateBlankMacro()
         {
-            m_Source = "\n";
+            m_Source = "";
         }
 
         public Guid GetID()
@@ -53,6 +53,9 @@ namespace Excel_Macros_INTEROP.Macros
         public void Rename(string name)
         {
             FileManager.RenameMacro(m_ID, name);
+
+            if (Main.IsRibbonMacro(m_ID))
+                Main.RenameRibbonMacro(m_ID);
         }
 
         public string GetName()
@@ -78,6 +81,9 @@ namespace Excel_Macros_INTEROP.Macros
         public void Delete(Action<bool> OnReturn)
         {
             FileManager.DeleteMacro(m_ID, OnReturn);
+
+            if (Main.IsRibbonMacro(m_ID))
+                Main.RemoveRibbonMacro(m_ID);
         }
 
         public void ExecuteDebug(Action OnCompletedAction, bool async)

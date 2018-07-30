@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2018
- * Version 1.0.1
+ * 30/07/2018
+ * Version 1.0.8
  * Event manager, allowing for cross-thread interaction between the Excel Ribbon tab and the UI/Interop projects
  */
 
@@ -18,6 +18,7 @@ using System.Threading;
 using Excel_Macros_UI.View;
 using Excel_Macros_UI.Model;
 using System.IO;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Excel_Macros_UI.Routing
 {
@@ -40,6 +41,7 @@ namespace Excel_Macros_UI.Routing
 
         public delegate void LoadEvent();
         public static event LoadEvent ApplicationLoaded;
+        public static event LoadEvent RibbonLoaded;
         private event LoadEvent ShutdownEvent;
         
         public delegate void InputMessageEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type, Action<object> OnResult);
@@ -58,6 +60,7 @@ namespace Excel_Macros_UI.Routing
         private static EventManager s_Instance;
         private static App s_UIApp;
         private static bool s_IsLoaded;
+        private static bool s_IsRibbonLoaded;
 
         private EventManager()
         {
@@ -75,12 +78,19 @@ namespace Excel_Macros_UI.Routing
             return s_IsLoaded;
         }
 
+        public static bool IsRibbonLoaded()
+        {
+            return s_IsRibbonLoaded;
+        }
+
         public static void CreateApplicationInstance(Excel.Application application, Dispatcher dispatcher, string RibbonMacros)
         {
             new EventManager();
             
             s_UIApp = new App();
             s_UIApp.InitializeComponent();
+
+            RibbonLoaded += Main.LoadRibbonMacros;
 
             Main.Initialize(application, dispatcher, new Action(() =>
             {
@@ -116,6 +126,9 @@ namespace Excel_Macros_UI.Routing
                 };
 
                 GetInstance().IOChangedEvent += Main.SetIOSteams;
+
+                if (s_IsRibbonLoaded)
+                    Main.LoadRibbonMacros();
 
                 LoadCompleted();
             }), RibbonMacros, Properties.Settings.Default.ActiveMacro);
@@ -172,7 +185,7 @@ namespace Excel_Macros_UI.Routing
                 return;
 
             MainWindow.GetInstance().ShowWindow();
-            //MainWindow.GetInstance().CreateMacroAsync(null, MacroType.PYTHON, "/");
+            MainWindow.GetInstance().CreateMacroAsync(MacroType.PYTHON);
         }
 
         public void NewVisualClickEvent()
@@ -181,7 +194,7 @@ namespace Excel_Macros_UI.Routing
                 return;
 
             MainWindow.GetInstance().ShowWindow();
-            //MainWindow.GetInstance().CreateMacroAsync(null, MacroType.BLOCKLY, "/");
+            MainWindow.GetInstance().CreateMacroAsync(MacroType.BLOCKLY);
         }
 
         public void OpenMacroClickEvent()
@@ -190,7 +203,13 @@ namespace Excel_Macros_UI.Routing
                 return;
 
             MainWindow.GetInstance().ShowWindow();
-            //MainWindow.GetInstance().ImportMacroAsync(null, "/");
+            MainWindow.GetInstance().ImportMacroAsync();
+        }
+
+        public static void MacroRibbonLoaded()
+        {
+            s_IsRibbonLoaded = true;
+            RibbonLoaded?.Invoke();
         }
 
         #endregion
@@ -253,6 +272,11 @@ namespace Excel_Macros_UI.Routing
             Task<bool> t = MainWindow.GetInstance().DisplayYesNoMessageReturn(content, title);
             t.Wait();
             return t.Result;
+        }
+
+        public static void DisplayYesNoCancelMessage(string message, string caption, string aux, Action<MessageDialogResult> OnReturn)
+        {
+            MainWindow.GetInstance().DisplayYesNoCancelMessage(message, caption, aux, OnReturn);
         }
 
         public static void ClearAllIO()

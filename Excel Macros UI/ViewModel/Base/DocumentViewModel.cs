@@ -8,6 +8,7 @@
 using Excel_Macros_UI.Model;
 using Excel_Macros_UI.Model.Base;
 using Excel_Macros_UI.Routing;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,22 @@ namespace Excel_Macros_UI.ViewModel.Base
 
         public void Close()
         {
-            IsClosed = true;
+            if (!IsSaved)
+            {
+                EventManager.DisplayYesNoCancelMessage(Title + " has unsaved changed. Do you want to save the changes?", "Confirmation", "Discard", new Action<MessageDialogResult>((result) =>
+                {
+                    if (result == MessageDialogResult.Affirmative)
+                        SaveCommand.Execute(new Action(() => IsClosed = true));
+                    else if (result == MessageDialogResult.FirstAuxiliary)
+                        IsClosed = true;
+                    else
+                        IsClosed = false;
+                }));
+            }
+            else
+            {
+                IsClosed = true;
+            }
         }
 
         #endregion
@@ -54,7 +70,11 @@ namespace Excel_Macros_UI.ViewModel.Base
             }
         }
 
-        public virtual void Save(Action OnComplete) { }
+        public virtual void Save(Action OnComplete)
+        {
+            IsSaved = true;
+            OnComplete?.Invoke();
+        }
 
         #endregion
 
@@ -71,7 +91,10 @@ namespace Excel_Macros_UI.ViewModel.Base
             }
         }
 
-        public virtual void Start(Action OnComplete) { }
+        public virtual void Start(Action OnComplete)
+        {
+            OnComplete?.Invoke();
+        }
 
         #endregion
 
@@ -88,7 +111,10 @@ namespace Excel_Macros_UI.ViewModel.Base
             }
         }
 
-        public virtual void Stop(Action OnComplete) { }
+        public virtual void Stop(Action OnComplete)
+        {
+            OnComplete?.Invoke();
+        }
 
         #endregion
 
@@ -275,6 +301,27 @@ namespace Excel_Macros_UI.ViewModel.Base
                 {
                     Model.IsClosed = value;
                     OnPropertyChanged(nameof(IsClosed));
+                }
+            }
+        }
+
+        #endregion
+
+        #region IsSaved
+
+        public bool IsSaved
+        {
+            get
+            {
+                return Model.IsSaved;
+            }
+
+            set
+            {
+                if (Model.IsSaved != value)
+                {
+                    Model.IsSaved = value;
+                    OnPropertyChanged(nameof(IsSaved));
                 }
             }
         }

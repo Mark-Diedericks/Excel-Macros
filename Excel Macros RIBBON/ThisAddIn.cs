@@ -156,6 +156,7 @@ namespace Excel_Macros_RIBBON
             };
 
             m_RibbonTab.MainUILoaded();
+            UI.Routing.EventManager.MacroRibbonLoaded();
         }
 
         #region VSTO generated code

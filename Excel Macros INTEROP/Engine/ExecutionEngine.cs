@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 22/07/2018
- * Version 1.0.8
+ * 30/07/2018
+ * Version 1.0.9
  * Manages execution of users' code
  */
 
@@ -153,7 +153,7 @@ namespace Excel_Macros_INTEROP.Engine
 
                 if (Main.GetEngineIOManager() != null)
                 {
-                    Main.GetEngineIOManager().GetOutput().WriteLine("Syncrhonous Execution Completed. Runtime of {0:N2}s", Utilities.GetTimeIntervalSeconds(profileID));
+                    Main.GetEngineIOManager().GetOutput().WriteLine("Synchronous Execution Completed. Runtime of {0:N2}s", Utilities.GetTimeIntervalSeconds(profileID));
                     Main.GetEngineIOManager().GetOutput().Flush();
                 }
 

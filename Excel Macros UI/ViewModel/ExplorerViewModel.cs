@@ -145,12 +145,14 @@ namespace Excel_Macros_UI.ViewModel
         }
         #endregion
 
-        #region Tree View Population Through Recursion
+        #region Tree View Population Through Recursion & Sorting
 
         private void Rename(DisplayableTreeViewItem parent, DisplayableTreeViewItem item)
         {
             Remove(parent, item);
             Add(parent, item);
+
+            UpdateRibbon();
         }
 
         private void Add(DisplayableTreeViewItem parent, DisplayableTreeViewItem item)
@@ -191,6 +193,13 @@ namespace Excel_Macros_UI.ViewModel
                 LabelVisibility = Visibility.Visible;
             else
                 LabelVisibility = Visibility.Hidden;
+
+            UpdateRibbon();
+        }
+
+        private void UpdateRibbon()
+        {
+            SettingsMenuModel.SetRibbonItems(ItemSource);
         }
 
         private int FindIndex(ObservableCollection<DisplayableTreeViewItem> items, DisplayableTreeViewItem item)
@@ -343,6 +352,7 @@ namespace Excel_Macros_UI.ViewModel
             item.IsFolder = data.folder;
             item.IsExpanded = false;
             item.Parent = parent;
+            item.IsRibbonMacro = Main.IsRibbonMacro(data.macro);
 
             if (data.children != null)
             {
@@ -722,9 +732,11 @@ namespace Excel_Macros_UI.ViewModel
             mi_add.Click += delegate (object sender, RoutedEventArgs args)
             {
                 if (Main.IsRibbonMacro(id))
-                    Main.AddRibbonMacro(id);
+                    item.IsRibbonMacro = false;
                 else
-                    Main.RemoveRibbonMacro(id);
+                    item.IsRibbonMacro = true;
+
+                UpdateRibbon();
 
                 mi_add.Header = Main.IsRibbonMacro(id) ? "Remove From Ribbon" : "Add To Ribbon";
                 args.Handled = true;

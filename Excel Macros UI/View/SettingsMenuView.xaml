@@ -7,6 +7,8 @@
              xmlns:properties="clr-namespace:Excel_Macros_UI.Properties"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:model="clr-namespace:Excel_Macros_UI.Model"
+             xmlns:dock="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              xmlns:ext="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
@@ -143,6 +145,8 @@
                     </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+
+            <dock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         </ResourceDictionary>
     </Controls:Flyout.Resources>
 
@@ -155,7 +159,7 @@
 
         <Grid FlowDirection="LeftToRight" Grid.Column="0" Background="{DynamicResource ControlBackgroundBrush}">
             <!-- TABS -->
-            <ToggleButton x:Name="btnSettingsEditor" Click="btnSettingsEditor_Click" Margin="0,8,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{StaticResource SettingsButtonStyle}">
+            <ToggleButton IsChecked="{Binding StyleActive, Mode=TwoWay}" Margin="0,8,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{StaticResource SettingsButtonStyle}">
                 <Grid Margin="0,0,0,0">
                     <TextBlock VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Left" Margin="24,0,0,2">Code Editor</TextBlock>
                     <Rectangle Width="16" Height="16" Fill="{DynamicResource TextBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0">
@@ -166,7 +170,7 @@
                 </Grid>
             </ToggleButton>
 
-            <ToggleButton x:Name="btnSettingsLibraries" Click="btnSettingsLibraries_Click" Margin="0,48,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{StaticResource SettingsButtonStyle}">
+            <ToggleButton IsChecked="{Binding LibraryActive, Mode=TwoWay}" Margin="0,48,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{StaticResource SettingsButtonStyle}">
                 <Grid Margin="0,0,0,0">
                     <TextBlock VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Left" Margin="24,0,0,2">Libraries</TextBlock>
                     <Rectangle Width="16" Height="16" Fill="{DynamicResource TextBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0">
@@ -177,7 +181,7 @@
                 </Grid>
             </ToggleButton>
 
-            <ToggleButton x:Name="btnSettingsRibbon" Click="btnSettingsRibbon_Click" Margin="0,88,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{StaticResource SettingsButtonStyle}">
+            <ToggleButton IsChecked="{Binding RibbonActive, Mode=TwoWay}" Margin="0,88,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{StaticResource SettingsButtonStyle}">
                 <Grid Margin="0,0,0,0">
                     <TextBlock VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Left" Margin="24,0,0,2">Ribbon Macros</TextBlock>
                     <Rectangle Width="16" Height="16" Fill="{DynamicResource TextBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0">
@@ -193,7 +197,7 @@
 
         <Grid Grid.Column="2" Background="{DynamicResource ControlBackgroundBrush}">
             <!-- TAB CONTENT -->
-            <Grid x:Name="gridSettingsEditor" Background="{DynamicResource ControlBackgroundBrush}">
+            <Grid Background="{DynamicResource ControlBackgroundBrush}" Visibility="{Binding StyleActive, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TextBlock VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,4,0,0" TextAlignment="Center">Customize Code Editor Styling</TextBlock>
                 <Rectangle VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="16,23,16,0" Height="1" Fill="#CC227447"/>
 
@@ -235,8 +239,8 @@
                 <Rectangle VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="36,138,36,0" Height="1" Fill="{DynamicResource GrayBrush8}"/>
 
                 <Grid Margin="16,148,16,0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-                    <RadioButton x:Name="rdbtnThemeLight" Content="Light Theme" Checked="rdbtnThemeLight_Checked" Margin="12,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <RadioButton x:Name="rdbtnThemeDark" Content="Dark Theme" Checked="rdbtnThemeDark_Checked" Margin="12,4,12,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <RadioButton Content="Light Theme" IsChecked="{Binding LightTheme, Mode=TwoWay}" Margin="12,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <RadioButton Content="Dark Theme" IsChecked="{Binding DarkTheme, Mode=TwoWay}" Margin="12,4,12,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 </Grid>
                 
                 <Grid Margin="16,180,16,0" VerticalAlignment="Top" HorizontalAlignment="Center">
@@ -282,17 +286,26 @@
                 </Grid>
             </Grid>
 
-            <Grid x:Name="gridSettingsLibraries" Background="{DynamicResource ControlBackgroundBrush}">
+            <Grid Background="{DynamicResource ControlBackgroundBrush}" Visibility="{Binding LibraryActive, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TextBlock VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,4,0,0" TextAlignment="Center">Manage Modules &amp; Libraries</TextBlock>
                 <Rectangle VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="16,23,16,0" Height="1" Fill="{DynamicResource AccentColorBrush2}"/>
                 <TextBlock Margin="8,30,8,0">Not Implemented</TextBlock>
             </Grid>
 
-            <Grid x:Name="gridSettingsRibbon" Background="{DynamicResource ControlBackgroundBrush}">
+            <Grid Background="{DynamicResource ControlBackgroundBrush}" Visibility="{Binding RibbonActive, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TextBlock VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,4,0,0" TextAlignment="Center">Manage Ribbon Accessible Macros</TextBlock>
                 <Rectangle VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="16,23,16,0" Height="1" Fill="{DynamicResource AccentColorBrush2}"/>
-                <ListView x:Name="listSettingsRibbonMacro" BorderThickness="0" Margin="4,30,4,8" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                <TextBlock x:Name="lblEmpty" Margin="4,30,4,8" Visibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Center">No Available Macros</TextBlock>
+                <TreeView ItemsSource="{Binding RibbonItems}" BorderThickness="0" Margin="4,30,4,8" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{DynamicResource MetroTreeView}">
+                    <TreeView.Resources>                        
+                        <HierarchicalDataTemplate DataType="{x:Type model:DisplayableTreeViewItem}" ItemsSource="{Binding Items}">
+                            <Grid>
+                                <CheckBox IsChecked="{Binding IsRibbonMacro, Mode=TwoWay}" Content="{Binding Header}" ToolTip="{Binding RelativePath}" Visibility="{Binding IsMacro, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <TextBlock Text="{Binding Header}" ToolTip="{Binding RelativePath}" Visibility="{Binding IsFolder, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </Grid>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
+                <TextBlock x:Name="lblEmpty" Margin="4,30,4,8" Visibility="{Binding LabelVisible, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Center">No Available Macros</TextBlock>
             </Grid>
         </Grid>
     </Grid>

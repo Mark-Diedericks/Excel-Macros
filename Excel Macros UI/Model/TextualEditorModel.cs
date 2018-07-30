@@ -26,11 +26,13 @@ namespace Excel_Macros_UI.Model
                     Macro = id;
                     IsClosed = false;
                     Source = new TextDocument(Main.GetMacro(id).GetSource());
+                    IsSaved = true;
                     return;
                 }
             }
 
             Source = new TextDocument();
+            IsSaved = false;
         }
 
         #region Source
@@ -48,7 +50,9 @@ namespace Excel_Macros_UI.Model
                 if (m_Source != value)
                 {
                     m_Source = value;
+                    m_Source.TextChanged += (s, e) => { IsSaved = false; };
                     OnPropertyChanged(nameof(Source));
+                    IsSaved = false;
                 }
             }
         }

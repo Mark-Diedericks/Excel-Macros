@@ -1,4 +1,13 @@
-﻿using Excel_Macros_UI.Model.Base;
+﻿/*
+ * Mark Diedericks
+ * 30/06/2018
+ * Version 1.0.3
+ * File explorer model
+ */
+
+using Excel_Macros_INTEROP;
+using Excel_Macros_INTEROP.Macros;
+using Excel_Macros_UI.Model.Base;
 using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.ViewModel;
 using System;
@@ -7,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -120,6 +130,7 @@ namespace Excel_Macros_UI.Model
                 if(m_Header != value)
                 {
                     m_Header = value;
+                    RelativePath = Regex.Replace((Root + "/" + value).Replace('\\', '/'), @"/\/\/+/g", "/");
                     OnPropertyChanged(nameof(Header));
                 }
             }
@@ -161,6 +172,44 @@ namespace Excel_Macros_UI.Model
             }
         }
         #endregion 
+        #region IsMacro
+        public bool IsMacro
+        {
+            get
+            {
+                return !IsFolder;
+            }
+            set
+            {
+                if ((!IsFolder) != value)
+                {
+                    IsFolder = !value;
+                    OnPropertyChanged(nameof(IsMacro));
+                }
+            }
+        }
+        #endregion 
+        #region IsRibbonMacro
+        public bool IsRibbonMacro
+        {
+            get
+            {
+                return Main.IsRibbonMacro(ID);
+            }
+            set
+            {
+                if (ID == Guid.Empty)
+                    return;
+
+                if (value)
+                    Main.AddRibbonMacro(ID);
+                else
+                    Main.RemoveRibbonMacro(ID);
+
+                OnPropertyChanged(nameof(IsRibbonMacro));
+            }
+        }
+        #endregion 
         #region Root
         private string m_Root;
         public string Root
@@ -174,7 +223,26 @@ namespace Excel_Macros_UI.Model
                 if (m_Root != value)
                 {
                     m_Root = value;
+                    RelativePath = Regex.Replace((value + "/" + Header).Replace('\\', '/'), @"/\/\/+/g", "/");
                     OnPropertyChanged(nameof(Root));
+                }
+            }
+        }
+        #endregion 
+        #region RelativePath
+        private string m_RelativePath;
+        public string RelativePath
+        {
+            get
+            {
+                return m_RelativePath;
+            }
+            internal set
+            {
+                if(m_RelativePath != value)
+                {
+                    m_RelativePath = value;
+                    OnPropertyChanged(RelativePath);
                 }
             }
         }
