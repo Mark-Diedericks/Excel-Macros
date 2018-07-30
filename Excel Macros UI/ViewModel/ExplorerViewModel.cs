@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 26/06/2018
- * Version 1.0.1
+ * 30/06/2018
+ * Version 1.0.3
  * File explorer view model
  */
 
@@ -149,28 +149,8 @@ namespace Excel_Macros_UI.ViewModel
 
         private void Rename(DisplayableTreeViewItem parent, DisplayableTreeViewItem item)
         {
-            ObservableCollection<DisplayableTreeViewItem> siblings;
-
-            if (parent == null)
-                siblings = ItemSource;
-            else
-                siblings = parent.Items;
-
-            int index = FindIndex(siblings, item);
-
-            if (index == -1)
-                index = 0;
-
-            if (parent == null)
-            {
-                ItemSource.Remove(item);
-                ItemSource.Insert(index, item);
-            }
-            else
-            {
-                parent.Items.Remove(item);
-                parent.Items.Insert(index, item);
-            }
+            Remove(parent, item);
+            Add(parent, item);
         }
 
         private void Add(DisplayableTreeViewItem parent, DisplayableTreeViewItem item)
@@ -217,34 +197,27 @@ namespace Excel_Macros_UI.ViewModel
         {
             int count = items.Count - 1;
 
-            int start = 0;
-            int end = count;
-            int mid = (int)Math.Floor(((float)(start + end) / 2.0f));
+            int low = 0;
+            int high = count;
+            int mid = (low + high) / 2;
 
-            while(start <= end)
+            while(low <= high)
             {
-                mid = (int)Math.Floor(((float)(start + end) / 2.0f));
-
-                bool less = String.Compare(item.Header, items[mid].Header) < 0;
-                bool more = String.Compare(item.Header, items[mid].Header) > 0;
-
-                if (mid - 1 >= 0)
-                    if (less && String.Compare(item.Header, items[mid - 1].Header) > 0)
-                        return mid;
-
-                if(mid + 1 <= count - 1)
-                    if (more && String.Compare(item.Header, items[mid + 1].Header) < 0)
-                        return mid;
-
-                if (less)
-                    end = mid - 1;
-                else if (more)
-                    start = mid + 1;
+                mid = (low + high) / 2;
+                int pos = String.Compare(item.Header, items[mid].Header, true);
+                
+                if (pos < 0)
+                    high = mid - 1;
+                else if (pos > 0)
+                    low = mid + 1;
                 else
                     return mid;
             }
 
-            return -1;
+            if (String.Compare(item.Header, items[mid].Header, true) > 0)
+                mid++;
+
+            return mid;
         }
 
         private int Partition(ObservableCollection<DisplayableTreeViewItem> items, int start, int end)
@@ -256,10 +229,10 @@ namespace Excel_Macros_UI.ViewModel
             DisplayableTreeViewItem temp;
             while(i < j)
             {
-                while (i < end && String.Compare(items[i].Header, items[pivot].Header) < 0)
+                while (i < end && String.Compare(items[i].Header, items[pivot].Header, true) < 0)
                     i++;
 
-                while (j > start && String.Compare(items[j].Header, items[pivot].Header) > 0)
+                while (j > start && String.Compare(items[j].Header, items[pivot].Header, true) > 0)
                     j--;
 
                 if(i < j)
@@ -299,6 +272,11 @@ namespace Excel_Macros_UI.ViewModel
 #else
             ObservableCollection<DisplayableTreeViewItem> items = ItemSource;
             QuickSort(ref items, 0, ItemSource.Count - 1);
+
+            for (int i = 0; i < items.Count; i++)
+                if (items[i].Items.Count > 0)
+                    items[i] = Sort(items[i]);
+
             ItemSource = items;
 #endif
         }
@@ -317,6 +295,11 @@ namespace Excel_Macros_UI.ViewModel
 #else
             ObservableCollection<DisplayableTreeViewItem> items = item.Items;
             QuickSort(ref items, 0, item.Items.Count - 1);
+
+            for (int i = 0; i < items.Count; i++)
+                if (items[i].Items.Count > 0)
+                    items[i] = Sort(items[i]);
+
             item.Items = items;
             return item;
 #endif
@@ -335,6 +318,7 @@ namespace Excel_Macros_UI.ViewModel
                     ItemSource.Add(tvi);
             }
 
+            Sort();
             CheckVisibility();
             Main.GetInstance().OnMacroCountChanged += CheckVisibility;
         }
@@ -477,7 +461,7 @@ namespace Excel_Macros_UI.ViewModel
 
 #endregion
 
-#region Tree View Item Context Menu
+        #region Tree View Item Context Menu
 
         private ContextMenu CreateContextMenuFolder(DisplayableTreeViewItem item, string name, string path)
         {
@@ -784,7 +768,7 @@ namespace Excel_Macros_UI.ViewModel
 
 #endregion
 
-#region Tree View Functions & Item Functions
+        #region Tree View Functions & Item Functions
         
         private void CloseItemMacro(DisplayableTreeViewItem item)
         {
