@@ -1,4 +1,11 @@
-﻿using Excel_Macros_UI.Themes;
+﻿/*
+ * Mark Diedericks
+ * 31/07/2018
+ * Version 1.0.2
+ * Primary model for handling main window's data
+ */
+
+using Excel_Macros_UI.Themes;
 using Excel_Macros_UI.ViewModel;
 using Excel_Macros_UI.ViewModel.Base;
 using System;
