@@ -203,6 +203,7 @@ namespace Excel_Macros_UI.ViewModel
                 {
                     Model.IsExecuting = value;
                     OnPropertyChanged(nameof(IsExecuting));
+                    OnPropertyChanged(nameof(IsEditing));
                 }
             }
         }

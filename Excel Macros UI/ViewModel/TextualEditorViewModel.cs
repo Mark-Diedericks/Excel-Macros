@@ -38,13 +38,13 @@ namespace Excel_Macros_UI.ViewModel
         public override void Start(Action OnComplete)
         {
             Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().ExecuteMacro(Source.Text, OnComplete, MainWindowViewModel.GetInstance().AsyncExecution);
-            base.Stop(OnComplete);
+            base.Stop(null);
         }
 
         public override void Stop(Action OnComplete)
         {
             Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().TerminateExecution();
-            base.Stop(OnComplete);
+            base.Stop(null);
         }
 
         #region Model

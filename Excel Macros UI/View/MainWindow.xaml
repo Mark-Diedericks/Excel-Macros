@@ -280,7 +280,7 @@
                         </ComboBox>
 
                         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="116,0,0,0">
-                            <Button Command="{Binding RunClick}" Visibility="{Binding IsEditing, ConverterParameter={x:Static Visibility.Hidden}, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding IsEditing}" Padding="2,2,2,2" BorderThickness="0" ToolTip="Start" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button Command="{Binding RunClick}" Visibility="{Binding IsEditing, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding IsEditing}" Padding="2,2,2,2" BorderThickness="0" ToolTip="Start" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                                 <Button.Template>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Grid x:Name="ContentGrid" Margin="0,0,0,0">
@@ -303,7 +303,7 @@
                                 </Button.Template>
                             </Button>
 
-                            <Button Command="{Binding StopClick}" Visibility="{Binding IsExecuting, ConverterParameter={x:Static Visibility.Hidden}, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding IsExecuting}" Padding="2,2,2,2" ToolTip="Stop" BorderThickness="0" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button Command="{Binding StopClick}" Visibility="{Binding IsExecuting, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding IsExecuting}" Padding="2,2,2,2" ToolTip="Stop" BorderThickness="0" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                                 <Button.Template>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Grid x:Name="ContentGrid" Margin="0,0,0,0">
