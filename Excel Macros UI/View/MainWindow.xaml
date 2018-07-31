@@ -107,7 +107,6 @@
                 <MenuItem Header="_Paste" Command="{Binding PasteClick}" />
             </MenuItem>
             <MenuItem Header="_View" Style="{DynamicResource HeaderMenuItemStyle}">
-                <MenuItem Header="_Toolbox" Command="{Binding ToolboxClick}"/>
                 <MenuItem Header="_Explorer" Command="{Binding EditorClick}"/>
                 <MenuItem Header="_Console" Command="{Binding ConsoleClick}"/>
             </MenuItem>
@@ -337,10 +336,6 @@
                 <dock:DockingManager.Resources>
                     <DataTemplate DataType="{x:Type viewModels:ExplorerViewModel}">
                         <views:ExplorerView DataContext="{Binding}"/>
-                    </DataTemplate>
-
-                    <DataTemplate DataType="{x:Type viewModels:ToolboxViewModel}">
-                        <views:ToolboxView DataContext="{Binding}"/>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type viewModels:ConsoleViewModel}">

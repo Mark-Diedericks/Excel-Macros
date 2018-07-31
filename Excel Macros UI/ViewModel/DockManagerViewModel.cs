@@ -26,11 +26,9 @@ namespace Excel_Macros_UI.ViewModel
             Model = new DockManagerModel();
 
             Explorer = new ExplorerViewModel() { Model = new ExplorerModel() { Title = "Explorer", ContentId = "Explorer", IsVisible = true } };
-            Toolbox = new ToolboxViewModel() { Model = new ToolboxModel() { Title = "Toolbox", ContentId = "Toolbox", IsVisible = true } };
             Console = new ConsoleViewModel() { Model = new ConsoleModel() { Title = "Console", ContentId = "Console", IsVisible = true } };
 
             Tools.Add(Explorer);
-            Tools.Add(Toolbox);
             Tools.Add(Console);
 
             foreach (DocumentViewModel document in DocumentViewModels)
@@ -240,26 +238,6 @@ namespace Excel_Macros_UI.ViewModel
                 {
                     Model.Explorer = value;
                     OnPropertyChanged(nameof(Explorer));
-                }
-            }
-        }
-
-        #endregion
-
-        #region Toolbox
-
-        public ToolboxViewModel Toolbox
-        {
-            get
-            {
-                return Model.Toolbox;
-            }
-            set
-            {
-                if (Model.Toolbox != value)
-                {
-                    Model.Toolbox = value;
-                    OnPropertyChanged(nameof(Toolbox));
                 }
             }
         }

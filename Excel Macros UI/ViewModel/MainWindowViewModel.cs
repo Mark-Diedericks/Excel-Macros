@@ -927,24 +927,8 @@ namespace Excel_Macros_UI.ViewModel
 
             if (DockManager.ActiveDocument.StartCommand.CanExecute(null))
             {
-                /*btnStop.IsEnabled = true;
-                btnStop.Visibility = Visibility.Visible;
-
-                btnRun.IsEnabled = false;
-                btnRun.Visibility = Visibility.Hidden;*/
-
                 IsExecuting = true;
-
-                DockManager.ActiveDocument.StartCommand.Execute(new Action(() =>
-                {
-                    /*btnStop.IsEnabled = false;
-                    btnStop.Visibility = Visibility.Hidden;
-
-                    btnRun.IsEnabled = true;
-                    btnRun.Visibility = Visibility.Visible;*/
-
-                    IsExecuting = false;
-                }));
+                DockManager.ActiveDocument.StartCommand.Execute(new Action(() => IsExecuting = false));
             }
         }
 
@@ -969,18 +953,7 @@ namespace Excel_Macros_UI.ViewModel
                 return;
 
             if (DockManager.ActiveDocument.StopCommand.CanExecute(null))
-            {
-                DockManager.ActiveDocument.StopCommand.Execute(new Action(() =>
-                {
-                    /*btnStop.IsEnabled = false;
-                    btnStop.Visibility = Visibility.Hidden;
-
-                    btnRun.IsEnabled = true;
-                    btnRun.Visibility = Visibility.Visible;*/
-
-                    IsExecuting = false;
-                }));
-            }
+                DockManager.ActiveDocument.StopCommand.Execute(new Action(() => IsExecuting = false));
         }
 
         #endregion
@@ -1048,26 +1021,6 @@ namespace Excel_Macros_UI.ViewModel
         {
             SettingsMenu.IsOpen = true;
             SettingsMenu.RibbonActive = true;
-        }
-
-        #endregion
-
-        #region ToolboxClick
-
-        private ICommand m_ToolboxClick;
-        public ICommand ToolboxClick
-        {
-            get
-            {
-                if (m_ToolboxClick == null)
-                    m_ToolboxClick = new RelayCommand(call => ToolboxClickEvent());
-                return m_ToolboxClick;
-            }
-        }
-
-        private void ToolboxClickEvent()
-        {
-            ShowAnchorable(DockManager.Toolbox.ContentId);
         }
 
         #endregion

@@ -12,7 +12,7 @@
              xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" DataContextChanged="ExplorerView_DataContextChanged">
+             d:DesignHeight="300" d:DesignWidth="300" DataContextChanged="ExplorerView_DataContextChanged" MinWidth="150" MinHeight="150">
 
     <UserControl.Resources>
         <ResourceDictionary>

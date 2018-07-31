@@ -130,27 +130,6 @@ namespace Excel_Macros_UI.Model
 
         #endregion
 
-        #region Toolbox
-
-        private ToolboxViewModel m_Toolbox;
-        public ToolboxViewModel Toolbox
-        {
-            get
-            {
-                return m_Toolbox;
-            }
-            set
-            {
-                if(m_Toolbox != value)
-                {
-                    m_Toolbox = value;
-                    OnPropertyChanged(nameof(Toolbox));
-                }
-            }
-        }
-
-        #endregion
-
         #region Console
 
         private ConsoleViewModel m_Console;
