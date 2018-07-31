@@ -571,8 +571,8 @@ namespace Excel_Macros_UI.ViewModel
                         item.IsInputting = true;
                         return;
                     }
-                    
-                    MainWindow.GetInstance().RenameFolder(path + name, path + item.Header);
+
+                    MainWindowViewModel.GetInstance().RenameFolder(path + name, path + item.Header);
                     Rename(parentitem, item);
 
                     item.IsInputting = false;
@@ -711,8 +711,8 @@ namespace Excel_Macros_UI.ViewModel
                     if (!item.Header.EndsWith(FileManager.PYTHON_FILE_EXT))
                         item.Header += FileManager.PYTHON_FILE_EXT;
 
-                    
-                    MainWindow.GetInstance().RenameMacro(id, item.Header);Rename(parentitem, item);
+
+                    MainWindowViewModel.GetInstance().RenameMacro(id, item.Header);Rename(parentitem, item);
                     Rename(parentitem, item);
 
                     item.IsInputting = false;
@@ -787,7 +787,7 @@ namespace Excel_Macros_UI.ViewModel
             foreach (DisplayableTreeViewItem child in item.Items)
                 CloseItemMacro(child);
 
-            MainWindow.GetInstance().CloseMacro(item.ID);
+            MainWindowViewModel.GetInstance().CloseMacro(item.ID);
         }
 
         public void DeleteFolder(DisplayableTreeViewItem item, string path, string name)
@@ -834,7 +834,7 @@ namespace Excel_Macros_UI.ViewModel
 
         public void ImportMacro(DisplayableTreeViewItem parent, string relativepath)
         {
-            MainWindow.GetInstance().ImportMacro(relativepath, (id) =>
+            MainWindowViewModel.GetInstance().ImportMacro(relativepath, (id) =>
             {
                 if (id == Guid.Empty)
                     return;
@@ -907,7 +907,7 @@ namespace Excel_Macros_UI.ViewModel
 
                 item.Header = Regex.Replace(item.Header, "[^0-9a-zA-Z ._-]", "");
 
-                Guid id = MainWindow.GetInstance().CreateMacro(type, root + "/" + item.Header);
+                Guid id = MainWindowViewModel.GetInstance().CreateMacro(type, root + "/" + item.Header);
                 Rename(parent, item);
 
                 if (id == Guid.Empty)
@@ -1001,7 +1001,7 @@ namespace Excel_Macros_UI.ViewModel
 
         public void OpenMacro(Guid id)
         {
-            MainWindow.GetInstance().OpenMacroForEditing(id);
+            MainWindowViewModel.GetInstance().OpenMacroForEditing(id);
         }
 
         public void ExecuteMacro(Guid id, IMacro macro, bool async)
@@ -1009,7 +1009,7 @@ namespace Excel_Macros_UI.ViewModel
             if (MainWindow.GetInstance().IsActive)
             {
                 OpenMacro(id);
-                MainWindow.GetInstance().ExecuteMacro(async);
+                MainWindowViewModel.GetInstance().ExecuteMacro(async);
             }
             else
             {

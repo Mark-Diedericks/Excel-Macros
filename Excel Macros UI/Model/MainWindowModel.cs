@@ -16,10 +16,11 @@ namespace Excel_Macros_UI.Model
 
         public MainWindowModel()
         {
-            DockManager = new DockManagerViewModel(new List<DocumentViewModel>());
+            IsShown = false;
+            IsFocused = false;
             IsClosing = false;
-            SettingsMenu = new SettingsMenuViewModel();
-            Themes = new ObservableCollection<ITheme>;
+            IsExecuting = false;
+            Themes = new ObservableCollection<ITheme>();
         }
 
         #region DockManager
@@ -43,6 +44,48 @@ namespace Excel_Macros_UI.Model
 
         #endregion
 
+        #region IsShown
+
+        private bool m_IsShown;
+        public bool IsShown
+        {
+            get
+            {
+                return m_IsShown;
+            }
+            set
+            {
+                if(m_IsShown != value)
+                {
+                    m_IsShown = value;
+                    OnPropertyChanged(nameof(IsShown));
+                }
+            }
+        }
+
+        #endregion
+
+        #region IsFocused
+
+        private bool m_IsFocused;
+        public bool IsFocused
+        {
+            get
+            {
+                return m_IsFocused;
+            }
+            set
+            {
+                if (m_IsFocused != value)
+                {
+                    m_IsFocused = value;
+                    OnPropertyChanged(nameof(IsFocused));
+                }
+            }
+        }
+
+        #endregion
+
         #region IsClosing
 
         private bool m_IsClosing;
@@ -58,6 +101,27 @@ namespace Excel_Macros_UI.Model
                 {
                     m_IsClosing = value;
                     OnPropertyChanged(nameof(IsClosing));
+                }
+            }
+        }
+
+        #endregion
+
+        #region IsExecuting
+
+        private bool m_IsExecuting;
+        public bool IsExecuting
+        {
+            get
+            {
+                return m_IsExecuting;
+            }
+            set
+            {
+                if(m_IsExecuting != value)
+                {
+                    m_IsExecuting = value;
+                    OnPropertyChanged(nameof(IsExecuting));
                 }
             }
         }
@@ -169,62 +233,19 @@ namespace Excel_Macros_UI.Model
 
         #endregion
 
-        #region ActiveDocument
-
-        private DocumentViewModel m_ActiveDocument;
-        public DocumentViewModel ActiveDocument
-        {
-            get
-            {
-                return m_ActiveDocument;
-            }
-            set
-            {
-                if(m_ActiveDocument != value)
-                {
-                    m_ActiveDocument = value;
-                    OnPropertyChanged(nameof(ActiveDocument));
-                }
-            }
-        }
-
-        #endregion
-
-        #region SelectedExecutionIndex
-
-        private int m_SelectedExecutionIndex;
-        public int SelectedExecutionIndex
-        {
-            get
-            {
-                return m_SelectedExecutionIndex;
-            }
-            set
-            {
-                if(m_SelectedExecutionIndex != value)
-                {
-                    m_SelectedExecutionIndex = value;
-                    OnPropertyChanged(nameof(SelectedExecutionIndex));
-                    OnPropertyChanged(nameof(AsyncExecution));
-                }
-            }
-        }
-
-        #endregion
-
         #region AsyncExecution
 
         public bool AsyncExecution
         {
             get
             {
-                return SelectedExecutionIndex == 0;
+                return Properties.Settings.Default.ExecutionTypeIndex == 0;
             }
             set
             {
-                if((SelectedExecutionIndex == 0) != value)
+                if((Properties.Settings.Default.ExecutionTypeIndex == 0) != value)
                 {
-                    SelectedExecutionIndex = value ? 0 : 1;
+                    Properties.Settings.Default.ExecutionTypeIndex = value ? 0 : 1;
                     OnPropertyChanged(nameof(AsyncExecution));
                 }
             }

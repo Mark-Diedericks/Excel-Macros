@@ -67,6 +67,48 @@ namespace Excel_Macros_UI.Model
 
         #endregion
 
+        #region ActiveDocument
+
+        private DocumentViewModel m_ActiveDocument;
+        public DocumentViewModel ActiveDocument
+        {
+            get
+            {
+                return m_ActiveDocument;
+            }
+            set
+            {
+                if (m_ActiveDocument != value)
+                {
+                    m_ActiveDocument = value;
+                    OnPropertyChanged(nameof(ActiveDocument));
+                }
+            }
+        }
+
+        #endregion
+
+        #region ActiveContent
+
+        private object m_ActiveContent;
+        public object ActiveContent
+        {
+            get
+            {
+                return m_ActiveContent;
+            }
+            set
+            {
+                if (m_ActiveContent != value)
+                {
+                    m_ActiveContent = value;
+                    OnPropertyChanged(nameof(ActiveContent));
+                }
+            }
+        }
+
+        #endregion
+
         #region Explorer
 
         private ExplorerViewModel m_Explorer;

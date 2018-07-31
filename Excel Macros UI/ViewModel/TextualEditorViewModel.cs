@@ -37,7 +37,7 @@ namespace Excel_Macros_UI.ViewModel
 
         public override void Start(Action OnComplete)
         {
-            Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().ExecuteMacro(Source.Text, OnComplete, MainWindow.GetInstance().AsyncExecution);
+            Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().ExecuteMacro(Source.Text, OnComplete, MainWindowViewModel.GetInstance().AsyncExecution);
             base.Stop(OnComplete);
         }
 

@@ -37,7 +37,20 @@ namespace Excel_Macros_UI.View
         public SettingsMenuView()
         {
             InitializeComponent();
+
             DataContextChanged += SettingsMenuView_DataContextChanged;
+            Routing.EventManager.ThemeChangedEvent += ThemeChangedEvent;
+        }
+
+        private void ThemeChangedEvent()
+        {
+            ThemeDictionary.MergedDictionaries.Clear();
+
+            foreach (Uri uri in MainWindowViewModel.GetInstance().ActiveTheme.UriList)
+                ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
+
+            Theme = FlyoutTheme.Accent;
+            Theme = FlyoutTheme.Adapt;
         }
 
         private void SettingsMenuView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -45,7 +58,7 @@ namespace Excel_Macros_UI.View
             ((SettingsMenuViewModel)DataContext).LightTheme = Properties.Settings.Default.Theme == "Light";
         }
 
-        public ResourceDictionary ThemeDictionary
+        private ResourceDictionary ThemeDictionary
         {
             get
             {

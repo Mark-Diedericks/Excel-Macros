@@ -41,7 +41,7 @@ namespace Excel_Macros_UI.View
             InitializeComponent();
 
             ThemeChanged();
-            MainWindow.ThemeChanged += ThemeChanged;
+            Routing.EventManager.ThemeChangedEvent += ThemeChanged;
         }
         
         private ResourceDictionary ThemeDictionary
@@ -56,7 +56,7 @@ namespace Excel_Macros_UI.View
         {
             ThemeDictionary.MergedDictionaries.Clear();
 
-            foreach (Uri uri in MainWindow.GetInstance().ActiveTheme.UriList)
+            foreach (Uri uri in MainWindowViewModel.GetInstance().ActiveTheme.UriList)
                 ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
         }
 

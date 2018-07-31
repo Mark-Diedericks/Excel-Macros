@@ -1,10 +1,11 @@
 ﻿/*
  * Mark Diedericks
- * 19/07/2018
- * Version 1.0.1
+ * 30/07/2018
+ * Version 1.0.2
  * Syntax style loading and parsing utility
  */
 using Excel_Macros_UI.View;
+using Excel_Macros_UI.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -115,7 +116,7 @@ namespace Excel_Macros_UI.Utilities
 
         public static void LoadColorValues()
         {
-            if (MainWindow.GetInstance().ActiveTheme.Name == "Dark")
+           if (MainWindowViewModel.GetInstance().ActiveTheme.Name == "Dark")
                 s_ColorValues = ParseSyntaxStyleString(Properties.Settings.Default.SyntaxStyleDark);
             else
                 s_ColorValues = ParseSyntaxStyleString(Properties.Settings.Default.SyntaxStyleLight);

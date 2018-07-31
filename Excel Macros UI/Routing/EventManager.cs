@@ -20,6 +20,7 @@ using Excel_Macros_UI.Model;
 using System.IO;
 using MahApps.Metro.Controls.Dialogs;
 using Excel_Macros_UI.ViewModel.Base;
+using Excel_Macros_UI.ViewModel;
 
 namespace Excel_Macros_UI.Routing
 {
@@ -147,8 +148,8 @@ namespace Excel_Macros_UI.Routing
                     if(Main.GetDeclaration(Main.GetActiveMacro()) != null)
                         Properties.Settings.Default.ActiveMacro = Main.GetDeclaration(Main.GetActiveMacro()).relativepath;
 
-                    if (MainWindow.GetInstance() != null)
-                        MainWindow.GetInstance().SaveAll();
+                    if (MainWindowViewModel.GetInstance() != null)
+                        MainWindowViewModel.GetInstance().SaveAll();
 
                     s_UIApp.Shutdown();
                 }));
@@ -194,37 +195,37 @@ namespace Excel_Macros_UI.Routing
 
         public void MacroEditorClickEvent()
         {
-            if (MainWindow.GetInstance() == null)
+            if (MainWindowViewModel.GetInstance() == null)
                 return;
-            
-            MainWindow.GetInstance().ShowWindow();
+
+            MainWindowViewModel.GetInstance().ShowWindow();
         }
 
         public void NewTextualClickEvent()
         {
-            if (MainWindow.GetInstance() == null)
+            if (MainWindowViewModel.GetInstance() == null)
                 return;
 
-            MainWindow.GetInstance().ShowWindow();
-            MainWindow.GetInstance().CreateMacroAsync(MacroType.PYTHON);
+            MainWindowViewModel.GetInstance().ShowWindow();
+            MainWindowViewModel.GetInstance().CreateMacroAsync(MacroType.PYTHON);
         }
 
         public void NewVisualClickEvent()
         {
-            if (MainWindow.GetInstance() == null)
+            if (MainWindowViewModel.GetInstance() == null)
                 return;
 
-            MainWindow.GetInstance().ShowWindow();
-            MainWindow.GetInstance().CreateMacroAsync(MacroType.BLOCKLY);
+            MainWindowViewModel.GetInstance().ShowWindow();
+            MainWindowViewModel.GetInstance().CreateMacroAsync(MacroType.BLOCKLY);
         }
 
         public void OpenMacroClickEvent()
         {
-            if (MainWindow.GetInstance() == null)
+            if (MainWindowViewModel.GetInstance() == null)
                 return;
 
-            MainWindow.GetInstance().ShowWindow();
-            MainWindow.GetInstance().ImportMacroAsync();
+            MainWindowViewModel.GetInstance().ShowWindow();
+            MainWindowViewModel.GetInstance().ImportMacroAsync();
         }
 
         public static void MacroRibbonLoaded()
@@ -265,39 +266,39 @@ namespace Excel_Macros_UI.Routing
 
         public static void WindowFocusEvent()
         {
-            MainWindow.GetInstance().TryFocus();
+            MainWindowViewModel.GetInstance().TryFocus();
         }
 
         public static void WindowShowEvent()
         {
-            MainWindow.GetInstance().ShowWindow();
+            MainWindowViewModel.GetInstance().ShowWindow();
         }
 
         public static void WindowHideEvent()
         {
-            MainWindow.GetInstance().HideWindow();
+            MainWindowViewModel.GetInstance().HideWindow();
         }
 
         public static void DisplayOkMessage(string content, string title)
         {
-            MainWindow.GetInstance().DisplayOkMessage(content, title);
+            MainWindowViewModel.GetInstance().DisplayOkMessage(content, title);
         }
 
         public static void DisplayYesNoMessage(string content, string title, Action<bool> OnReturn)
         {
-            MainWindow.GetInstance().DisplayYesNoMessage(content, title, OnReturn);
+            MainWindowViewModel.GetInstance().DisplayYesNoMessage(content, title, OnReturn);
         }
 
         public static bool DisplayYesNoMessageReturn(string content, string title)
         {
-            Task<bool> t = MainWindow.GetInstance().DisplayYesNoMessageReturn(content, title);
+            Task<bool> t = MainWindowViewModel.GetInstance().DisplayYesNoMessageReturn(content, title);
             t.Wait();
             return t.Result;
         }
 
         public static void DisplayYesNoCancelMessage(string message, string caption, string aux, Action<MessageDialogResult> OnReturn)
         {
-            MainWindow.GetInstance().DisplayYesNoCancelMessage(message, caption, aux, OnReturn);
+            MainWindowViewModel.GetInstance().DisplayYesNoCancelMessage(message, caption, aux, OnReturn);
         }
 
         public static void ClearAllIO()

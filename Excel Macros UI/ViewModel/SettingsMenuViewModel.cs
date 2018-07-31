@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 30/06/2018
- * Version 1.0.1
+ * 31/06/2018
+ * Version 1.0.2
  * Settings menu view model
  */
 
@@ -28,15 +28,15 @@ namespace Excel_Macros_UI.ViewModel
         {
             s_Instance = this;
             Model = new SettingsMenuModel();
-            MainWindow.ThemeChanged += MainWindow_ThemeChanged;
-            PreviousTheme = MainWindow.GetInstance().ActiveTheme.Name;
+            Routing.EventManager.ThemeChangedEvent += ThemeChanged;
+            PreviousTheme = MainWindowViewModel.GetInstance().ActiveTheme.Name;
             LoadColors();
         }
 
-        private void MainWindow_ThemeChanged()
+        private void ThemeChanged()
         {
             SaveSyntaxStyle(PreviousTheme == "Dark");
-            PreviousTheme = MainWindow.GetInstance().ActiveTheme.Name;
+            PreviousTheme = MainWindowViewModel.GetInstance().ActiveTheme.Name;
             LoadColors();
         }
 
@@ -86,6 +86,26 @@ namespace Excel_Macros_UI.ViewModel
                 {
                     m_Model = value;
                     OnPropertyChanged(nameof(Model));
+                }
+            }
+        }
+
+        #endregion
+
+        #region IsOpen
+
+        public bool IsOpen
+        {
+            get
+            {
+                return Model.IsOpen;
+            }
+            set
+            {
+                if(Model.IsOpen != value)
+                {
+                    Model.IsOpen = value;
+                    OnPropertyChanged(nameof(IsOpen));
                 }
             }
         }

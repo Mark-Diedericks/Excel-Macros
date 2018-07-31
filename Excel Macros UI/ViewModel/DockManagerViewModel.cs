@@ -182,6 +182,50 @@ namespace Excel_Macros_UI.ViewModel
 
         #endregion
 
+        #region ActiveDocument
+
+        public DocumentViewModel ActiveDocument
+        {
+            get
+            {
+                return Model.ActiveDocument;
+            }
+            set
+            {
+                if (Model.ActiveDocument != value)
+                {
+                    Model.ActiveDocument = value;
+                    OnPropertyChanged(nameof(ActiveDocument));
+                }
+            }
+        }
+
+        #endregion
+
+        #region ActiveContent
+
+        public object ActiveContent
+        {
+            get
+            {
+                return Model.ActiveContent;
+            }
+            set
+            {
+                if (Model.ActiveContent != value)
+                {
+                    Model.ActiveContent = value;
+
+                    if (ActiveContent is DocumentViewModel)
+                        ActiveDocument = ActiveContent as DocumentViewModel;
+
+                    OnPropertyChanged(nameof(ActiveContent));
+                }
+            }
+        }
+
+        #endregion
+
         #region Explorer
 
         public ExplorerViewModel Explorer

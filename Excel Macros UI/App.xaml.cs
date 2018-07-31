@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 04/07/2018
- * Version 1.0.2
+ * 30/07/2018
+ * Version 1.0.3
  * Primary entry point into the application -> auto-generated
  */
 
@@ -24,9 +24,8 @@ namespace Excel_Macros_UI
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainWindow mw = new MainWindow();
-            mw.DataContext = new MainWindowViewModel();
-            MainWindow = mw;
+            MainWindow = new MainWindow() { DataContext = new MainWindowViewModel() };
+            ((MainWindowViewModel)MainWindow.DataContext).SetTheme(Excel_Macros_UI.Properties.Settings.Default.Theme);
         }
     }
 }

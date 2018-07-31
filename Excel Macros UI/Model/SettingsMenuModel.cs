@@ -6,6 +6,7 @@
  */
 
 using Excel_Macros_UI.View;
+using Excel_Macros_UI.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,6 +31,7 @@ namespace Excel_Macros_UI.Model
         public SettingsMenuModel()
         {
             s_Instance = this;
+            IsOpen = false;
             FunctionColor = "";
             DigitColor = "";
             CommentColor = "";
@@ -55,6 +57,27 @@ namespace Excel_Macros_UI.Model
 
             s_Instance.RibbonItems = items;
         }
+
+        #region IsOpen
+
+        private bool m_IsOpen;
+        public bool IsOpen
+        {
+            get
+            {
+                return m_IsOpen;
+            }
+            set
+            {
+                if(m_IsOpen != value)
+                {
+                    m_IsOpen = value;
+                    OnPropertyChanged(nameof(IsOpen));
+                }
+            }
+        }
+
+        #endregion
 
         #region FunctionColor
 
@@ -289,7 +312,7 @@ namespace Excel_Macros_UI.Model
                 if(m_LightTheme != value)
                 {
                     if(value)
-                        MainWindow.GetInstance().SetTheme("Light");
+                        MainWindowViewModel.GetInstance().SetTheme("Light");
 
                     m_LightTheme = value;
                     OnPropertyChanged(nameof(LightTheme));
@@ -313,7 +336,7 @@ namespace Excel_Macros_UI.Model
                 if (m_LightTheme == value)
                 {
                     if(value)
-                        MainWindow.GetInstance().SetTheme("Dark");
+                        MainWindowViewModel.GetInstance().SetTheme("Dark");
 
                     LightTheme = !value;
                 }

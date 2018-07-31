@@ -21,10 +21,10 @@ namespace Excel_Macros_UI.Model
         public ToolboxModel()
         {
             s_Instance = this;
-            MainWindow.DocumentChangedEvent += MainWindow_DocumentChangedEvent;
+            Routing.EventManager.DocumentChangedEvent += DocumentChangedEvent;
         }
 
-        private void MainWindow_DocumentChangedEvent(ViewModel.Base.DocumentViewModel vm)
+        private void DocumentChangedEvent(ViewModel.Base.DocumentViewModel vm)
         {
             //Change between textual and visual toolbox items
             //throw new NotImplementedException();

@@ -19,9 +19,9 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" Dialog:DialogParticipation.Register="{Binding}"
         Title="Macro Editor" TitleCaps="False" HorizontalAlignment="Center" VerticalAlignment="Center" ShowIconOnTitleBar="False"
-        MinWidth="1024" MinHeight="576" BorderBrush="Black" BorderThickness="0" GlowBrush="Black" ResizeMode="CanResizeWithGrip" 
-        Closing="MetroWindow_Closing" SizeChanged="MetroWindow_SizeChanged" Loaded="MainWindow_Loaded" Background="{DynamicResource WindowBackgroundBrush}"
+        MinWidth="1024" MinHeight="576" BorderBrush="Black" BorderThickness="0" GlowBrush="Black" ResizeMode="CanResizeWithGrip"
         LeftWindowCommandsOverlayBehavior="Always" RightWindowCommandsOverlayBehavior="Always" WindowButtonCommandsOverlayBehavior="Always"
+        Background="{DynamicResource WindowBackgroundBrush}"
         WindowState="{Binding Source={x:Static properties:Settings.Default}, Path=WindowState, Mode=TwoWay}"
         Width="{Binding Source={x:Static properties:Settings.Default}, Path=WindowWidth, Mode=TwoWay}"
         Height="{Binding Source={x:Static properties:Settings.Default}, Path=WindowHeight, Mode=TwoWay}"
@@ -82,41 +82,41 @@
 
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
-            <views:SettingsMenuView x:Name="flyoutSettings" DataContext="{Binding SettingsMenu}"/>
+            <views:SettingsMenuView DataContext="{Binding SettingsMenu}" IsOpen="{Binding IsOpen}"/>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
     <DockPanel Background="{DynamicResource WindowBackgroundBrush}">
         <Menu DockPanel.Dock="Top" Background="{DynamicResource WindowBackgroundBrush}">
             <MenuItem Header="_File" Style="{DynamicResource HeaderMenuItemStyle}">
-                <MenuItem Header="_New" Click="btnNew_Click"/>
-                <MenuItem Header="_Open" Click="btnOpen_Click"/>
+                <MenuItem Header="_New" Command="{Binding NewClick}"/>
+                <MenuItem Header="_Open" Command="{Binding OpenClick}"/>
                 <Separator />
-                <MenuItem Header="_Save" Click="btnSave_Click"/>
-                <MenuItem Header="Export" Click="btnExport_Click"/>
-                <MenuItem Header="Save All" Click="btnSaveAll_Click"/>
+                <MenuItem Header="_Save" Command="{Binding SaveClick}"/>
+                <MenuItem Header="Save All" Command="{Binding SaveAllClick}"/>
+                <MenuItem Header="Export" Command="{Binding ExportClick}"/>
                 <Separator />
-                <MenuItem Header="_Exit" Click="btnExit_Click"/>
+                <MenuItem Header="_Exit" Command="{Binding ExitClick}"/>
             </MenuItem>
             <MenuItem Header="_Edit" Style="{DynamicResource HeaderMenuItemStyle}">
-                <MenuItem Header="_Undo" Click="btnUndo_Click"/>
-                <MenuItem Header="_Redo" Click="btnRedo_Click"/>
+                <MenuItem Header="_Undo" Command="{Binding UndoClick}"/>
+                <MenuItem Header="_Redo" Command="{Binding RedoClick}"/>
                 <Separator />
-                <MenuItem Header="_Copy" Click="btnCopy_Click"/>
-                <MenuItem Header="Cut" Click="btnCut_Click"/>
-                <MenuItem Header="_Paste" Click="btnPaste_Click" />
+                <MenuItem Header="_Copy" Command="{Binding CopyClick}"/>
+                <MenuItem Header="Cut" Command="{Binding CutClick}"/>
+                <MenuItem Header="_Paste" Command="{Binding PasteClick}" />
             </MenuItem>
             <MenuItem Header="_View" Style="{DynamicResource HeaderMenuItemStyle}">
-                <MenuItem Header="_Toolbox" Click="Toolbox_Click"/>
-                <MenuItem Header="_Explorer" Click="Explorer_Click"/>
-                <MenuItem Header="_Console" Click="Console_Click"/>
+                <MenuItem Header="_Toolbox" Command="{Binding ToolboxClick}"/>
+                <MenuItem Header="_Explorer" Command="{Binding EditorClick}"/>
+                <MenuItem Header="_Console" Command="{Binding ConsoleClick}"/>
             </MenuItem>
             <MenuItem Header="_Tools" Style="{DynamicResource HeaderMenuItemStyle}">
-                <MenuItem Header="_Style" Click="Style_Click"/>
-                <MenuItem Header="_Libraries" Click="Libraries_Click"/>
-                <MenuItem Header="_Macros" Click="Macros_Click"/>
+                <MenuItem Header="_Style" Command="{Binding StyleClick}"/>
+                <MenuItem Header="_Libraries" Command="{Binding LibraryClick}"/>
+                <MenuItem Header="_Macros" Command="{Binding MacroClick}"/>
                 <Separator />
-                <MenuItem Header="_Options" Click="Options_Click"/>
+                <MenuItem Header="_Options" Command="{Binding StyleClick}"/>
             </MenuItem>
         </Menu>
 
@@ -132,11 +132,11 @@
 
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource WindowBackgroundBrush}">
                     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="10,0,0,0">
-                        <Button x:Name="btnNew" Click="btnNew_Click" Padding="2,2,2,2" BorderThickness="0" ToolTip="New Project" Margin="0,0,0,2" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                        <Button Command="{Binding NewClick}" Padding="2,2,2,2" BorderThickness="0" ToolTip="New Project" Margin="0,0,0,2" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Grid x:Name="ContentGrid" Margin="0,0,0,0">
-                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#a09e9a" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                        <Rectangle Width="16" Height="16" Fill="#a09e9a" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Stretch="Fill" Visual="{iconPacks:Material {x:Static iconPacks:PackIconMaterialKind.FileMultiple}}"/>
                                             </Rectangle.OpacityMask>
@@ -154,11 +154,11 @@
                             </Button.Template>
                         </Button>
 
-                        <Button x:Name="btnOpen" Click="btnOpen_Click" Padding="2,2,2,2" BorderThickness="0" Margin="28,0,0,0" ToolTip="Open Project" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                        <Button Command="{Binding OpenClick}" Padding="2,2,2,2" BorderThickness="0" Margin="28,0,0,0" ToolTip="Open Project" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Grid x:Name="ContentGrid" Margin="0,0,0,0">
-                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#e0c282" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                        <Rectangle Width="16" Height="16" Fill="#e0c282" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Stretch="Fill" Visual="{iconPacks:Entypo {x:Static iconPacks:PackIconEntypoKind.Folder}}"/>
                                             </Rectangle.OpacityMask>
@@ -176,11 +176,11 @@
                             </Button.Template>
                         </Button>
 
-                        <Button x:Name="btnSave" Click="btnSave_Click" Padding="2,2,2,2" BorderThickness="0" Margin="56,0,0,0" ToolTip="Save" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                        <Button Command="{Binding SaveClick}" Padding="2,2,2,2" BorderThickness="0" Margin="56,0,0,0" ToolTip="Save" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Grid x:Name="ContentGrid" Margin="0,0,0,0">
-                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                        <Rectangle Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Stretch="Fill" Visual="{iconPacks:Material {x:Static iconPacks:PackIconMaterialKind.ContentSave}}"/>
                                             </Rectangle.OpacityMask>
@@ -198,11 +198,11 @@
                             </Button.Template>
                         </Button>
 
-                        <Button x:Name="btnSaveAll" Click="btnSaveAll_Click" Padding="2,2,2,2" BorderThickness="0" Margin="84,0,0,0" ToolTip="Save All" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                        <Button Command="{Binding SaveAllClick}" Padding="2,2,2,2" BorderThickness="0" Margin="84,0,0,0" ToolTip="Save All" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Grid x:Name="ContentGrid" Margin="0,0,0,0">
-                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                        <Rectangle Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Stretch="Fill" Visual="{iconPacks:Material {x:Static iconPacks:PackIconMaterialKind.ContentSaveAll}}"/>
                                             </Rectangle.OpacityMask>
@@ -224,11 +224,11 @@
                     <Rectangle Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="120,4,0,4" Fill="{DynamicResource GrayBrush8}" />
 
                     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="124,0,0,0">
-                        <Button x:Name="btnUndo" Click="btnUndo_Click" Padding="2,2,2,2" BorderThickness="0" Margin="0,0,0,0" ToolTip="Undo" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                        <Button Command="{Binding UndoClick}" Padding="2,2,2,2" BorderThickness="0" Margin="0,0,0,0" ToolTip="Undo" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Grid x:Name="ContentGrid" Margin="0,0,0,0">
-                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                        <Rectangle Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Stretch="Fill" Visual="{iconPacks:Modern {x:Static iconPacks:PackIconModernKind.Undo}}"/>
                                             </Rectangle.OpacityMask>
@@ -246,11 +246,11 @@
                             </Button.Template>
                         </Button>
 
-                        <Button x:Name="btnRedo" Click="btnRedo_Click" Padding="2,2,2,2" BorderThickness="0" Margin="28,0,0,0" ToolTip="Redo" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                        <Button Command="{Binding RedoClick}" Padding="2,2,2,2" BorderThickness="0" Margin="28,0,0,0" ToolTip="Redo" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                             <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Grid x:Name="ContentGrid" Margin="0,0,0,0">
-                                        <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                        <Rectangle Width="16" Height="16" Fill="#2980b9" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
                                             <Rectangle.OpacityMask>
                                                 <VisualBrush Stretch="Fill" Visual="{iconPacks:Modern {x:Static iconPacks:PackIconModernKind.Redo}}"/>
                                             </Rectangle.OpacityMask>
@@ -272,7 +272,7 @@
                     <Rectangle Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="178,4,0,4" Fill="{DynamicResource GrayBrush8}" />
 
                     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="182,0,0,0">
-                        <ComboBox x:Name="spltBtnExecutionType" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True" SelectedIndex="{Binding Source={x:Static properties:Settings.Default}, Path=ExecutionTypeIndex, Mode=TwoWay}" HorizontalAlignment="Left" Width="112" Height="16">
+                        <ComboBox IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True" SelectedIndex="{Binding Source={x:Static properties:Settings.Default}, Path=ExecutionTypeIndex, Mode=TwoWay}" HorizontalAlignment="Left" Width="112" Height="16">
                             <ComboBox.Items>
                                 <ComboBoxItem ToolTip="Slowest execution that can be terminated.">Asynchronous</ComboBoxItem>
                                 <ComboBoxItem ToolTip="Fastest execution which cannot be terminated.">Synchronous</ComboBoxItem>
@@ -280,12 +280,12 @@
                         </ComboBox>
 
                         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="116,0,0,0">
-                            <Button x:Name="btnRun" Visibility="Visible" IsEnabled="true" Click="btnRun_Click"  Padding="2,2,2,2" BorderThickness="0" ToolTip="Start" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button Command="{Binding RunClick}" Visibility="{Binding IsEditing, ConverterParameter={x:Static Visibility.Hidden}, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding IsEditing}" Padding="2,2,2,2" BorderThickness="0" ToolTip="Start" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                                 <Button.Template>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Grid x:Name="ContentGrid" Margin="0,0,0,0">
-                                            <TextBlock x:Name="TextBox" VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Right" Margin="24,0,6,0" FontSize="14" FontWeight="Regular">Start</TextBlock>
-                                            <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#1e8449" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                            <TextBlock VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Right" Margin="24,0,6,0" FontSize="14" FontWeight="Regular">Start</TextBlock>
+                                            <Rectangle Width="16" Height="16" Fill="#1e8449" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Stretch="Fill" Visual="{iconPacks:Entypo {x:Static iconPacks:PackIconEntypoKind.ControllerPlay}}"/>
                                                 </Rectangle.OpacityMask>
@@ -303,12 +303,12 @@
                                 </Button.Template>
                             </Button>
 
-                            <Button x:Name="btnStop" Visibility="Hidden" IsEnabled="false" Click="btnStop_Click" Padding="2,2,2,2" ToolTip="Stop" BorderThickness="0" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
+                            <Button Command="{Binding StopClick}" Visibility="{Binding IsExecuting, ConverterParameter={x:Static Visibility.Hidden}, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding IsExecuting}" Padding="2,2,2,2" ToolTip="Stop" BorderThickness="0" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="Transparent">
                                 <Button.Template>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Grid x:Name="ContentGrid" Margin="0,0,0,0">
-                                            <TextBlock x:Name="TextBox" VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Right" Margin="24,0,6,0" FontSize="14" FontWeight="Regular">Stop</TextBlock>
-                                            <Rectangle x:Name="IconBox" Width="16" Height="16" Fill="#a1260d" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
+                                            <TextBlock VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Right" Margin="24,0,6,0" FontSize="14" FontWeight="Regular">Stop</TextBlock>
+                                            <Rectangle Width="16" Height="16" Fill="#a1260d" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,4,0">
                                                 <Rectangle.OpacityMask>
                                                     <VisualBrush Stretch="Fill" Visual="{iconPacks:Entypo {x:Static iconPacks:PackIconEntypoKind.ControllerStop}}"/>
                                                 </Rectangle.OpacityMask>
@@ -331,8 +331,8 @@
                 </Grid>
             </Grid>
 
-            <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" ActiveContentChanged="DockingManager_DockManager_ActiveContentChanged" Background="{DynamicResource WindowBackgroundBrush}" DataContext="{Binding DockManager}" DocumentsSource="{Binding Documents, Mode=OneWay}" AnchorablesSource="{Binding Tools, Mode=OneWay}"
-                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockingManager_DockManager_Loaded" Unloaded="DockingManager_DockManager_Unloaded">
+            <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" DataContext="{Binding DockManager}" ActiveContent="{Binding ActiveContent, Mode=TwoWay}"  Background="{DynamicResource WindowBackgroundBrush}" DocumentsSource="{Binding Documents, Mode=OneWay}" AnchorablesSource="{Binding Tools, Mode=OneWay}"
+                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockManagerLoaded" Unloaded="DockManagerUnloaded">
 
                 <dock:DockingManager.Resources>
                     <DataTemplate DataType="{x:Type viewModels:ExplorerViewModel}">
