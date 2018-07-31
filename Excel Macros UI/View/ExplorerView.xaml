@@ -45,7 +45,7 @@
                 <EventSetter Event="TreeViewItem.MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick" />
                 <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown" />
                 <Setter Property="Background" Value="Transparent" />
-                <Setter Property="IsExpanded" Value="{Binding DataContext.IsExpanded, Mode=TwoWay}" />
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                 <Setter Property="ItemContainerStyle" Value="{DynamicResource BoundTreeViewItemStyle}" />
             </Style>
         </Grid.Resources>

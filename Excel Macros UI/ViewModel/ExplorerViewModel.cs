@@ -160,9 +160,14 @@ namespace Excel_Macros_UI.ViewModel
             ObservableCollection<DisplayableTreeViewItem> siblings;
 
             if (parent == null)
+            {
                 siblings = ItemSource;
+            }
             else
+            {
                 siblings = parent.Items;
+                parent.IsExpanded = true;
+            }
             
             int index = FindIndex(siblings, item);
 
@@ -204,6 +209,9 @@ namespace Excel_Macros_UI.ViewModel
 
         private int FindIndex(ObservableCollection<DisplayableTreeViewItem> items, DisplayableTreeViewItem item)
         {
+            if (items.Count == 0)
+                return 0;
+
             int count = items.Count - 1;
 
             int low = 0;

@@ -152,7 +152,7 @@
 
     <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="144" Width="144" MaxWidth="160"/>
+            <ColumnDefinition MinWidth="112" Width="112" MaxWidth="112"/>
             <ColumnDefinition MinWidth="1" Width="1" MaxWidth="1"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -161,7 +161,7 @@
             <!-- TABS -->
             <ToggleButton IsChecked="{Binding StyleActive, Mode=TwoWay}" Margin="0,8,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{StaticResource SettingsButtonStyle}">
                 <Grid Margin="0,0,0,0">
-                    <TextBlock VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Left" Margin="24,0,0,2">Code Editor</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Left" Margin="24,0,0,2">Style</TextBlock>
                     <Rectangle Width="16" Height="16" Fill="{DynamicResource TextBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{iconPacks:Material {x:Static iconPacks:PackIconMaterialKind.CodeBraces}}"/>
@@ -183,7 +183,7 @@
 
             <ToggleButton IsChecked="{Binding RibbonActive, Mode=TwoWay}" Margin="0,88,0,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{StaticResource SettingsButtonStyle}">
                 <Grid Margin="0,0,0,0">
-                    <TextBlock VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Left" Margin="24,0,0,2">Ribbon Macros</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Left" Margin="24,0,0,2">Macros</TextBlock>
                     <Rectangle Width="16" Height="16" Fill="{DynamicResource TextBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{iconPacks:Material {x:Static iconPacks:PackIconMaterialKind.Script}}"/>
