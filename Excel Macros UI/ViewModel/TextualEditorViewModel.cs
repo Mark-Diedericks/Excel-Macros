@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 19/07/2018
- * Version 1.0.0
+ * 30/07/2018
+ * Version 1.0.3
  * Textual editor view model
  */
 

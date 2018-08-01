@@ -118,6 +118,8 @@ namespace Excel_Macros_UI.Routing
                 Excel_Macros_INTEROP.EventManager.GetInstance().RemoveRibbonMacroEvent += GetInstance().RemoveMacro;
                 Excel_Macros_INTEROP.EventManager.GetInstance().RenameRibbonMacroEvent += GetInstance().RenameMacro;
 
+                Excel_Macros_INTEROP.EventManager.GetInstance().ConvertPythonEvent += ConvertPython;
+
                 Excel_Macros_INTEROP.EventManager.GetInstance().SetExcelInteractive += (enabled) => 
                 {
                     GetInstance().SetExcelInteractiveEvent?.Invoke(enabled);
@@ -263,7 +265,7 @@ namespace Excel_Macros_UI.Routing
         #endregion
 
         #region Main to UI Events
-
+        
         public static void WindowFocusEvent()
         {
             MainWindowViewModel.GetInstance().TryFocus();
@@ -309,6 +311,17 @@ namespace Excel_Macros_UI.Routing
         public static void ChangeIO(TextWriter output, TextWriter error)
         {
             GetInstance().IOChangedEvent?.Invoke(output, error);
+        }
+
+        public static void ConvertPython(Guid id, Action<string> OnReturn)
+        {
+            if (MainWindowViewModel.GetInstance() == null)
+                return;
+
+            VisualEditorViewModel document = MainWindowViewModel.GetInstance().DockManager.GetDocument(id) as VisualEditorViewModel;
+
+            if(document != null)
+                OnReturn?.Invoke(document.GetPythonCode());
         }
 
         #endregion

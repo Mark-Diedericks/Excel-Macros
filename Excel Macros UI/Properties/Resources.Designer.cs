@@ -61,6 +61,28 @@ namespace Excel_Macros_UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!doctype html&gt;
+        ///&lt;!-- saved from url=(0016)http://localhost --&gt;
+        ///
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=10&quot; /&gt;
+        ///    &lt;script src=&quot;../Blockly/blockly_compressed.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script src=&quot;../Blockly/blocks_compressed.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script src=&quot;../Blockly/python_compressed.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script src=&quot;../Blockly/msg/js/en.js&quot;&gt;&lt;/script&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;div id=&quot;host&quot; style=&quot;height: 480px; width: 600px; background: #ff6a00;&quot;&gt;&lt;/div&gt;
+        ///    &lt;xml id=&quot;toolbox&quot; style=&quot;di [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BlocklyHost {
+            get {
+                return ResourceManager.GetString("BlocklyHost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;SyntaxDefinition name=&quot;IronPython&quot; extensions=&quot;.ipy&quot;&gt;
         ///	
         ///	&lt;Properties&gt;

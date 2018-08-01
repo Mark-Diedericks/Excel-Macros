@@ -31,6 +31,14 @@ namespace Excel_Macros_UI.ViewModel
             Tools.Add(Explorer);
             Tools.Add(Console);
 
+            {
+                VisualEditorViewModel vevm = new VisualEditorViewModel();
+                vevm.PropertyChanged += Document_PropertyChanged;
+
+                if (!vevm.IsClosed)
+                    Documents.Add(vevm);
+            }
+
             foreach (DocumentViewModel document in DocumentViewModels)
             {
                 document.PropertyChanged += Document_PropertyChanged;

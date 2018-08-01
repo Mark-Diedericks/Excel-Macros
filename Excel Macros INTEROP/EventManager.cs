@@ -19,6 +19,9 @@ namespace Excel_Macros_INTEROP
         public delegate void ClearIOEvent();
         public event ClearIOEvent ClearAllIOEvent;
 
+        public delegate void MacroConvertEvent(Guid id, Action<string> OnReturn);
+        public event MacroConvertEvent ConvertPythonEvent;
+
         public delegate void MacroAddEvent(Guid id, string macroName, string macroPath, Action macroClickEvent);
         public event MacroAddEvent AddRibbonMacroEvent;
 
@@ -76,6 +79,11 @@ namespace Excel_Macros_INTEROP
         public static void AddRibbonMacro(Guid id, string macroName, string macroPath, Action macroClickEvent)
         {
             GetInstance().AddRibbonMacroEvent?.Invoke(id, macroName, macroPath, macroClickEvent);
+        }
+
+        internal static void ConvertToPython(Guid id, Action<string> OnReturn)
+        {
+            GetInstance().ConvertPythonEvent?.Invoke(id, OnReturn);
         }
 
         public static void RemoveRibbonMacro(Guid id)
