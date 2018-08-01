@@ -28,6 +28,7 @@ namespace Excel_Macros_UI.ViewModel
             ToolTip = "Prototyping Scratchpad";
             ContentId = "Visual Editor";
             IsClosed = false;
+            CanClose = false;
             Source = String.Empty;
         }
 
