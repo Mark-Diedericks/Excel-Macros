@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2018
- * Version 1.0.0
+ * 22/07/2018
+ * Version 1.0.3
  * Interoprability utilities (loading etc)
  */
 
@@ -17,7 +17,12 @@ namespace Excel_Macros_INTEROP.Libraries
 {
     public class InteropTools
     {
-
+        /// <summary>
+        /// Converts the System Types of an assembly into a custom data structure; InteropTypeInfo
+        /// </summary>
+        /// <param name="types">A list of types (classes) from the Assembly</param>
+        /// <param name="isExcel">If the types are from the Excel Interoprability Assembly</param>
+        /// <returns>InteropTypeInfo Array</returns>
         public static InteropTypeInfo[] GetInteropTypeInfos(Type[] types, bool isExcel = false)
         {
             types = types.OrderBy(o => o.Name).ToArray();
@@ -30,11 +35,25 @@ namespace Excel_Macros_INTEROP.Libraries
             return typeInfos;
         }
 
+        /// <summary>
+        /// Returns the System Types contained within an assembly
+        /// </summary>
+        /// <param name="a">An instance of the assembly</param>
+        /// <returns>System Type Array</returns>
         public static Type[] GetAssemblyObjects(Assembly a)
         {
             return a.GetTypes();
         }
 
+        /// <summary>
+        /// Gathers further information on each type (class) within an assembly.
+        /// </summary>
+        /// <param name="types">Types contained within a type</param>
+        /// <param name="typeConstants">FieldInfos related to the type</param>
+        /// <param name="typeMembers">PropertyInfos related to the type</param>
+        /// <param name="typeMethods">MethodInfos related to the type</param>
+        /// <param name="isExcel">If the types are from the Excel Interoprability Assembly</param>
+        /// <returns>InteropTypeInfo Array</returns>
         private static InteropTypeInfo[] CreateInteropTypeInfos(Type[] types, Dictionary<Type, FieldInfo[]> typeConstants, Dictionary<Type, PropertyInfo[]> typeMembers, Dictionary<Type, MethodInfo[]> typeMethods, bool isExcel)
         {
             List<InteropTypeInfo> infos = new List<InteropTypeInfo>();
@@ -79,6 +98,11 @@ namespace Excel_Macros_INTEROP.Libraries
             return infos.ToArray();
         }
 
+        /// <summary>
+        /// Gets the parameters of a method
+        /// </summary>
+        /// <param name="method">MethodInfo of specified method</param>
+        /// <returns>Parameters of inputted method</returns>
         private static InteropParamInfo[] GetMethodParameters(MethodInfo method)
         {
             List<InteropParamInfo> infos = new List<InteropParamInfo>();
@@ -89,6 +113,11 @@ namespace Excel_Macros_INTEROP.Libraries
             return infos.ToArray();
         }
 
+        /// <summary>
+        /// Identifyies whether or not a member is a base implementation
+        /// </summary>
+        /// <param name="member">The member to check</param>
+        /// <returns>Bool identifying whether or not a member is the base implementation</returns>
         private static bool IsBaseImplementation(string member)
         {
             //Exclude inherited Object members
@@ -97,6 +126,11 @@ namespace Excel_Macros_INTEROP.Libraries
             return l.Contains("equals") || l.Contains("finalize") || l.Contains("gethashcode") || l.Contains("gettype") || l.Contains("memberwiseclone") || l.Contains("referenceequals") || l.Contains("tostring");
         }
 
+        /// <summary>
+        /// Get the methods contained within a system type (class)
+        /// </summary>
+        /// <param name="types">The system type to check</param>
+        /// <returns>Returns a dictionary of the methods contianed within a system type</returns>
         private static Dictionary<Type, MethodInfo[]> GetTypeMethods(Type[] types)
         {
             Dictionary<Type, MethodInfo[]> result = new Dictionary<Type, MethodInfo[]>();
@@ -107,6 +141,11 @@ namespace Excel_Macros_INTEROP.Libraries
             return result;
         }
 
+        /// <summary>
+        /// Get the properties contained within a system type (class)
+        /// </summary>
+        /// <param name="types">The system type to check</param>
+        /// <returns>Returns a dictionary of the properties contianed within a system type</returns>
         private static Dictionary<Type, PropertyInfo[]> GetTypeMembers(Type[] types)
         {
             Dictionary<Type, PropertyInfo[]> result = new Dictionary<Type, PropertyInfo[]>();
@@ -117,6 +156,11 @@ namespace Excel_Macros_INTEROP.Libraries
             return result;
         }
 
+        /// <summary>
+        /// Get the fields contained within a system type (class)
+        /// </summary>
+        /// <param name="types">The system type to check</param>
+        /// <returns>Returns a dictionary of the fields contianed within a system type</returns>
         private static Dictionary<Type, FieldInfo[]> GetTypeConstants(Type[] types)
         {
             Dictionary<Type, FieldInfo[]> result = new Dictionary<Type, FieldInfo[]>();

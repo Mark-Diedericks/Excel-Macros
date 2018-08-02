@@ -30,6 +30,9 @@ namespace Excel_Macros_UI.ViewModel
     {
         private bool m_IsCreating = false;
 
+        /// <summary>
+        /// Instantiation of ExplorerViewModel
+        /// </summary>
         public ExplorerViewModel()
         {
             Model = new ExplorerModel();
@@ -40,6 +43,9 @@ namespace Excel_Macros_UI.ViewModel
                 Routing.EventManager.ApplicationLoadedEvent += Initialize;
         }
 
+        /// <summary>
+        /// Fires Focus event
+        /// </summary>
         private void Focus()
         {
             FocusEvent?.Invoke();
@@ -147,6 +153,11 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Tree View Population Through Recursion & Sorting
 
+        /// <summary>
+        /// Renames a tree view item
+        /// </summary>
+        /// <param name="parent">The parent of the item</param>
+        /// <param name="item">The item to be renamed</param>
         private void Rename(DisplayableTreeViewItem parent, DisplayableTreeViewItem item)
         {
             Remove(parent, item);
@@ -155,6 +166,11 @@ namespace Excel_Macros_UI.ViewModel
             UpdateRibbon();
         }
 
+        /// <summary>
+        /// Adds a tree view item
+        /// </summary>
+        /// <param name="parent">Parent of the item</param>
+        /// <param name="item">The item to be added</param>
         private void Add(DisplayableTreeViewItem parent, DisplayableTreeViewItem item)
         {
             ObservableCollection<DisplayableTreeViewItem> siblings;
@@ -182,6 +198,11 @@ namespace Excel_Macros_UI.ViewModel
             CheckVisibility();
         }
 
+        /// <summary>
+        /// Remove a tree view item
+        /// </summary>
+        /// <param name="parent">Parent of the item</param>
+        /// <param name="item">The item to be removed</param>
         private void Remove(DisplayableTreeViewItem parent, DisplayableTreeViewItem item)
         {
             if (parent == null)
@@ -192,6 +213,9 @@ namespace Excel_Macros_UI.ViewModel
             CheckVisibility();
         }
 
+        /// <summary>
+        /// Check to ensure that a label should be visible based on the count of items
+        /// </summary>
         private void CheckVisibility()
         {
             if (ItemSource.Count == 0)
@@ -202,11 +226,20 @@ namespace Excel_Macros_UI.ViewModel
             UpdateRibbon();
         }
 
+        /// <summary>
+        /// Set the changed ItemSource to the SettingsMenu for use in the Ribbon tab
+        /// </summary>
         private void UpdateRibbon()
         {
             SettingsMenuModel.SetRibbonItems(ItemSource);
         }
 
+        /// <summary>
+        /// Find the index at which an item would exist in an alphabetically ordered list (essentially binary search)
+        /// </summary>
+        /// <param name="items">List of siblings</param>
+        /// <param name="item">The item to searched for</param>
+        /// <returns>Inserting index</returns>
         private int FindIndex(ObservableCollection<DisplayableTreeViewItem> items, DisplayableTreeViewItem item)
         {
             if (items.Count == 0)
@@ -237,6 +270,13 @@ namespace Excel_Macros_UI.ViewModel
             return mid;
         }
 
+        /// <summary>
+        /// Produces quicksort partition, returns pivot index
+        /// </summary>
+        /// <param name="items">List of items</param>
+        /// <param name="start">Starting index</param>
+        /// <param name="end">Ending index</param>
+        /// <returns>Index of the partition pivot</returns>
         private int Partition(ObservableCollection<DisplayableTreeViewItem> items, int start, int end)
         {
             int pivot = end;
@@ -267,6 +307,12 @@ namespace Excel_Macros_UI.ViewModel
             return j;
         }
 
+        /// <summary>
+        /// Performs quicksort on a list of items
+        /// </summary>
+        /// <param name="items">List of items</param>
+        /// <param name="start">Starting index</param>
+        /// <param name="end">Ending index</param>
         private void QuickSort(ref ObservableCollection<DisplayableTreeViewItem> items, int start, int end)
         {
             if(start < end)
@@ -277,6 +323,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Sort the tree view item source collection, using a custom quick sort instead of LINQ sort
+        /// </summary>
         private void Sort()
         {
 #if false
@@ -298,6 +347,11 @@ namespace Excel_Macros_UI.ViewModel
 #endif
         }
 
+        /// <summary>
+        /// Sort a tree view item's item collection, using a custom quick sort instead of LINQ sort
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         private DisplayableTreeViewItem Sort(DisplayableTreeViewItem item)
         {
 #if false
@@ -322,6 +376,9 @@ namespace Excel_Macros_UI.ViewModel
 #endif
         }
 
+        /// <summary>
+        /// Uses recursive function to populate the tree view with macros
+        /// </summary>
         private void Initialize()
         {
             Dictionary<Guid, IMacro>.KeyCollection keys = Main.GetMacros().Keys;
@@ -340,6 +397,11 @@ namespace Excel_Macros_UI.ViewModel
             Main.GetInstance().OnMacroCountChanged += CheckVisibility;
         }
 
+        /// <summary>
+        /// Adds RightButtonDown event callbacks to an item for contextmenu opening
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         private DisplayableTreeViewItem AddEvent(DisplayableTreeViewItem item)
         {
             if (item == null)
@@ -353,6 +415,12 @@ namespace Excel_Macros_UI.ViewModel
             return item;
         }
 
+        /// <summary>
+        /// Creates an item from a data source and adds it to its parent
+        /// </summary>
+        /// <param name="parent">The parent of the item</param>
+        /// <param name="data">The data of the macro, for the tree view item</param>
+        /// <returns></returns>
         private DisplayableTreeViewItem CreateTreeViewItem(DisplayableTreeViewItem parent, DataTreeViewItem data)
         {
             DisplayableTreeViewItem item = new DisplayableTreeViewItem();
@@ -387,6 +455,12 @@ namespace Excel_Macros_UI.ViewModel
             return item;
         }
 
+        /// <summary>
+        /// Creates a heirarchial data structure of the data elements from the file system's 
+        /// directory layout, later used to produce the displayed item
+        /// </summary>
+        /// <param name="macros"></param>
+        /// <returns></returns>
         private HashSet<DataTreeViewItem> CreateTreeViewItemStructure(List<Guid> macros)
         {
             HashSet<DataTreeViewItem> items = new HashSet<DataTreeViewItem>();
@@ -431,10 +505,14 @@ namespace Excel_Macros_UI.ViewModel
             return items;
         }
 
-#endregion
+        #endregion
 
         #region Tree View Context Menu
 
+        /// <summary>
+        /// Create a contextmenu for the TreeView 
+        /// </summary>
+        /// <returns>TreeView ContextMenu</returns>
         public ContextMenu CreateTreeViewContextMenu()
         {
             Style ContextMenuStyle = MainWindow.GetInstance().GetResource("MetroContextMenuStyle") as Style;
@@ -481,6 +559,13 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Tree View Item Context Menu
 
+        /// <summary>
+        /// Create a contextmenu for a tree view item folder
+        /// </summary>
+        /// <param name="item">The item for which the contextmenu is being made</param>
+        /// <param name="name">The name of the folder</param>
+        /// <param name="path">The relativepath of the folder</param>
+        /// <returns>Folder TreeViewItem ContextMenu</returns>
         private ContextMenu CreateContextMenuFolder(DisplayableTreeViewItem item, string name, string path)
         {
             Style ContextMenuStyle = MainWindow.GetInstance().GetResource("MetroContextMenuStyle") as Style;
@@ -595,6 +680,13 @@ namespace Excel_Macros_UI.ViewModel
             return cm;
         }
 
+        /// <summary>
+        /// Creates a contextmenu for a tree view item file
+        /// </summary>
+        /// <param name="item">The item for which the context menu is being made</param>
+        /// <param name="name">The name of the macro</param>
+        /// <param name="id">The id of the macro</param>
+        /// <returns>File TreeViewItem ContextMenu</returns>
         private ContextMenu CreateContextMenuMacro(DisplayableTreeViewItem item, string name, Guid id)
         {
             Style ContextMenuStyle = MainWindow.GetInstance().GetResource("MetroContextMenuStyle") as Style;
@@ -790,6 +882,10 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Tree View Functions & Item Functions
         
+        /// <summary>
+        /// Closes the open document of a macro
+        /// </summary>
+        /// <param name="item">The item which itself and all subsequent children will be closed</param>
         private void CloseItemMacro(DisplayableTreeViewItem item)
         {
             foreach (DisplayableTreeViewItem child in item.Items)
@@ -798,6 +894,12 @@ namespace Excel_Macros_UI.ViewModel
             MainWindowViewModel.GetInstance().CloseMacro(item.ID);
         }
 
+        /// <summary>
+        /// Deletes a folder and removes its displayable item
+        /// </summary>
+        /// <param name="item">The item to be deleted</param>
+        /// <param name="path">The relativepath of the folder</param>
+        /// <param name="name">The name of the folder</param>
         public void DeleteFolder(DisplayableTreeViewItem item, string path, string name)
         {
             Main.DeleteFolder(path + "/" + name, (result) =>
@@ -814,6 +916,11 @@ namespace Excel_Macros_UI.ViewModel
             });
         }
 
+        /// <summary>
+        /// Deletes a macro and its displayable item
+        /// </summary>
+        /// <param name="item">The item to be deleted</param>
+        /// <param name="macro">The macro attached to the item, to be deleted</param>
         public void DeleteMacro(DisplayableTreeViewItem item, IMacro macro)
         {
             macro.Delete((result) =>
@@ -830,6 +937,9 @@ namespace Excel_Macros_UI.ViewModel
             });
         }
 
+        /// <summary>
+        /// Imports a macro through an appropriate method
+        /// </summary>
         public void ImportMacro()
         {
             if (SelectedItem == null)
@@ -840,6 +950,11 @@ namespace Excel_Macros_UI.ViewModel
                 ImportMacro(SelectedItem.Parent, SelectedItem.Root);
         }
 
+        /// <summary>
+        /// Imports a macro
+        /// </summary>
+        /// <param name="parent">The parent item to which it'll be added</param>
+        /// <param name="relativepath">The relativepath of the macro's parent</param>
         public void ImportMacro(DisplayableTreeViewItem parent, string relativepath)
         {
             MainWindowViewModel.GetInstance().ImportMacro(relativepath, (id) =>
@@ -868,11 +983,20 @@ namespace Excel_Macros_UI.ViewModel
             });
         }
 
+        /// <summary>
+        /// Creates a macro, through an appropriate method
+        /// </summary>
+        /// <param name="type">The type of macro</param>
         public void CreateMacro(MacroType type)
         {
             CreateMacro(type, null);
         }
 
+        /// <summary>
+        /// Creates a macro, using an appropriate method
+        /// </summary>
+        /// <param name="type">The type of macro</param>
+        /// <param name="OnReturn">The Action, and resulting guid of the created macro, to be fired when the task is completed</param>
         public void CreateMacro(MacroType type, Action<Guid> OnReturn)
         {
             if (SelectedItem == null)
@@ -883,11 +1007,24 @@ namespace Excel_Macros_UI.ViewModel
                 CreateMacro(SelectedItem.Parent, type, SelectedItem.Root, OnReturn);
         }
 
+        /// <summary>
+        /// Creats a macro, using an appropriate method
+        /// </summary>
+        /// <param name="parent">The parent item to which it'll be added</param>
+        /// <param name="type">The type of macro</param>
+        /// <param name="root">The root of the item's relative future directory</param>
         public void CreateMacro(DisplayableTreeViewItem parent, MacroType type, string root)
         {
             CreateMacro(parent, type, root, null);
         }
 
+        /// <summary>
+        /// Creates macro
+        /// </summary>
+        /// <param name="parent">The parent item to which it'll be added</param>
+        /// <param name="type">The type of macro</param>
+        /// <param name="root">The root of the item's relative future directory</param>
+        /// <param name="OnReturn">The Action, and resulting guid of the created macro, to be fired when the task is completed</param>
         public void CreateMacro(DisplayableTreeViewItem parent, MacroType type, string root, Action<Guid> OnReturn)
         {
             if (m_IsCreating)
@@ -957,6 +1094,11 @@ namespace Excel_Macros_UI.ViewModel
             item.IsInputting = true;
         }
 
+        /// <summary>
+        /// Creates a folder
+        /// </summary>
+        /// <param name="parent">The parent item for it to be added to</param>
+        /// <param name="root">The root of the item's relative future directory</param>
         private void CreateFolder(DisplayableTreeViewItem parent, string root)
         {
             if (m_IsCreating)
@@ -1018,11 +1160,21 @@ namespace Excel_Macros_UI.ViewModel
             item.IsInputting = true;
         }
 
+        /// <summary>
+        /// Opens a macro in the document for editing
+        /// </summary>
+        /// <param name="id">The id of the macro</param>
         public void OpenMacro(Guid id)
         {
             MainWindowViewModel.GetInstance().OpenMacroForEditing(id);
         }
 
+        /// <summary>
+        /// Executes a macro, either directly or through the editor
+        /// </summary>
+        /// <param name="id">The id of the macro</param>
+        /// <param name="macro">The macro the executed</param>
+        /// <param name="async">Bool which indicates whether the execution should be asynchronous or not (synchronous)</param>
         public void ExecuteMacro(Guid id, IMacro macro, bool async)
         {
             if (MainWindow.GetInstance().IsActive)
@@ -1036,6 +1188,6 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
-#endregion
+    #endregion
     }
 }

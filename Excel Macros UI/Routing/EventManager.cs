@@ -71,27 +71,48 @@ namespace Excel_Macros_UI.Routing
         private static bool s_IsLoaded;
         private static bool s_IsRibbonLoaded;
 
+        /// <summary>
+        /// Instiantiation of EventManager
+        /// </summary>
         private EventManager()
         {
             s_Instance = this;
             s_IsLoaded = false;
         }
 
+        /// <summary>
+        /// Gets instance of EventManager
+        /// </summary>
+        /// <returns></returns>
         public static EventManager GetInstance()
         {
             return s_Instance;
         }
 
+        /// <summary>
+        /// Returns whether or not the application has been loaded
+        /// </summary>
+        /// <returns>Whether or not the application is loaded</returns>
         public static bool IsLoaded()
         {
             return s_IsLoaded;
         }
 
+        /// <summary>
+        /// Returns whether or not the ribbon tab has been loaded
+        /// </summary>
+        /// <returns>Whether or not the application is loaded</returns>
         public static bool IsRibbonLoaded()
         {
             return s_IsRibbonLoaded;
         }
 
+        /// <summary>
+        /// Initializes the UI and Interop and binds events to the AddIn.
+        /// </summary>
+        /// <param name="application">Excel Application</param>
+        /// <param name="dispatcher">Excel UI Dispatcher</param>
+        /// <param name="RibbonMacros">A serialized list of ribbon accessible macros</param>
         public static void CreateApplicationInstance(Excel.Application application, Dispatcher dispatcher, string RibbonMacros)
         {
             new EventManager();
@@ -118,9 +139,7 @@ namespace Excel_Macros_UI.Routing
                 Excel_Macros_INTEROP.EventManager.GetInstance().AddRibbonMacroEvent += GetInstance().AddMacro;
                 Excel_Macros_INTEROP.EventManager.GetInstance().RemoveRibbonMacroEvent += GetInstance().RemoveMacro;
                 Excel_Macros_INTEROP.EventManager.GetInstance().RenameRibbonMacroEvent += GetInstance().RenameMacro;
-
-                Excel_Macros_INTEROP.EventManager.GetInstance().ConvertPythonEvent += ConvertPython;
-
+                
                 Excel_Macros_INTEROP.EventManager.GetInstance().SetExcelInteractive += (enabled) => 
                 {
                     GetInstance().SetExcelInteractiveEvent?.Invoke(enabled);
@@ -165,11 +184,18 @@ namespace Excel_Macros_UI.Routing
 
         #region UI Events
 
+        /// <summary>
+        /// Fires ThemeChanged event
+        /// </summary>
         public static void ThemeChanged()
         {
             ThemeChangedEvent?.Invoke();
         }
 
+        /// <summary>
+        /// Fires DocumentChanged event
+        /// </summary>
+        /// <param name="document"></param>
         public static void DocumentChanged(DocumentViewModel document)
         {
             DocumentChangedEvent?.Invoke(document);
@@ -179,11 +205,35 @@ namespace Excel_Macros_UI.Routing
 
         #region Main to UI to Excel Events
 
+        /// <summary>
+        /// Fowards event to Excel's InputBox -> Asynchronous
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="title"></param>
+        /// <param name="def"></param>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="helpFile"></param>
+        /// <param name="helpContextID"></param>
+        /// <param name="type"></param>
+        /// <param name="OnResult"></param>
         private static void EventManager_DisplayInputMessageEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type, Action<object> OnResult)
         {
             GetInstance().DisplayInputMessageEvent?.Invoke(message, title, def, left, top, helpFile, helpContextID, type, OnResult);
         }
 
+        /// <summary>
+        /// Forwards event to Excel's InputBox -> Synchronous
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="title"></param>
+        /// <param name="def"></param>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="helpFile"></param>
+        /// <param name="helpContextID"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         private static object EventManager_DisplayInputMessageReturnEvent(string message, object title, object def, object left, object top, object helpFile, object helpContextID, object type)
         {
             return GetInstance().DisplayInputMessageReturnEvent?.Invoke(message, title, def, left, top, helpFile, helpContextID, type);
@@ -193,11 +243,17 @@ namespace Excel_Macros_UI.Routing
 
         #region Excel to UI Events
 
+        /// <summary>
+        /// Fires Shutdown Event
+        /// </summary>
         public void Shutdown()
         {
             GetInstance().ShutdownEvent?.Invoke();
         }
 
+        /// <summary>
+        /// Shows the main window
+        /// </summary>
         public void MacroEditorClickEvent()
         {
             if (MainWindowViewModel.GetInstance() == null || MainWindow.GetInstance() == null)
@@ -209,6 +265,9 @@ namespace Excel_Macros_UI.Routing
             });
         }
 
+        /// <summary>
+        /// Shows the main window and creates new textual macro
+        /// </summary>
         public void NewTextualClickEvent()
         {
             if (MainWindowViewModel.GetInstance() == null || MainWindow.GetInstance() == null)
@@ -221,6 +280,9 @@ namespace Excel_Macros_UI.Routing
             });
         }
 
+        /// <summary>
+        /// Shows the main window and creates new visual macro
+        /// </summary>
         public void NewVisualClickEvent()
         {
             if (MainWindowViewModel.GetInstance() == null || MainWindow.GetInstance() == null)
@@ -233,6 +295,9 @@ namespace Excel_Macros_UI.Routing
             });
         }
 
+        /// <summary>
+        /// SHows the main window and prompts to import a macro
+        /// </summary>
         public void OpenMacroClickEvent()
         {
             if (MainWindowViewModel.GetInstance() == null || MainWindow.GetInstance() == null)
@@ -245,6 +310,9 @@ namespace Excel_Macros_UI.Routing
             });
         }
 
+        /// <summary>
+        /// Fires RibbonLoaded event
+        /// </summary>
         public static void MacroRibbonLoaded()
         {
             s_IsRibbonLoaded = true;
@@ -255,22 +323,42 @@ namespace Excel_Macros_UI.Routing
 
         #region Main to Ribbon Events
 
+        /// <summary>
+        /// Fires AddMacro event
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="macroName"></param>
+        /// <param name="macroPath"></param>
+        /// <param name="OnClick"></param>
         public void AddMacro(Guid id, string macroName, string macroPath, Action OnClick)
         {
             AddRibbonMacroEvent?.Invoke(id, macroName, macroPath, OnClick);
         }
 
+        /// <summary>
+        /// Fires RemoveMacro event
+        /// </summary>
+        /// <param name="id"></param>
         public void RemoveMacro(Guid id)
         {
             RemoveRibbonMacroEvent?.Invoke(id);
         }
 
+        /// <summary>
+        /// Fires RenameMacro event
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="macroName"></param>
+        /// <param name="macroPath"></param>
         public void RenameMacro(Guid id, string macroName, string macroPath)
         {
             MacroDeclaration md = Main.GetDeclaration(id);
             RenameRibbonMacroEvent?.Invoke(id, macroName, macroPath);
         }
 
+        /// <summary>
+        /// Fires ApplicationLoaded event
+        /// </summary>
         public static void LoadCompleted()
         {
             s_IsLoaded = true;
@@ -281,31 +369,57 @@ namespace Excel_Macros_UI.Routing
 
         #region Main to UI Events
         
+        /// <summary>
+        /// Focuses main window
+        /// </summary>
         public static void WindowFocusEvent()
         {
             MainWindowViewModel.GetInstance().TryFocus();
         }
 
+        /// <summary>
+        /// Shows main window
+        /// </summary>
         public static void WindowShowEvent()
         {
             MainWindowViewModel.GetInstance().ShowWindow();
         }
 
+        /// <summary>
+        /// Hides main window
+        /// </summary>
         public static void WindowHideEvent()
         {
             MainWindowViewModel.GetInstance().HideWindow();
         }
 
+        /// <summary>
+        /// Displays OK message
+        /// </summary>
+        /// <param name="content">The message to be displayed</param>
+        /// <param name="title">The message's header</param>
         public static void DisplayOkMessage(string content, string title)
         {
             MainWindowViewModel.GetInstance().DisplayOkMessage(content, title);
         }
 
+        /// <summary>
+        /// Displays yes/no message -> asynchronous
+        /// </summary>
+        /// <param name="content">The message to be displayed</param>
+        /// <param name="title">The message's header</param>
+        /// <param name="OnReturn">The Action, and bool representing the user's input, to be fires when the user returns input</param>
         public static void DisplayYesNoMessage(string content, string title, Action<bool> OnReturn)
         {
             MainWindowViewModel.GetInstance().DisplayYesNoMessage(content, title, OnReturn);
         }
 
+        /// <summary>
+        /// Displays yes/no message -> synchronous
+        /// </summary>
+        /// <param name="content">The message to be displayed</param>
+        /// <param name="title">The message's header</param>
+        /// <returns>Bool representing the user's input</returns>
         public static bool DisplayYesNoMessageReturn(string content, string title)
         {
             Task<bool> t = MainWindowViewModel.GetInstance().DisplayYesNoMessageReturn(content, title);
@@ -313,30 +427,34 @@ namespace Excel_Macros_UI.Routing
             return t.Result;
         }
 
+        /// <summary>
+        /// Displays yes/no message -> synchronous
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="caption">The message's header</param>
+        /// <param name="aux">The text in the 3rd button</param>
+        /// <param name="OnReturn">The Action, and MessageDialogResult of the user's input, to be fired when the user provides input</param>
         public static void DisplayYesNoCancelMessage(string message, string caption, string aux, Action<MessageDialogResult> OnReturn)
         {
             MainWindowViewModel.GetInstance().DisplayYesNoCancelMessage(message, caption, aux, OnReturn);
         }
-
+        
+        /// <summary>
+        /// Fires ClearAllIO event
+        /// </summary>
         public static void ClearAllIO()
         {
             GetInstance().ClearAllIOEvent?.Invoke();
         }
 
+        /// <summary>
+        /// Fires IOChange event
+        /// </summary>
+        /// <param name="output">TextWriter for output stream</param>
+        /// <param name="error">TextWriter for error stream</param>
         public static void ChangeIO(TextWriter output, TextWriter error)
         {
             GetInstance().IOChangedEvent?.Invoke(output, error);
-        }
-
-        public static void ConvertPython(Guid id, Action<string> OnReturn)
-        {
-            if (MainWindowViewModel.GetInstance() == null)
-                return;
-
-            VisualEditorViewModel document = MainWindowViewModel.GetInstance().DockManager.GetDocument(id) as VisualEditorViewModel;
-
-            if(document != null)
-                OnReturn?.Invoke(document.GetPythonCode());
         }
 
         #endregion

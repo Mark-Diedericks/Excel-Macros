@@ -39,6 +39,9 @@ namespace Excel_Macros_UI.ViewModel
     {
         private static MainWindowViewModel s_Instance;
 
+        /// <summary>
+        /// Instantiation of MainWindowViewModel
+        /// </summary>
         public MainWindowViewModel()
         {
             s_Instance = this;
@@ -61,6 +64,10 @@ namespace Excel_Macros_UI.ViewModel
             };
         }
 
+        /// <summary>
+        /// Get MainWindowViewModel instance
+        /// </summary>
+        /// <returns>MainWindowViewModel instance</returns>
         public static MainWindowViewModel GetInstance()
         {
             return s_Instance;
@@ -74,12 +81,20 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Invokes an action on the UI disptacher -> synchronous
+        /// </summary>
+        /// <param name="a">Action to be invoked</param>
         private void InvokeWindow(Action a)
         {
             if (MainWindow.GetInstance() != null)
                 MainWindow.GetInstance().Dispatcher.Invoke(a);
         }
-
+        
+        /// <summary>
+        /// Invokes an action on the UI disptacher -> asynchronous
+        /// </summary>
+        /// <param name="a">Action to be invoked</param>
         private void BeginInvokeWindow(Action a)
         {
             if (MainWindow.GetInstance() != null)
@@ -102,6 +117,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Converts a Visual macro to a new python macro
+        /// </summary>
         private void CreateConvertedMacro()
         {
             if (DockManager.VisualEditor == null)
@@ -413,6 +431,10 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Window Event Callbacks & Overrides
 
+        /// <summary>
+        /// OnClosing event override, prevent closing window
+        /// </summary>
+        /// <param name="e"></param>
         public void OnClosing(CancelEventArgs e)
         {
             SaveAll();
@@ -421,11 +443,17 @@ namespace Excel_Macros_UI.ViewModel
             e.Cancel = !IsClosing;
         }
 
+        /// <summary>
+        /// DockManagerLoaded event callback, deserialize layout and load it
+        /// </summary>
         public void DockManagerLoaded()
         {
             LoadAvalonDockLayout();
         }
 
+        /// <summary>
+        /// DockManagerUnloaded event callback, serialize loadout and save it
+        /// </summary>
         public void DockManagerUnloaded()
         {
             SaveAvalonDockLayout();
@@ -435,6 +463,9 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Saving & Loading Settings
 
+        /// <summary>
+        /// SaveAll window based settings
+        /// </summary>
         public void SaveAll()
         {
             SaveAvalonDockLayout();
@@ -443,6 +474,9 @@ namespace Excel_Macros_UI.ViewModel
             Properties.Settings.Default.Save();
         }
 
+        /// <summary>
+        /// Save avalondock's layout, serialize it as xml and save it
+        /// </summary>
         private void SaveAvalonDockLayout()
         {
             if (MainWindow.GetInstance() != null)
@@ -466,6 +500,9 @@ namespace Excel_Macros_UI.ViewModel
             Properties.Settings.Default.Save();
         }
 
+        /// <summary>
+        /// Load avalondock layout, desearlize it and apply it
+        /// </summary>
         private void LoadAvalonDockLayout()
         {
             if (MainWindow.GetInstance() != null)
@@ -492,6 +529,9 @@ namespace Excel_Macros_UI.ViewModel
 
         #region EventManager Event Function Callbacks
 
+        /// <summary>
+        /// Show the window
+        /// </summary>
         public void ShowWindow()
         {
             IsShown = true;
@@ -499,23 +539,37 @@ namespace Excel_Macros_UI.ViewModel
             BeginInvokeWindow(() => MainWindow.GetInstance().Activate());
         }
 
+        /// <summary>
+        /// Hide the window
+        /// </summary>
         public void HideWindow()
         {
             SaveAll();
             IsShown = false;
         }
 
+        /// <summary>
+        /// Close the window
+        /// </summary>
         public void CloseWindow()
         {
             IsClosing = true;
             BeginInvokeWindow(() => MainWindow.GetInstance().Close());
         }
 
+        /// <summary>
+        /// Focus the window
+        /// </summary>
         public void TryFocus()
         {
             IsFocused = true;
         }
 
+        /// <summary>
+        /// Displays an ok message
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="caption">The message's header</param>
         public void DisplayOkMessage(string message, string caption)
         {
             if (IsShown && MainWindow.GetInstance() != null)
@@ -524,6 +578,12 @@ namespace Excel_Macros_UI.ViewModel
                 System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.OK);
         }
 
+        /// <summary>
+        /// Displays a yes/no message
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="caption">The message's header</param>
+        /// <param name="OnReturn">The Action, and bool representation of the user's input, to be fired when the user provides input</param>
         public void DisplayYesNoMessage(string message, string caption, Action<bool> OnReturn)
         {
             if (IsShown && MainWindow.GetInstance() != null)
@@ -536,6 +596,13 @@ namespace Excel_Macros_UI.ViewModel
                 OnReturn?.Invoke(System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.OK) == System.Windows.Forms.DialogResult.OK);
         }
 
+        /// <summary>
+        /// Displays a yes/no/cancel message
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="caption">The message's header</param>
+        /// <param name="aux">The content of the 3rd button</param>
+        /// <param name="OnReturn">The Action, and MessageDialogResult representation of the user's input, to be fired when the user provides input</param>
         public void DisplayYesNoCancelMessage(string message, string caption, string aux, Action<MessageDialogResult> OnReturn)
         {
             if (IsShown && MainWindow.GetInstance() != null)
@@ -548,6 +615,11 @@ namespace Excel_Macros_UI.ViewModel
                 OnReturn?.Invoke(ConvertResult(System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.YesNoCancel)));
         }
 
+        /// <summary>
+        /// Converts a WinForms DialogResult into a MahApps.Metro MessageDialogResult
+        /// </summary>
+        /// <param name="result">WinForms DialogResult</param>
+        /// <returns>MahApps.Metro MessageDialogResult</returns>
         private MessageDialogResult ConvertResult(System.Windows.Forms.DialogResult result)
         {
             switch (result)
@@ -563,6 +635,12 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Displays a yes/no message as an awaitable task
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="caption">The message's header</param>
+        /// <returns></returns>
         public async Task<bool> DisplayYesNoMessageReturn(string message, string caption)
         {
             if (IsShown && MainWindow.GetInstance() != null)
@@ -578,6 +656,11 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Themes & Styles
 
+        /// <summary>
+        /// Adds a theme to the registry
+        /// </summary>
+        /// <param name="theme">The theme to be added</param>
+        /// <returns>Whether the the theme is already registered</returns>
         public bool AddTheme(ITheme theme)
         {
             if (Themes.Contains(theme))
@@ -587,6 +670,11 @@ namespace Excel_Macros_UI.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// Set the currently active theme
+        /// </summary>
+        /// <param name="name">The name of the theme</param>
+        /// <returns>If the operation was successful</returns>
         public bool SetTheme(string name)
         {
             foreach (ITheme theme in Themes)
@@ -624,6 +712,9 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Context Menus
 
+        /// <summary>
+        /// Updates contextmenus to adhere to a changed theme
+        /// </summary>
         private void ContextMenuThemeChange()
         {
             if (DocumentContextMenu == null || AnchorableContextMenu == null)
@@ -656,6 +747,11 @@ namespace Excel_Macros_UI.ViewModel
             MainWindow.GetInstance().GetDockingManager().AnchorableContextMenu = AnchorableContextMenu;
         }
 
+        /// <summary>
+        /// Open the styled document context menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DocumentContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             LayoutDocumentItem document = ((ContextMenu)sender).DataContext as LayoutDocumentItem;
@@ -674,6 +770,11 @@ namespace Excel_Macros_UI.ViewModel
             e.Handled = false;
         }
 
+        /// <summary>
+        /// Open the styled anchorable context menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AnchorableContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             LayoutAnchorableItem tool = ((ContextMenu)sender).DataContext as LayoutAnchorableItem;
@@ -696,6 +797,10 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Active Documents
         
+        /// <summary>
+        /// Set the currently active document
+        /// </summary>
+        /// <param name="document">The document's DocumentViewModel</param>
         private void ChangeActiveDocument(DocumentViewModel document)
         {
             if (DockManager.Documents.Contains(document))
@@ -719,6 +824,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Create a new macro
+        /// </summary>
         private void NewEvent()
         {
             DockManager.Explorer.CreateMacro(MacroType.PYTHON);
@@ -739,6 +847,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Import a macro
+        /// </summary>
         private void OpenEvent()
         {
             DockManager.Explorer.ImportMacro();
@@ -759,6 +870,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Export a macro
+        /// </summary>
         private void ExportEvent()
         {
             if (DockManager.ActiveDocument == null)
@@ -787,6 +901,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Close the window (hide)
+        /// </summary>
         private void ExitEvent()
         {
             HideWindow();
@@ -807,6 +924,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Save the active document's macro
+        /// </summary>
         private void SaveEvent()
         {
             if (DockManager.ActiveDocument == null)
@@ -831,6 +951,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Save all open documents' macro
+        /// </summary>
         private void SaveAllEvent()
         {
             foreach (DocumentViewModel document in DockManager.Documents)
@@ -855,6 +978,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Undo an editor event
+        /// </summary>
         private void UndoEvent()
         {
             if (DockManager.ActiveDocument == null)
@@ -879,6 +1005,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Redo an editor event
+        /// </summary>
         private void RedoEvent()
         {
             if (DockManager.ActiveDocument == null)
@@ -903,6 +1032,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Invoke editor copy event
+        /// </summary>
         private void CopyEvent()
         {
             if (DockManager.ActiveDocument == null)
@@ -927,6 +1059,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Invoke editor cut event
+        /// </summary>
         private void CutEvent()
         {
             if (DockManager.ActiveDocument == null)
@@ -951,6 +1086,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Invoke editor paste event
+        /// </summary>
         private void PasteEvent()
         {
             if (DockManager.ActiveDocument == null)
@@ -975,6 +1113,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Execute the active document's macro
+        /// </summary>
         private void RunEvent()
         {
             if (DockManager.ActiveDocument == null)
@@ -1002,6 +1143,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Terminate the execution of any actively executing macros
+        /// </summary>
         private void StopEvent()
         {
             if (DockManager.ActiveDocument == null)
@@ -1030,6 +1174,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Open the style tab of the settings menu
+        /// </summary>
         private void StyleClickEvent()
         {
             SettingsMenu.IsOpen = true;
@@ -1051,6 +1198,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Open the libraries tab of the settings menu
+        /// </summary>
         private void LibraryClickEvent()
         {
             SettingsMenu.IsOpen = true;
@@ -1072,6 +1222,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Open the macros tab of the settings menu
+        /// </summary>
         private void MacroClickEvent()
         {
             SettingsMenu.IsOpen = true;
@@ -1093,6 +1246,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Open the explorer anchorable, if not already open
+        /// </summary>
         private void ExplorerClickEvent()
         {
             ShowAnchorable(DockManager.Explorer.ContentId);
@@ -1113,6 +1269,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Open the console anchorable, if not already open
+        /// </summary>
         private void ConsoleClickEvent()
         {
             ShowAnchorable(DockManager.Console.ContentId);
@@ -1120,6 +1279,10 @@ namespace Excel_Macros_UI.ViewModel
 
         #endregion
 
+        /// <summary>
+        /// Show an anchorable, if not already visible
+        /// </summary>
+        /// <param name="ContentId">The contendID of the anchorable to be made visible</param>
         private void ShowAnchorable(string ContentId)
         {
             if (MainWindow.GetInstance() == null)
@@ -1144,6 +1307,10 @@ namespace Excel_Macros_UI.ViewModel
 
         #region Macro Related Actions
 
+        /// <summary>
+        /// Close the document associated with a macro ID
+        /// </summary>
+        /// <param name="id">The macro's id</param>
         public void CloseMacro(Guid id)
         {
             DocumentViewModel dvm = DockManager.GetDocument(id);
@@ -1151,16 +1318,32 @@ namespace Excel_Macros_UI.ViewModel
                 dvm.IsClosed = true;
         }
 
+        /// <summary>
+        /// Create a macro
+        /// </summary>
+        /// <param name="type">The type of macro</param>
+        /// <param name="relativepath">The relativepath of the macro</param>
+        /// <returns>Guid of the macro</returns>
         public Guid CreateMacro(MacroType type, string relativepath)
         {
             return FileManager.CreateMacro(type, relativepath);
         }
 
+        /// <summary>
+        /// Import a macro into the local workspace
+        /// </summary>
+        /// <param name="relativepath">The relativepath to which the macro will be copied</param>
+        /// <param name="OnReturn">The Action, and Guid of the new macro, which is fired when the task is completed</param>
         public void ImportMacro(string relativepath, Action<Guid> OnReturn)
         {
             FileManager.ImportMacro(relativepath, OnReturn);
         }
 
+        /// <summary>
+        /// Renames a folder and applies changes to UI
+        /// </summary>
+        /// <param name="olddir">The current relativepath of the folder</param>
+        /// <param name="newdir">The desired relativepath of the folder</param>
         public void RenameFolder(string olddir, string newdir)
         {
             foreach (Guid id in Main.RenameFolder(olddir, newdir))
@@ -1174,6 +1357,11 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Renames a macro and applies changes to UI
+        /// </summary>
+        /// <param name="id">The macro's id</param>
+        /// <param name="newName">The new name of the macro</param>
         public void RenameMacro(Guid id, string newName)
         {
             Main.RenameMacro(id, newName);
@@ -1186,6 +1374,10 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Opens a document for editing from the id of a macro
+        /// </summary>
+        /// <param name="id">The macro's id</param>
         public void OpenMacroForEditing(Guid id)
         {
             if (id == Guid.Empty)
@@ -1212,6 +1404,10 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Executes the active document's macro, forwards to RunClick command
+        /// </summary>
+        /// <param name="async">Whether or not the execution should be asynchronous or not (synchronous)</param>
         public void ExecuteMacro(bool async)
         {
             AsyncExecution = async;
@@ -1220,12 +1416,19 @@ namespace Excel_Macros_UI.ViewModel
                 RunClick.Execute(null);
         }
 
+        /// <summary>
+        /// Asynchronously creates a new macro, forwards to NewClick command
+        /// </summary>
+        /// <param name="type"></param>
         public void CreateMacroAsync(MacroType type)
         {
             if (NewClick.CanExecute(null))
                 NewClick.Execute(null);
         }
-
+        
+        /// <summary>
+        /// Asynchronously imports a macro, forwards to OpenClick command
+        /// </summary>
         public void ImportMacroAsync()
         {
             if (OpenClick.CanExecute(null))

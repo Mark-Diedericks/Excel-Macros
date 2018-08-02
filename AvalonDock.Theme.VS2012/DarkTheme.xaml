@@ -1,4 +1,6 @@
-﻿<ResourceDictionary
+﻿<!-- Mark Diedericks (edits), Adolfo Marinucci (original) -->
+<!-- 03/07/2017  V1.0.9  Resource Dictionary for Dark Theme-->    
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:localThemes="clr-namespace:AvalonDock.Themes"

@@ -29,7 +29,9 @@ namespace Excel_Macros_UI.View
     /// </summary>
     public partial class VisualEditorView : UserControl
     {
-
+        /// <summary>
+        /// Instantiation of VisualEditorView
+        /// </summary>
         public VisualEditorView()
         {
             InitializeComponent();
@@ -39,6 +41,11 @@ namespace Excel_Macros_UI.View
             wbBlockly.LostFocus += (s, e) => { MainWindowViewModel.GetInstance().TryFocus(); };
         }
 
+        /// <summary>
+        /// DataContextChanged event callback, binds events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void VisualEditorView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             VisualEditorViewModel vm = DataContext as VisualEditorViewModel;
@@ -49,6 +56,9 @@ namespace Excel_Macros_UI.View
             vm.InvokeEngine += InvokeEngine;
         }
 
+        /// <summary>
+        /// Invokes the Blockly UI to resize
+        /// </summary>
         private void SetSize()
         {
             if (!wbBlockly.IsLoaded)
@@ -58,11 +68,20 @@ namespace Excel_Macros_UI.View
             Panel.SetZIndex(wbBlockly, 1);
         }
 
+        /// <summary>
+        /// Invokes the Blockly to produce python code
+        /// </summary>
+        /// <returns>Source code (python)</returns>
         private string InvokeEngine()
         {
             return wbBlockly.InvokeScript("showCode", new object[] { }).ToString();
         }
 
+        /// <summary>
+        /// SizeChanged event callback, resizes Blockly
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void wbBlockly_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             SetSize();

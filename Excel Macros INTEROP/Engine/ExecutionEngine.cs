@@ -1,8 +1,8 @@
 ﻿/*
  * Mark Diedericks
- * 30/07/2018
- * Version 1.0.9
- * Manages execution of users' code
+ * 02/08/2018
+ * Version 1.0.10
+ * Manages execution of python code
  */
 
 using System;
@@ -21,6 +21,11 @@ namespace Excel_Macros_INTEROP.Engine
     {
         #region Static Initializaton
 
+        /// <summary>
+        /// Intialize static instances of the ExecutionEngine, one for 
+        /// Debug execution and one for Release execution. No difference, 
+        /// simply convention
+        /// </summary>
         public static void Initialize()
         {
             Dictionary<string, object> debugArgs = new Dictionary<string, object>();
@@ -36,6 +41,10 @@ namespace Excel_Macros_INTEROP.Engine
         private static ExecutionEngine s_DebugEngine;
         private static ExecutionEngine s_ReleaseEngine;
 
+        /// <summary>
+        /// Get instance of the Debug Execution Engine
+        /// </summary>
+        /// <returns>Debug Execution Engine</returns>
         public static ExecutionEngine GetDebugEngine()
         {
             if (s_DebugEngine == null)
@@ -44,6 +53,10 @@ namespace Excel_Macros_INTEROP.Engine
             return s_DebugEngine;
         }
 
+        /// <summary>
+        /// Get Instance of Release Execution Engine
+        /// </summary>
+        /// <returns>Release Execution Instance</returns>
         public static ExecutionEngine GetReleaseEngine()
         {
             if (s_ReleaseEngine == null)
@@ -61,9 +74,11 @@ namespace Excel_Macros_INTEROP.Engine
 
         private BackgroundWorker m_BackgroundWorker;
         private bool m_IsExecuting;
-
-        public object DispatcherPriorty { get; private set; }
-
+        
+        /// <summary>
+        /// Private Initialization of Exeuction Engine instance.
+        /// </summary>
+        /// <param name="args">Parameters to be used by IronPython Script Engine</param>
         private ExecutionEngine(Dictionary<string, object> args)
         {
             m_ScriptEngine = IronPython.Hosting.Python.CreateEngine(args);
@@ -72,6 +87,7 @@ namespace Excel_Macros_INTEROP.Engine
             m_IsExecuting = false;
             m_BackgroundWorker = new BackgroundWorker();
 
+            //Reset IO streams of ScriptEngine if they're changed
             Main.GetInstance().OnIOChanged += () =>
             {
                 m_ScriptEngine.Runtime.IO.RedirectToConsole();
@@ -79,6 +95,7 @@ namespace Excel_Macros_INTEROP.Engine
                 Console.SetError(Main.GetEngineIOManager().GetError());
             };
 
+            //End running tasks if program is exiting
             Main.GetInstance().OnDestroyed += delegate () 
             {
                 if (m_BackgroundWorker != null)
@@ -90,6 +107,13 @@ namespace Excel_Macros_INTEROP.Engine
 
         #region Execution
 
+        /// <summary>
+        /// Determines how to execute a macro
+        /// </summary>
+        /// <param name="source">Source code (python)</param>
+        /// <param name="OnCompletedAction">The action to be called once the code has been executed</param>
+        /// <param name="async">If the code should be run asynchronously or not (synchronous)</param>
+        /// <returns></returns>
         public bool ExecuteMacro(string source, Action OnCompletedAction, bool async)
         {
             if(m_IsExecuting)
@@ -103,6 +127,9 @@ namespace Excel_Macros_INTEROP.Engine
             return true;
         }
 
+        /// <summary>
+        /// End currently active asynchronous execution, if any
+        /// </summary>
         public void TerminateExecution()
         {
             if (m_BackgroundWorker != null)
@@ -111,6 +138,11 @@ namespace Excel_Macros_INTEROP.Engine
             m_IsExecuting = false;
         }
 
+        /// <summary>
+        /// Execute code asynchronously
+        /// </summary>
+        /// <param name="source">Source code (python)</param>
+        /// <param name="OnCompletedAction">The action to be called once the code has been executed</param>
         private void ExecuteSourceAsynchronous(string source, Action OnCompletedAction)
         {
             m_IsExecuting = true;
@@ -141,6 +173,11 @@ namespace Excel_Macros_INTEROP.Engine
             m_BackgroundWorker.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// Execute code synchronously
+        /// </summary>
+        /// <param name="source">Source code (python)</param>
+        /// <param name="OnCompletedAction">The action to be called once the code has been executed</param>
         private void ExecuteSourceSynchronous(string source, Action OnCompletedAction)
         {
             Main.GetApplicationDispatcher().BeginInvoke(DispatcherPriority.Normal, new Action(() =>
@@ -164,6 +201,10 @@ namespace Excel_Macros_INTEROP.Engine
             }));
         }
 
+        /// <summary>
+        /// Execute source code through IronPython Script Engine
+        /// </summary>
+        /// <param name="source">Source code (python)</param>
         private void ExecuteSource(string source)
         {
             object temp;

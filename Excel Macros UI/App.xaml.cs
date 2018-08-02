@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 30/07/2018
+ * 31/07/2018
  * Version 1.0.3
  * Primary entry point into the application -> auto-generated
  */
@@ -22,6 +22,11 @@ namespace Excel_Macros_UI
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Entry point of the application, instantiates the main window and its respective view model, as well as setting the saved theme
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             MainWindow = new MainWindow() { DataContext = new MainWindowViewModel() };

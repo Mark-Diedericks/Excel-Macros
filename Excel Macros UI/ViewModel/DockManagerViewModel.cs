@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 31/07/2018
- * Version 1.0.4
+ * 02/08/2018
+ * Version 1.0.5
  * Handles the interaction logic of the dock view
  */
 
@@ -23,6 +23,10 @@ namespace Excel_Macros_UI.ViewModel
     {
         public VisualEditorViewModel VisualEditor { get; internal set; }
 
+        /// <summary>
+        /// Instantiate DocumentViewModel
+        /// </summary>
+        /// <param name="DocumentViewModels">Documents</param>
         public DockManagerViewModel(IEnumerable<DocumentViewModel> DocumentViewModels)
         {
             Model = new DockManagerModel();
@@ -48,6 +52,10 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Add document to the view
+        /// </summary>
+        /// <param name="document">The document to add</param>
         public void AddDocument(DocumentViewModel document)
         {
             document.PropertyChanged += Document_PropertyChanged;
@@ -56,6 +64,11 @@ namespace Excel_Macros_UI.ViewModel
                 Documents.Add(document);
         }
 
+        /// <summary>
+        /// Gets a document based on the macro id
+        /// </summary>
+        /// <param name="id">The macro's id</param>
+        /// <returns>DocumentViewModel of the macro</returns>
         public DocumentViewModel GetDocument(Guid id)
         {
             foreach (DocumentViewModel document in Documents)
@@ -65,11 +78,20 @@ namespace Excel_Macros_UI.ViewModel
             return null;
         }
 
+        /// <summary>
+        /// Instantiate DocumentViewModel
+        /// </summary>
+        /// <param name="docs">Serialized string of open documents</param>
         public DockManagerViewModel(string docs) : this(LoadVisibleDocuments(docs))
         {
 
         }
 
+        /// <summary>
+        /// PropertyChanged event callback, removes document if it has been closed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Document_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             DocumentViewModel document = (DocumentViewModel)sender;
@@ -83,6 +105,11 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Identifies documents that are open from a serialized list
+        /// </summary>
+        /// <param name="docs"></param>
+        /// <returns>List of DocumentViewModels</returns>
         private static List<DocumentViewModel> LoadVisibleDocuments(string docs)
         {
             string[] paths = docs.Split(';');
@@ -90,7 +117,7 @@ namespace Excel_Macros_UI.ViewModel
 
             foreach(string s in paths)
             {
-                Guid id = Main.GetGuidFromRelativePath(s);
+                Guid id = Main.GetIDFromRelativePath(s);
                 if (id != Guid.Empty)
                 {
                     DocumentModel model = DocumentModel.Create(id);
@@ -106,6 +133,10 @@ namespace Excel_Macros_UI.ViewModel
             return documents;
         }
 
+        /// <summary>
+        /// Serializes a list of all open documents
+        /// </summary>
+        /// <returns>Serialized string list of documents</returns>
         public string GetVisibleDocuments()
         {
             StringBuilder sb = new StringBuilder();

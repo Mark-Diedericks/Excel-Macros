@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 30/07/2018
- * Version 1.0.3
+ * 01/08/2018
+ * Version 1.0.5
  * Textual editor view model
  */
 
@@ -22,12 +22,19 @@ namespace Excel_Macros_UI.ViewModel
 {
     public class TextualEditorViewModel : DocumentViewModel
     {
+        /// <summary>
+        /// Instantiation of TextualEditorViewModel
+        /// </summary>
         public TextualEditorViewModel()
         {
             Model = new TextualEditorModel(Guid.Empty);
             IsSaved = true;
         }
 
+        /// <summary>
+        /// Saves the macro associated with the document
+        /// </summary>
+        /// <param name="OnComplete">Action to be fired on the tasks completetion</param>
         public override void Save(Action OnComplete)
         {
             Main.GetMacro(Macro).SetSource(Source.Text);
@@ -35,12 +42,20 @@ namespace Excel_Macros_UI.ViewModel
             base.Stop(OnComplete);
         }
 
+        /// <summary>
+        /// Executes the macro associated with the document
+        /// </summary>
+        /// <param name="OnComplete">Action to be fired on the tasks completetion</param>
         public override void Start(Action OnComplete)
         {
             Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().ExecuteMacro(Source.Text, OnComplete, MainWindowViewModel.GetInstance().AsyncExecution);
             base.Stop(null);
         }
 
+        /// <summary>
+        /// Terminates the execution of the macro associated with the document
+        /// </summary>
+        /// <param name="OnComplete">Action to be fired on the tasks completetion</param>
         public override void Stop(Action OnComplete)
         {
             Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().TerminateExecution();

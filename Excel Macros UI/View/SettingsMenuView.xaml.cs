@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 30/07/2018
+ * 31/07/2018
  * Version 1.0.6
  * Settings menu basic view logic
  */
@@ -34,6 +34,9 @@ namespace Excel_Macros_UI.View
     /// </summary>
     public partial class SettingsMenuView : Flyout
     {
+        /// <summary>
+        /// Instantiation of SettingsMenuView
+        /// </summary>
         public SettingsMenuView()
         {
             InitializeComponent();
@@ -42,6 +45,10 @@ namespace Excel_Macros_UI.View
             Routing.EventManager.ThemeChangedEvent += ThemeChangedEvent;
         }
 
+
+        /// <summary>
+        /// ThemeChanged event callback, changes the theme
+        /// </summary>
         private void ThemeChangedEvent()
         {
             ThemeDictionary.MergedDictionaries.Clear();
@@ -53,6 +60,11 @@ namespace Excel_Macros_UI.View
             Theme = FlyoutTheme.Adapt;
         }
 
+        /// <summary>
+        /// DataContextChanged event callback, changes the theme setting
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SettingsMenuView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             ((SettingsMenuViewModel)DataContext).LightTheme = Properties.Settings.Default.Theme == "Light";

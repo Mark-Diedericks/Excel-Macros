@@ -1,4 +1,11 @@
-﻿using Excel_Macros_UI.Model;
+﻿/*
+ * Mark Diedericks
+ * 22/07/2018
+ * Version 1.0.1
+ * Console view model
+ */
+ 
+using Excel_Macros_UI.Model;
 using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.ViewModel.Base;
 using System;
@@ -11,6 +18,9 @@ namespace Excel_Macros_UI.ViewModel
 {
     public class ConsoleViewModel : ToolViewModel
     {
+        /// <summary>
+        /// Instantiate ConsoleViewModel
+        /// </summary>
         public ConsoleViewModel()
         {
             Model = new ConsoleModel();

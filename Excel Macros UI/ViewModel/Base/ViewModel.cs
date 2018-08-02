@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2018
- * Version 1.0.0
+ * 22/07/2018
+ * Version 1.0.1
  * Base view model
  */
 

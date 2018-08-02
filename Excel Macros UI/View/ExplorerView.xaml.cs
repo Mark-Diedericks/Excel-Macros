@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 26/07/2018
- * Version 1.0.1
+ * 30/07/2018
+ * Version 1.0.2
  * File Explorer UI Control
  */
 
@@ -35,7 +35,9 @@ namespace Excel_Macros_UI.View
     /// </summary>
     public partial class ExplorerView : UserControl
     {
-        
+        /// <summary>
+        /// Instantiate ExplorerView
+        /// </summary>
         public ExplorerView()
         {
             InitializeComponent();
@@ -52,6 +54,9 @@ namespace Excel_Macros_UI.View
             }
         }
 
+        /// <summary>
+        /// ThemeChanged event callback, changes theme
+        /// </summary>
         private void ThemeChanged()
         {
             ThemeDictionary.MergedDictionaries.Clear();
@@ -60,17 +65,32 @@ namespace Excel_Macros_UI.View
                 ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
         }
 
+        /// <summary>
+        /// DataContextChanged event callback, sets events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExplorerView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             ((ExplorerViewModel)DataContext).FocusEvent += delegate () { tvMacroView.Focus(); };
         }
 
+        /// <summary>
+        /// TreeView RightButtonDown event callback, opens contextmenu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tvMacroView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             tvMacroView.ContextMenu = ((ExplorerViewModel)DataContext).CreateTreeViewContextMenu();
             tvMacroView.ContextMenu.IsOpen = true;
         }
 
+        /// <summary>
+        /// TreeViewItem Selected event callback
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
         {
             TreeViewItem item = sender as TreeViewItem;
@@ -80,6 +100,11 @@ namespace Excel_Macros_UI.View
                 data.SelectedEvent?.Invoke(sender, e);
         }
 
+        /// <summary>
+        /// TreeViewItem DoubleClick event callback, opens the document
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem item = sender as TreeViewItem;
@@ -89,6 +114,11 @@ namespace Excel_Macros_UI.View
                 data.DoubleClickEvent?.Invoke(sender, e);
         }
 
+        /// <summary>
+        /// TreeViewItem RightButtonaDown event 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem item = sender as TreeViewItem;
@@ -98,6 +128,11 @@ namespace Excel_Macros_UI.View
                 data.RightClickEvent?.Invoke(sender, e);
         }
 
+        /// <summary>
+        /// TextBox LostFocus event callback, finishes input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox item = sender as TextBox;
@@ -107,6 +142,11 @@ namespace Excel_Macros_UI.View
                 data.FocusLostEvent?.Invoke(sender, e);
         }
 
+        /// <summary>
+        /// TextBox KeyUp event callback, forwards event for Escape/Return key events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             TextBox item = sender as TextBox;
@@ -116,6 +156,11 @@ namespace Excel_Macros_UI.View
                 data.KeyUpEvent?.Invoke(sender, e);
         }
 
+        /// <summary>
+        /// InputBox IsVisibleChanged event callback, focus on input box UI element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InputBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             UIElement uie = sender as UIElement;

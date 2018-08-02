@@ -1,4 +1,11 @@
-﻿using Excel_Macros_INTEROP.Libraries;
+﻿/*
+ * Mark Diedericks
+ * 02/08/2018
+ * Version 1.0.0
+ * Base item model
+ */
+
+using Excel_Macros_INTEROP.Libraries;
 using System;
 using System.Collections.Generic;
 using System.Linq;

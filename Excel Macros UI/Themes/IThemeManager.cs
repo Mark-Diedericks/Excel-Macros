@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * Mark Diedericks
+ * 03/07/2018
+ * Version 1.0.5
+ * ThemeManager abstraction interface
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

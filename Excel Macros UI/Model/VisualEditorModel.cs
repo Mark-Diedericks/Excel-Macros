@@ -18,7 +18,10 @@ namespace Excel_Macros_UI.Model
 {
     public class VisualEditorModel : DocumentModel
     {
-
+        /// <summary>
+        /// Instantiation of VisualEditorModel
+        /// </summary>
+        /// <param name="id"></param>
         public VisualEditorModel(Guid id)
         {
             if (id != Guid.Empty)

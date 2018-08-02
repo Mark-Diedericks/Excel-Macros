@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 30/07/2018
- * Version 1.0.2
+ * 30107/2018
+ * Version 1.0.3
  * Syntax style loading and parsing utility
  */
 using Excel_Macros_UI.View;
@@ -46,6 +46,10 @@ namespace Excel_Macros_UI.Utilities
         //Values
         private static string[] s_ColorValues;
 
+        /// <summary>
+        /// Produces a stream of data representing the syntax style
+        /// </summary>
+        /// <returns>The stream of syntax style data</returns>
         public static Stream GetStyleStream()
         {
             string style = Properties.Resources.IronPython;
@@ -69,6 +73,11 @@ namespace Excel_Macros_UI.Utilities
             return stream;
         }
 
+        /// <summary>
+        /// Serializes the colours of the syntax style
+        /// </summary>
+        /// <param name="values">Colour values</param>
+        /// <returns>Serialized value</returns>
         private static string CreateSyntaxStyleString(string[] values)
         {
             StringBuilder sb = new StringBuilder();
@@ -79,16 +88,28 @@ namespace Excel_Macros_UI.Utilities
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Deserializes the colours of the syntax style
+        /// </summary>
+        /// <param name="value">Serialized value</param>
+        /// <returns>Colour values</returns>
         private static string[] ParseSyntaxStyleString(string value)
         {
             return value.Split(';');
         }
 
+        /// <summary>
+        /// Fires OnStyleChanged event
+        /// </summary>
         public static void UpdateSyntaxStyle()
         {
             OnStyleChanged?.Invoke();
         }
 
+        /// <summary>
+        /// Sets the colours of the syntax style
+        /// </summary>
+        /// <param name="values"></param>
         public static void SetSyntaxStyle(string[] values)
         {
             if (values.Length != 8)
@@ -99,6 +120,10 @@ namespace Excel_Macros_UI.Utilities
             UpdateSyntaxStyle();
         }
 
+        /// <summary>
+        /// Saves the serialized colours of the syntax style
+        /// </summary>
+        /// <param name="DarkTheme">Is dark theme enabled</param>
         public static void SaveSyntaxStyle(bool DarkTheme)
         {
             if (DarkTheme)
@@ -109,11 +134,19 @@ namespace Excel_Macros_UI.Utilities
             Properties.Settings.Default.Save();
         }
 
+        /// <summary>
+        /// Sets a specific colour of syntax style
+        /// </summary>
+        /// <param name="color">Which color id it should be applied to</param>
+        /// <param name="value">The value to be applied</param>
         public static void SetSyntaxColor(SyntaxStyleColor color, string value)
         {
             s_ColorValues[(int)color] = value;
         }
 
+        /// <summary>
+        /// Loads serialized colour values to use in the syntax style
+        /// </summary>
         public static void LoadColorValues()
         {
            if (MainWindowViewModel.GetInstance().ActiveTheme.Name == "Dark")
@@ -124,6 +157,10 @@ namespace Excel_Macros_UI.Utilities
             UpdateSyntaxStyle();
         }
 
+        /// <summary>
+        /// Gets the syntax style colour values
+        /// </summary>
+        /// <returns>Colour values</returns>
         public static string[] GetValues()
         {
             if (s_ColorValues == null)

@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
  * 31/07/2018
- * Version 1.0.0
+ * Version 1.0.1
  * Handles the data of the dock view model
  */
 
@@ -18,7 +18,9 @@ namespace Excel_Macros_UI.Model
 {
     public class DockManagerModel : Base.Model
     {
-
+        /// <summary>
+        /// Instantiation of DockManagerModel
+        /// </summary>
         public DockManagerModel()
         {
             Documents = new ObservableCollection<DocumentViewModel>();

@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 22/07/2018
- * Version 1.0.6
+ * 02/08/2018
+ * Version 1.0.8
  * The main hub of the interop library's connection to the UI
  */
 
@@ -18,10 +18,7 @@ namespace Excel_Macros_INTEROP
     {
         public delegate void ClearIOEvent();
         public event ClearIOEvent ClearAllIOEvent;
-
-        public delegate void MacroConvertEvent(Guid id, Action<string> OnReturn);
-        public event MacroConvertEvent ConvertPythonEvent;
-
+        
         public delegate void MacroAddEvent(Guid id, string macroName, string macroPath, Action macroClickEvent);
         public event MacroAddEvent AddRibbonMacroEvent;
 
@@ -42,16 +39,26 @@ namespace Excel_Macros_INTEROP
 
         private static EventManager s_Instance;
 
+        /// <summary>
+        /// Gets instance of EventManager
+        /// </summary>
+        /// <returns>EventManager instance</returns>
         public static EventManager GetInstance()
         {
             return s_Instance;
         }
 
+        /// <summary>
+        /// Private instantiation of EventManager
+        /// </summary>
         private EventManager()
         {
             s_Instance = this;
         }
 
+        /// <summary>
+        /// Public instantiation of EventManager
+        /// </summary>
         public static void Instantiate()
         {
             new EventManager();
@@ -61,41 +68,69 @@ namespace Excel_Macros_INTEROP
 
         #region Event Firing
 
+        /// <summary>
+        /// Fires SetExcelIneractive event
+        /// </summary>
+        /// <param name="enabled">Whether or not Excel should be set as interactive</param>
         public static void ExcelSetInteractive(bool enabled)
         {
             GetInstance().SetExcelInteractive?.Invoke(enabled);
         }
 
+        /// <summary>
+        /// Fires FastWorkbook event
+        /// </summary>
+        /// <param name="enabled">Whether or not the ActiveWorkbook should enable or disable FastWorkbook</param>
         public static void FastWorkbook(bool enabled)
         {
             GetInstance().FastWorkbookEvent?.Invoke(enabled);
         }
 
+        /// <summary>
+        /// Fires FastWorksheet event
+        /// </summary>
+        /// <param name="worksheet">The worksheet which it should be applied to</param>
+        /// <param name="enabled">Whether or not the worksheet should enable or disable FastWorksheet</param>
         public static void FastWorksheet(Excel.Worksheet worksheet, bool enabled)
         {
             GetInstance().FastWorksheetEvent?.Invoke(worksheet, enabled);
         }
 
+        /// <summary>
+        /// Fires AddRibbonMacro event
+        /// </summary>
+        /// <param name="id">The macro's id</param>
+        /// <param name="macroName">The macro's name</param>
+        /// <param name="macroPath">The macro's relative path</param>
+        /// <param name="macroClickEvent">Event callback for when the macro is clicked</param>
         public static void AddRibbonMacro(Guid id, string macroName, string macroPath, Action macroClickEvent)
         {
             GetInstance().AddRibbonMacroEvent?.Invoke(id, macroName, macroPath, macroClickEvent);
         }
 
-        internal static void ConvertToPython(Guid id, Action<string> OnReturn)
-        {
-            GetInstance().ConvertPythonEvent?.Invoke(id, OnReturn);
-        }
-
+        /// <summary>
+        /// Fires RemoveRibbonMacro event
+        /// </summary>
+        /// <param name="id">The macro's id</param>
         public static void RemoveRibbonMacro(Guid id)
         {
             GetInstance().RemoveRibbonMacroEvent?.Invoke(id);
         }
 
+        /// <summary>
+        /// Fires RenameRibbonMacro event
+        /// </summary>
+        /// <param name="id">The macro's id</param>
+        /// <param name="macroName">The macro's name</param>
+        /// <param name="macroPath">The macro's relative path</param>
         public static void RenameRibbonMacro(Guid id, string macroName, string macroPath)
         {
             GetInstance().RenameRibbonMacroEvent?.Invoke(id, macroName, macroPath);
         }
 
+        /// <summary>
+        /// Fires ClearAllIO event
+        /// </summary>
         public static void ClearAllIO()
         {
             GetInstance().ClearAllIOEvent?.Invoke();

@@ -297,9 +297,7 @@
       <Name>Excel Macros INTEROP</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\ConvertPython.png" />
     <Resource Include="Resources\Entypo-license.txt" />

@@ -21,28 +21,46 @@ namespace Excel_Macros_INTEROP
         private static ExcelUtilities s_ExcelUtilities;
         private Dictionary<int, HighPrecisionTimer> m_DebugSessions;
 
-        public Utilities()
+        /// <summary>
+        /// Private instatiation of Utilities 
+        /// </summary>
+        private Utilities()
         {
             s_Instance = this;
             s_ExcelUtilities = new ExcelUtilities();
             m_DebugSessions = new Dictionary<int, HighPrecisionTimer>();
         }
 
+        /// <summary>
+        /// Gets the instance of Utilities
+        /// </summary>
+        /// <returns>Utilities instance</returns>
         public static Utilities GetInstance()
         {
             return s_Instance != null ? s_Instance : new Utilities();
         }
 
+        /// <summary>
+        /// Public instatiation of Utilities
+        /// </summary>
         public static void Instantiate()
         {
             new Utilities();
         }
 
+        /// <summary>
+        /// Gets instance of ExcelUtilities
+        /// </summary>
+        /// <returns></returns>
         public static ExcelUtilities GetExcelUtilities()
         {
             return s_ExcelUtilities;
         }
 
+        /// <summary>
+        /// Begins a new profiling session
+        /// </summary>
+        /// <returns>Profiling session identifier</returns>
         public static int BeginProfileSession()
         {
             int id = GetInstance().m_DebugSessions.Count;
@@ -54,6 +72,10 @@ namespace Excel_Macros_INTEROP
             return id;
         }
 
+        /// <summary>
+        /// Ends a profiling session
+        /// </summary>
+        /// <param name="id">Profiling session identifier</param>
         public static void EndProfileSession(int id)
         {
             if (id == -1)
@@ -68,6 +90,11 @@ namespace Excel_Macros_INTEROP
             GetInstance().m_DebugSessions.Remove(id);
         }
 
+        /// <summary>
+        /// Gets the time interval of a profiling session
+        /// </summary>
+        /// <param name="id">Profiling session identifier</param>
+        /// <returns>Time interval in milliseconds</returns>
         public static double GetTimeIntervalMilli(int id)
         {
             if (id == -1)
@@ -80,6 +107,11 @@ namespace Excel_Macros_INTEROP
             return duration;
         }
 
+        /// <summary>
+        /// Gets the time interval of the profiling session
+        /// </summary>
+        /// <param name="id">Profiling session identifier</param>
+        /// <returns>Time interval in seconds</returns>
         public static double GetTimeIntervalSeconds(int id)
         {
             if (id == -1)
@@ -92,19 +124,28 @@ namespace Excel_Macros_INTEROP
             return duration;
         }
 
-        //Get the excel application
+        /// <summary>
+        /// Get the excel application
+        /// </summary>
+        /// <returns>Excel Application</returns>
         public Excel.Application GetApplication()
         {
             return Main.GetApplication();
         }
 
-        //Get the active workbook
+        /// <summary>
+        /// Get the active workbook
+        /// </summary>
+        /// <returns>Excel's ActiveWorkbook</returns>
         public Excel.Workbook GetActiveWorkbook()
         {
             return GetApplication().ActiveWorkbook;
         }
 
-        //Get the active worksheet
+        /// <summary>
+        /// Get the active worksheet
+        /// </summary>
+        /// <returns>Excel's ActiveWorksheet</returns>
         public Excel.Worksheet GetActiveWorksheet()
         {
             return (Excel.Worksheet)GetActiveWorkbook().ActiveSheet;

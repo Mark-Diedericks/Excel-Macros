@@ -1,8 +1,8 @@
 ﻿/*
  * Mark Diedericks
- * 02/07/2018
+ * 20/07/2018
  * Version 1.0.5
- * Theme Interface, Basic Members
+ * Theme abstraction interface
  */
 
 using System;

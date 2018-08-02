@@ -19,11 +19,20 @@ namespace Excel_Macros_UI.Routing
         private readonly Action<object> ExecuteAction;
         private readonly Predicate<object> CanExecuteAction;
 
+        /// <summary>
+        /// Instantiate a relay command
+        /// </summary>
+        /// <param name="action">The action to be called</param>
         public RelayCommand(Action<object> action) : this(action, _ => true)
         {
 
         }
 
+        /// <summary>
+        /// Instantiate a relay command
+        /// </summary>
+        /// <param name="action">The action to be called</param>
+        /// <param name="canExecute">The predicate of the action to be called</param>
         public RelayCommand(Action<object> action, Predicate<object> canExecute)
         {
             ExecuteAction = action;
@@ -43,11 +52,20 @@ namespace Excel_Macros_UI.Routing
             }
         }
 
+        /// <summary>
+        /// Checks if a command can be executed
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns>Bool if can be executed</returns>
         public bool CanExecute(object parameter)
         {
             return CanExecuteAction(parameter);
         }
 
+        /// <summary>
+        /// Executes a command
+        /// </summary>
+        /// <param name="parameter"></param>
         public void Execute(object parameter)
         {
             ExecuteAction(parameter);

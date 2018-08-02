@@ -1,4 +1,11 @@
-﻿using Excel_Macros_UI.Model;
+﻿/*
+ * Mark Diedericks
+ * 23/07/2018
+ * Version 1.0.1
+ * Console view
+ */
+
+using Excel_Macros_UI.Model;
 using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.ViewModel;
 using System;
@@ -23,6 +30,9 @@ namespace Excel_Macros_UI.View
     /// </summary>
     public partial class ConsoleView : UserControl
     {
+        /// <summary>
+        /// Instantiate ConsoleView
+        /// </summary>
         public ConsoleView()
         {
             InitializeComponent();
@@ -38,6 +48,11 @@ namespace Excel_Macros_UI.View
             Routing.EventManager.ChangeIO(ConsoleModel.GetInstance().Output, ConsoleModel.GetInstance().Error);
         }
 
+        /// <summary>
+        /// ClearAll event callback
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ClearAll_Click(object sender, RoutedEventArgs e)
         {
             txtOutput.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => txtOutput.Clear()));

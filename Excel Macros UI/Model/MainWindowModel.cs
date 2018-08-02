@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 31/07/2018
+ * 30/07/2018
  * Version 1.0.2
  * Primary model for handling main window's data
  */
@@ -20,7 +20,9 @@ namespace Excel_Macros_UI.Model
 {
     public class MainWindowModel : Base.Model
     {
-
+        /// <summary>
+        /// Instantiation of MainWindowModel
+        /// </summary>
         public MainWindowModel()
         {
             IsShown = false;

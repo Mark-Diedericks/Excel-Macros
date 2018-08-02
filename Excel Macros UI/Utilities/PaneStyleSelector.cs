@@ -21,6 +21,12 @@ namespace Excel_Macros_UI.Utilities
         public Style ToolStyle { get; set; }
         public Style DocumentStyle { get; set; }
 
+        /// <summary>
+        /// Override method
+        /// </summary>
+        /// <param name="item">ViewModel of the view</param>
+        /// <param name="container">UI element (view)</param>
+        /// <returns></returns>
         public override Style SelectStyle(object item, DependencyObject container)
         {
             if (item is ToolViewModel)

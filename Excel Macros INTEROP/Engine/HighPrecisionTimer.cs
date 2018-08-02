@@ -1,5 +1,5 @@
 ﻿/*
- * Mark Diedericks
+ * Mark Diedericks (edits), Daniel Strigl (orginal)
  * 09/06/2018
  * Version 1.0.0
  * A high precision timing class
@@ -46,7 +46,9 @@ namespace Excel_Macros_INTEROP.Engine
             }
         }
 
-        // Start the timer
+        /// <summary>
+        /// Start the current timer
+        /// </summary>
         public void Start()
         {
             // lets do the waiting threads there work
@@ -55,13 +57,17 @@ namespace Excel_Macros_INTEROP.Engine
             QueryPerformanceCounter(out startTime);
         }
 
-        // Stop the timer
+        /// <summary>
+        /// Stop the current timer
+        /// </summary>
         public void Stop()
         {
             QueryPerformanceCounter(out stopTime);
         }
 
-        // Returns the duration of the timer (in ms)
+        /// <summary>
+        /// Returns the duration of the timer (in ms)
+        /// </summary>
         public double Duration
         {
             get

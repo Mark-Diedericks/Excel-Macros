@@ -1,4 +1,11 @@
-﻿using Excel_Macros_INTEROP;
+﻿/*
+ * Mark Diedericks
+ * 02/08/2018
+ * Version 1.0.2
+ * Base document model
+ */
+ 
+using Excel_Macros_INTEROP;
 using Excel_Macros_INTEROP.Macros;
 using System;
 using System.Collections.Generic;
@@ -19,6 +26,11 @@ namespace Excel_Macros_UI.Model.Base
             Macro = Guid.Empty;
         }
 
+        /// <summary>
+        /// Identifies the type of macro and creates the respective document model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static DocumentModel Create(Guid id)
         {
             MacroDeclaration declaration = Main.GetDeclaration(id);

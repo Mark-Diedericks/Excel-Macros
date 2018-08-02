@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 02/06/2018
+ * 02/08/2018
  * Version 1.0.3
  * Macro declaration data structure
  */
@@ -15,6 +15,9 @@ using System.ComponentModel;
 
 namespace Excel_Macros_INTEROP.Macros
 {
+    /// <summary>
+    /// Data strcture containing info on a macro, serializable data structure for saving
+    /// </summary>
     [TypeConverter(typeof(MacroDeclarationConverter))]
     [SettingsSerializeAs(SettingsSerializeAs.String)]
     public class MacroDeclaration
@@ -32,19 +35,38 @@ namespace Excel_Macros_INTEROP.Macros
         }
     }
 
+    /// <summary>
+    /// Enum identifying macro type
+    /// </summary>
     [Serializable]
     public enum MacroType
     {
         PYTHON = 0,
     }
 
+    /// <summary>
+    /// Converter to serialize MacroDeclaration instances
+    /// </summary>
     public class MacroDeclarationConverter : TypeConverter
     {
+        /// <summary>
+        /// Interface method, ensures that the source can be deserialized into an MacroDeclaration
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="sourceType"></param>
+        /// <returns>Bool identifying if it can be converted</returns>
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             return sourceType == typeof(string);
         }
 
+        /// <summary>
+        /// Interface method, deserializes a string into an MacroDeclaration instance
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="culture"></param>
+        /// <param name="value"></param>
+        /// <returns>The MacroDeclaration that has been deserialized</returns>
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
         {
             if (value is string)
@@ -57,6 +79,14 @@ namespace Excel_Macros_INTEROP.Macros
             return base.ConvertFrom(context, culture, value);
         }
 
+        /// <summary>
+        /// Interface method, serializes MacroDeclaration as string
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="culture"></param>
+        /// <param name="value"></param>
+        /// <param name="destinationType"></param>
+        /// <returns>The string of the serialized MacroDeclaration</returns>
         public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(string))

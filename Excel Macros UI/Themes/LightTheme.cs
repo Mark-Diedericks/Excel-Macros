@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 02/07/2018
+ * 20/07/2018
  * Version 1.0.5
  * Light Theme for UI
  */
@@ -15,7 +15,9 @@ namespace Excel_Macros_UI.Themes
 {
     public sealed class LightTheme : ITheme
     {
-
+        /// <summary>
+        /// Instantiate a new LightTheme
+        /// </summary>
         public LightTheme()
         {
             UriList = new List<Uri>

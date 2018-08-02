@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 19/07/2018
- * Version 1.0.0
+ * 26/07/2018
+ * Version 1.0.7
  * Textual Editor UI Control
  */
 
@@ -35,7 +35,9 @@ namespace Excel_Macros_UI.View
     /// </summary>
     public partial class TextualEditorView : UserControl
     {
-
+        /// <summary>
+        /// Instantiation of TextualEditorView
+        /// </summary>
         public TextualEditorView()
         {
             InitializeComponent();
@@ -49,6 +51,11 @@ namespace Excel_Macros_UI.View
             };
         }
 
+        /// <summary>
+        /// DataContextChanged event callback, binds commands
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextualEditorView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (!(DataContext is TextualEditorViewModel))
@@ -60,9 +67,5 @@ namespace Excel_Macros_UI.View
             ((TextualEditorViewModel)DataContext).CutCommand = new RelayCommand(call => m_CodeEditor.Cut());
             ((TextualEditorViewModel)DataContext).PasteCommand = new RelayCommand(call => m_CodeEditor.Paste());
         }
-
-        #region Editor Event Callbacks
-
-        #endregion
     }
 }

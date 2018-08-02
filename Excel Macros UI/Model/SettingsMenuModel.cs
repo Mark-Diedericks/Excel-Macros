@@ -17,6 +17,9 @@ using System.Threading.Tasks;
 
 namespace Excel_Macros_UI.Model
 {
+    /// <summary>
+    /// Enum identifying the a settings menu page
+    /// </summary>
     internal enum SettingsMenuPage
     {
         Style = 0,
@@ -29,6 +32,9 @@ namespace Excel_Macros_UI.Model
         private static SettingsMenuModel s_Instance;
         private SettingsMenuPage m_SettingsPage;
 
+        /// <summary>
+        /// Instantiation of SettingsMenuModel
+        /// </summary>
         public SettingsMenuModel()
         {
             s_Instance = this;
@@ -46,11 +52,19 @@ namespace Excel_Macros_UI.Model
             m_SettingsPage = SettingsMenuPage.Style;
         }
 
+        /// <summary>
+        /// Gets the instance of SettingsMenuModel
+        /// </summary>
+        /// <returns>SettingsMenuModel instance</returns>
         public SettingsMenuModel GetInstance()
         {
             return s_Instance;
         }
 
+        /// <summary>
+        /// Sets the RibbonItems collection
+        /// </summary>
+        /// <param name="items">Observable heirarchial collection</param>
         public static void SetRibbonItems(ObservableCollection<DisplayableTreeViewItem> items)
         {
             if (s_Instance == null)

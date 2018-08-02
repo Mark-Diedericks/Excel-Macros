@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 30/06/2018
+ * 02/08/2018
  * Version 1.0.3
  * File explorer model
  */
@@ -28,11 +28,18 @@ namespace Excel_Macros_UI.Model
     {
         private static ExplorerModel s_Instance;
 
+        /// <summary>
+        /// Gets instance of the ExplorerModel
+        /// </summary>
+        /// <returns></returns>
         public static ExplorerModel GetInstance()
         {
             return s_Instance != null ? s_Instance : new ExplorerModel();
         }
 
+        /// <summary>
+        /// Instantiation of ExplorerModel
+        /// </summary>
         public ExplorerModel()
         {
             s_Instance = this;

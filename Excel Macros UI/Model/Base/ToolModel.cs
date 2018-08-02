@@ -1,4 +1,11 @@
-﻿using Excel_Macros_UI.Utilities;
+﻿/*
+ * Mark Diedericks
+ * 30/07/2018
+ * Version 1.0.3
+ * Base tool model
+ */
+ 
+using Excel_Macros_UI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

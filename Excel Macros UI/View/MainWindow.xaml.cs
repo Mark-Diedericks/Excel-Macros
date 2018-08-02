@@ -48,6 +48,9 @@ namespace Excel_Macros_UI.View
     {
         private static MainWindow s_Instance;
 
+        /// <summary>
+        /// Instantiation of MainWindow
+        /// </summary>
         public MainWindow()
         {
             s_Instance = this;
@@ -62,21 +65,40 @@ namespace Excel_Macros_UI.View
 
         #region Events
 
+        /// <summary>
+        /// OnClosing override, prevents the disposal of the winodw when it is closed
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnClosing(CancelEventArgs e)
         {
             ((MainWindowViewModel)DataContext).OnClosing(e);
         }
         
+        /// <summary>
+        /// DockManagerLoaded event callback, deserializes the layout and loads it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DockManagerLoaded(object sender, RoutedEventArgs e)
         {
             ((MainWindowViewModel)DataContext).DockManagerLoaded();
         }
 
+        /// <summary>
+        /// DockManagerUnloaded event callback, serializes the layout and saves it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DockManagerUnloaded(object sender, RoutedEventArgs e)
         {
             ((MainWindowViewModel)DataContext).DockManagerUnloaded();
         }
 
+        /// <summary>
+        /// DataContextChanged event callback, sets Anchorable and Document contextmenus.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             ((MainWindowViewModel)DataContext).DocumentContextMenu = DockingManager_DockManager.DocumentContextMenu;
@@ -87,11 +109,19 @@ namespace Excel_Macros_UI.View
 
         #region Getters
 
+        /// <summary>
+        /// Gets instance of Main Window
+        /// </summary>
+        /// <returns>MainWindow instance</returns>
         public static MainWindow GetInstance()
         {
             return s_Instance;
         }
 
+        /// <summary>
+        /// Gets DockingManager UI element
+        /// </summary>
+        /// <returns>DockingManager UI element</returns>
         public Xceed.Wpf.AvalonDock.DockingManager GetDockingManager()
         {
             return DockingManager_DockManager;
@@ -105,11 +135,20 @@ namespace Excel_Macros_UI.View
             }
         }
 
+        /// <summary>
+        /// Gets the specified UI resource
+        /// </summary>
+        /// <param name="resource">The name of the resource</param>
+        /// <returns>The resource object</returns>
         public object GetResource(string resource)
         {
             return Resources[resource];
         }
 
+        /// <summary>
+        /// Gets the window's resource dictionary
+        /// </summary>
+        /// <returns>ResourceDictionary of the winodw</returns>
         public ResourceDictionary GetResources()
         {
             return Resources;

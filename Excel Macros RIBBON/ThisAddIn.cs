@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 21/06/2018
- * Version 1.0.1
+ * 02/08/2018
+ * Version 1.0.4
  * The main hub of the Excel AddIn -> used only for the ribbon tab it allows me to add
  */
 
@@ -31,6 +31,11 @@ namespace Excel_Macros_RIBBON
         private delegate void CloseEvent();
         private static event CloseEvent ApplicationClosing;
 
+        /// <summary>
+        /// Event Callback for when the AddIn is started by Excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ThisAddIn_Startup(object sender, EventArgs e)
         {
             ExcelMacrosRibbonTab.MacroRibbonLoadEvent += MacroRibbonLoaded;
@@ -48,6 +53,11 @@ namespace Excel_Macros_RIBBON
             m_Thread.Start();
         }
 
+        /// <summary>
+        /// Event Callback for when the AddIn is shutdown by Excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ThisAddIn_Shutdown(object sender, EventArgs e)
         {
             Properties.Settings.Default.RibbonMacros = m_RibbonTab.GetRibbonMacros();
@@ -68,6 +78,9 @@ namespace Excel_Macros_RIBBON
             }
         }
 
+        /// <summary>
+        /// Event Callback for when the Ribbon is fully loaded, sets events
+        /// </summary>
         private void MacroRibbonLoaded()
         {
             m_RibbonLoaded = true;
@@ -77,6 +90,9 @@ namespace Excel_Macros_RIBBON
                 SetEvents();
         }
 
+        /// <summary>
+        /// Event Callback for when the Editor is fully loaded, sets events
+        /// </summary>
         private void MacroEditorLoaded()
         {
             m_ApplicationLoaded = true;
@@ -86,6 +102,9 @@ namespace Excel_Macros_RIBBON
                 SetEvents();
         }
 
+        /// <summary>
+        /// Binds events between the AddIn, the RibbonTab as well as the UI's EventManager
+        /// </summary>
         private void SetEvents()
         {
             if(m_RibbonTab == null || m_EventManager == null)

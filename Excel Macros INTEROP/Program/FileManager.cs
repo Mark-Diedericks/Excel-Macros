@@ -27,6 +27,9 @@ namespace Excel_Macros_INTEROP
 
         #region DIRECTORIES
 
+        /// <summary>
+        /// Gets the current AssemblyDirectory (working directory)
+        /// </summary>
         public static string AssemblyDirectory
         {
             get
@@ -38,6 +41,9 @@ namespace Excel_Macros_INTEROP
             }
         }
 
+        /// <summary>
+        /// Gets the directory in which the Macros are stored in the file system
+        /// </summary>
         public static string MacroDirectory
         {
             get
@@ -50,6 +56,11 @@ namespace Excel_Macros_INTEROP
 
         #region MACRO_LOADING
 
+        /// <summary>
+        /// Gets all the files in the directory and it's subsequent directories
+        /// </summary>
+        /// <param name="directory">The directory in which to look</param>
+        /// <returns>A list containing the fullpath to each file in the directory and subsequent directories</returns>
         public static List<string> GetFiles(string directory)
         {
             if (!Directory.Exists(directory))
@@ -67,6 +78,11 @@ namespace Excel_Macros_INTEROP
             return result;
         }
 
+        /// <summary>
+        /// Identifies macros in an array of directories and creates MacroDeclarations for them
+        /// </summary>
+        /// <param name="directories">An array of directories in which to search</param>
+        /// <returns>A list of MacroDeclarations of macros found</returns>
         public static List<MacroDeclaration> IdentifyAllMacros(string[] directories)
         {
             List<MacroDeclaration> declarations = new List<MacroDeclaration>();
@@ -93,6 +109,11 @@ namespace Excel_Macros_INTEROP
             return declarations;
         }
 
+        /// <summary>
+        /// Identifies and loads all macros in a list of directories
+        /// </summary>
+        /// <param name="directories">An array of directories in which to search</param>
+        /// <returns>A dictionary of MacroDeclarations and their respective Macros</returns>
         public static Dictionary<MacroDeclaration, IMacro> LoadAllMacros(string[] directories)
         {
             Dictionary<MacroDeclaration, IMacro> macros = new Dictionary<MacroDeclaration, IMacro>();
@@ -113,6 +134,11 @@ namespace Excel_Macros_INTEROP
 
         #region GENERIC_FILE_UTIL
 
+        /// <summary>
+        /// Saves a macro to it's respective file
+        /// </summary>
+        /// <param name="id">The id of the macro</param>
+        /// <param name="source">The source code (python) to be saved</param>
         public static void SaveMacro(Guid id, string source)
         {
             if (Main.GetDeclaration(id) == null)
@@ -135,6 +161,12 @@ namespace Excel_Macros_INTEROP
             }
         }
 
+        /// <summary>
+        /// Identifies which method to utilize to load a macro and returns the loaded macro
+        /// </summary>
+        /// <param name="type">The macro type of the macro</param>
+        /// <param name="relativepath">The relative filepath of the macro</param>
+        /// <returns>Macro instance</returns>
         public static IMacro LoadMacro(MacroType type, string relativepath)
         {
             switch (type)
@@ -145,6 +177,11 @@ namespace Excel_Macros_INTEROP
             return null;
         }
 
+        /// <summary>
+        /// Exports a macro to a file, similar to saving a copy elsewhere
+        /// </summary>
+        /// <param name="id">The id of the macro</param>
+        /// <param name="source">The source code (python) of the macro</param>
         public static void ExportMacro(Guid id, string source)
         {
             SaveFileDialog sfd = new SaveFileDialog();
@@ -168,6 +205,10 @@ namespace Excel_Macros_INTEROP
             Main.FireShowFocusEvent();
         }
 
+        /// <summary>
+        /// Prompts the user to select an assembly and returns the file location
+        /// </summary>
+        /// <returns>Full file path of the selected assembly</returns>
         public static string ImportAssembly()
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -179,6 +220,11 @@ namespace Excel_Macros_INTEROP
             return String.Empty;
         }
 
+        /// <summary>
+        /// Prompts the user to select an external macro and imports it into the local workspace
+        /// </summary>
+        /// <param name="relativedir">The relative directory which the macro will be copied to</param>
+        /// <param name="OnReturn">The Action, containing the macro's id, to be fired when the task is completed</param>
         public static void ImportMacro(string relativedir, Action<Guid> OnReturn)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -224,6 +270,12 @@ namespace Excel_Macros_INTEROP
             OnReturn?.Invoke(Guid.Empty);
         }
 
+        /// <summary>
+        /// Renames a macro on the file system
+        /// </summary>
+        /// <param name="id">The id of the macro</param>
+        /// <param name="name">The new name of the macro</param>
+        /// <returns>Bool identifying if the operation is successful</returns>
         public static bool RenameMacro(Guid id, string name)
         {
             try
@@ -246,6 +298,12 @@ namespace Excel_Macros_INTEROP
             return false;
         }
 
+        /// <summary>
+        /// Creates a new macro file at the specified relative path
+        /// </summary>
+        /// <param name="type">The type of the macro</param>
+        /// <param name="relativepath">The relative filepath of the macro</param>
+        /// <returns>The id of the newly created macro</returns>
         public static Guid CreateMacro(MacroType type, string relativepath)
         {
             try
@@ -267,6 +325,11 @@ namespace Excel_Macros_INTEROP
             return Guid.Empty;
         }
 
+        /// <summary>
+        /// Creates a new folder from a relative path
+        /// </summary>
+        /// <param name="relativepath">The relative path of the folder</param>
+        /// <returns>Bool idebtifying if the operation was successful</returns>
         public static bool CreateFolder(string relativepath)
         {
             try
@@ -284,6 +347,11 @@ namespace Excel_Macros_INTEROP
             return false;
         }
 
+        /// <summary>
+        /// Deletes the folder at the relative path
+        /// </summary>
+        /// <param name="relativepath">The relative path of the folder</param>
+        /// <param name="OnReturn">The Action, and bool identifying the operations success, to be fired when the task is completed</param>
         public static void DeleteFolder(string relativepath, Action<bool> OnReturn)
         {
             DisplayYesNoMessage("'" + relativepath + "' Will be deleted permanently.", "Macro Deletion", new Action<bool>((result) => {
@@ -305,6 +373,12 @@ namespace Excel_Macros_INTEROP
             OnReturn?.Invoke(false);
         }
 
+        /// <summary>
+        /// Renames a folder from its previous name to the new name
+        /// </summary>
+        /// <param name="oldpath">Current relative path of the folder</param>
+        /// <param name="newpath">Desired relative path of the folder</param>
+        /// <returns></returns>
         public static bool RenameFolder(string oldpath, string newpath)
         {
             try
@@ -320,6 +394,11 @@ namespace Excel_Macros_INTEROP
             return false;
         }
 
+        /// <summary>
+        /// Deletes the specified macro
+        /// </summary>
+        /// <param name="id">The id of the macro</param>
+        /// <param name="OnReturn">The Action, and bool identifying if the operation was successful, to be fired when the task is completed</param>
         public static void DeleteMacro(Guid id, Action<bool> OnReturn)
         {
             DisplayYesNoMessage("'" + Main.GetDeclaration(id).name + "' Will be deleted permanently.", "Macro Deletion", new Action<bool>(result =>
@@ -344,11 +423,21 @@ namespace Excel_Macros_INTEROP
             OnReturn?.Invoke(false);
         }
 
+        /// <summary>
+        /// Calculates the relative path from a fullpath
+        /// </summary>
+        /// <param name="fullpath">A fullpath</param>
+        /// <returns>Relative path of the fullpath</returns>
         public static string CalculateRelativePath(string fullpath)
         {
             return fullpath.Remove(0, MacroDirectory.Length);
         }
 
+        /// <summary>
+        /// Calculates the fullpath from a relative path
+        /// </summary>
+        /// <param name="relativepath">A relative path</param>
+        /// <returns>Fullpath of the relative path</returns>
         public static string CalculateFullPath(string relativepath)
         {
             return Path.GetFullPath(MacroDirectory + relativepath);
@@ -360,6 +449,11 @@ namespace Excel_Macros_INTEROP
 
         public static readonly string[] PYTHON_LIB_PATH = { "./PythonModules/ctypes/", "./PythonModules/distutils/", "./PythonModules/email/", "./PythonModules/encodings/", "./PythonModules/ensurepip/", "./PythonModules/importlib/", "./PythonModules/json/", "./PythonModules/lib2to3/", "./PythonModules/logging/", "./PythonModules/multiprocessing/", "./PythonModules/pydoc_data/", "./PythonModules/site-packages", "./PythonModules/sqlite3/", "./PythonModules/unitest/", "./PythonModules/wsgrief/", "./PythonModules/xml/" };
 
+        /// <summary>
+        /// Loads a python macro file as a TextualMacro instance
+        /// </summary>
+        /// <param name="relativepath">The relative path of the file</param>
+        /// <returns>New instance of the TextualMacro</returns>
         private static TextualMacro LoadPythonScript(string relativepath)
         {
             try
@@ -383,11 +477,22 @@ namespace Excel_Macros_INTEROP
 
         #endregion
 
+        /// <summary>
+        /// Displays a message for the user
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="caption">The message's header</param>
         private static void DisplayOkMessage(string message, string caption)
         {
             MessageManager.DisplayOkMessage(message, caption);
         }
 
+        /// <summary>
+        /// Displays a yes/no message for user input
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="caption">The message's header</param>
+        /// <param name="OnReturn">The Action, and bool representation of the yes/no result, to be fired when the user provides input</param>
         private static void DisplayYesNoMessage(string message, string caption, Action<bool> OnReturn)
         {
             MessageManager.DisplayYesNoMessage(message, caption, OnReturn);

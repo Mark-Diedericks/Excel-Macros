@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2018
- * Version 1.0.0
+ * 30/07/2018
+ * Version 1.0.7
  * Tool window view model
  */
 
@@ -20,6 +20,9 @@ namespace Excel_Macros_UI.ViewModel.Base
 {
     public class ToolViewModel : ViewModel
     {
+        /// <summary>
+        /// Instantiate ToolViewModel
+        /// </summary>
         public ToolViewModel()
         {
 

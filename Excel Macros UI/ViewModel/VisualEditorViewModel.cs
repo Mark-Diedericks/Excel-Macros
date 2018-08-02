@@ -21,7 +21,9 @@ namespace Excel_Macros_UI.ViewModel
 {
     public class VisualEditorViewModel : DocumentViewModel
     {
-
+        /// <summary>
+        /// Instantiation of VisualEditorViewModel
+        /// </summary>
         public VisualEditorViewModel()
         {
             Model = new VisualEditorModel(Guid.Empty);
@@ -34,17 +36,29 @@ namespace Excel_Macros_UI.ViewModel
             Source = String.Empty;
         }
 
+        /// <summary>
+        /// Saves the macro associated with the document
+        /// </summary>
+        /// <param name="OnComplete">Action to be fired on the tasks completetion</param>
         public override void Save(Action OnComplete)
         {
             base.Stop(OnComplete);
         }
 
+        /// <summary>
+        /// Executes the macro associated with the document
+        /// </summary>
+        /// <param name="OnComplete">Action to be fired on the tasks completetion</param>
         public override void Start(Action OnComplete)
         {
             Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().ExecuteMacro(GetPythonCode(), OnComplete, MainWindowViewModel.GetInstance().AsyncExecution);
             base.Start(null);
         }
 
+        /// <summary>
+        /// Terminates the execution of the macro associated with the document
+        /// </summary>
+        /// <param name="OnComplete">Action to be fired on the tasks completetion</param>
         public override void Stop(Action OnComplete)
         {
             Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().TerminateExecution();
@@ -54,6 +68,10 @@ namespace Excel_Macros_UI.ViewModel
         public delegate string InvokeEngineEvent();
         public event InvokeEngineEvent InvokeEngine;
 
+        /// <summary>
+        /// Gets the python code of the visual program
+        /// </summary>
+        /// <returns>Source code (python)</returns>
         public string GetPythonCode()
         {
             return InvokeEngine?.Invoke();

@@ -20,6 +20,13 @@
 //STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
 //EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+/*
+ * Mark Diedericks (edits), Adolfo Marinucci (original)
+ * 03/07/2018
+ * Version 1.0.1
+ * VS2012-eque Light Theme
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

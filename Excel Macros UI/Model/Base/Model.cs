@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * Mark Diedericks
+ * 4/07/2018
+ * Version 1.0.1
+ * Base model
+ */
+ 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;

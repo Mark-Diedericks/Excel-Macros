@@ -26,26 +26,48 @@ namespace Excel_Macros_UI.Utilities
 
         private TextBox m_TextBox;
 
+        /// <summary>
+        /// Instantiate a TextBoxWriter
+        /// </summary>
+        /// <param name="textBox">The TextBox bound to</param>
         public TextBoxWriter(TextBox textBox)
         {
             m_TextBox = textBox;
         }
 
+        /// <summary>
+        /// Override method
+        /// </summary>
+        /// <param name="value"></param>
         public override void Write(char value)
         {
             m_TextBox.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => m_TextBox.Text += value.ToString()));
         }
 
+        /// <summary>
+        /// Override method
+        /// </summary>
+        /// <param name="value"></param>
         public override void Write(string value)
         {
             m_TextBox.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => m_TextBox.Text += value.ToString()));
         }
 
+        /// <summary>
+        /// Override method
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="index"></param>
+        /// <param name="count"></param>
         public override void Write(char[] buffer, int index, int count)
         {
             m_TextBox.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => m_TextBox.Text += new string(buffer)));
         }
 
+        /// <summary>
+        /// Override method
+        /// </summary>
+        /// <param name="value"></param>
         public override void WriteLine(string value)
         {
             m_TextBox.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => m_TextBox.Text += value.ToString() + '\n'));

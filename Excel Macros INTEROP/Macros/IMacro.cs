@@ -1,8 +1,8 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2018
- * Version 1.0.0
- * Abstraction layer; base macro data structure
+ * 22/07/2018
+ * Version 1.0.3
+ * Abstraction layer; base macro interface
  */
 
 using System;

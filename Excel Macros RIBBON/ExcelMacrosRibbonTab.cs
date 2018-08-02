@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 08/06/2018
+ * 30/07/2018
  * Version 1.0.0
  * The ribbon tab UI for the AddIn
  */
@@ -83,6 +83,9 @@ namespace Excel_Macros_RIBBON
             btnOpenMacro.Enabled = state;
         }
 
+        /// <summary>
+        /// Updates the drop down button's state depending on the count of items it contains
+        /// </summary>
         private void UpdateRibbon()
         {
             if (menuExecuteMacro.Items.Count <= 0)
@@ -203,21 +206,41 @@ namespace Excel_Macros_RIBBON
 
         #region Event Callbacks
         
+        /// <summary>
+        /// Event Callback for when the MacroEditor button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnMacroEditor_Click(object sender, RibbonControlEventArgs e)
         {
             MacroEditorClickEvent?.Invoke();
         }
 
+        /// <summary>
+        /// Event Callback for when the NewTextual button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnNewTextual_Click(object sender, RibbonControlEventArgs e)
         {
             NewTextualClickEvent?.Invoke();
         }
 
+        /// <summary>
+        /// Event Callback for when the NewVisual button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnNewVisual_Click(object sender, RibbonControlEventArgs e)
         {
             NewVisualClickEvent?.Invoke();
         }
 
+        /// <summary>
+        /// Event Callback for when the OpenMacro button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOpenMacro_Click(object sender, RibbonControlEventArgs e)
         {
             OpenMacroClickEvent?.Invoke();

@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 19/07/2018
- * Version 1.0.0
+ * 30/07/2018
+ * Version 1.0.9
  * Document window view model
  */
 
@@ -35,6 +35,9 @@ namespace Excel_Macros_UI.ViewModel.Base
             }
         }
 
+        /// <summary>
+        /// Closes the current document, prompts if unsaved
+        /// </summary>
         public void Close()
         {
             if (!IsSaved)
@@ -70,6 +73,10 @@ namespace Excel_Macros_UI.ViewModel.Base
             }
         }
 
+        /// <summary>
+        /// Saves the current document
+        /// </summary>
+        /// <param name="OnComplete"></param>
         public virtual void Save(Action OnComplete)
         {
             IsSaved = true;
@@ -203,12 +210,20 @@ namespace Excel_Macros_UI.ViewModel.Base
 
         #endregion
 
+        /// <summary>
+        /// Instantiate DocumentViewModel
+        /// </summary>
         public DocumentViewModel()
         {
             CanClose = true;
             CanFloat = true;
         }
 
+        /// <summary>
+        /// Creates DocumentViewModel from DocumentModel
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static DocumentViewModel Create(DocumentModel model)
         {
             if(model is TextualEditorModel)

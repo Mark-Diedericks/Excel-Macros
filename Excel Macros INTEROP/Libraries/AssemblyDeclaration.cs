@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2018
- * Version 1.0.0
+ * 02/08/2018
+ * Version 1.0.4
  * Assembly declaration data structure
  */
 
@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace Excel_Macros_INTEROP.Libraries
 {
+    /// <summary>
+    /// Data structure containing info on assemblies, serializable data structure for saving
+    /// </summary>
     [TypeConverter(typeof(AssemblyDeclarationConverter))]
     [SettingsSerializeAs(SettingsSerializeAs.String)]
     public class AssemblyDeclaration
@@ -23,6 +26,12 @@ namespace Excel_Macros_INTEROP.Libraries
         public string filepath;
         public bool enabled;
 
+        /// <summary>
+        /// Initialize new instance of the data structure
+        /// </summary>
+        /// <param name="dn">Display name of the assembly</param>
+        /// <param name="ln">Full file path of the assembly</param>
+        /// <param name="enabled">If usage of the assembly is enabled</param>
         public AssemblyDeclaration(string dn, string ln, bool enabled)
         {
             displayname = dn;
@@ -30,13 +39,29 @@ namespace Excel_Macros_INTEROP.Libraries
         }
     }
 
+    /// <summary>
+    /// Converter to serialize AssemblyDeclaration instances
+    /// </summary>
     public class AssemblyDeclarationConverter : TypeConverter
     {
+        /// <summary>
+        /// Interface method, ensures that the source can be deserialized into an AssemblyDeclaration
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="sourceType"></param>
+        /// <returns>Bool identifying if it can be converted</returns>
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             return sourceType == typeof(string);
         }
 
+        /// <summary>
+        /// Interface method, deserializes a string into an AssemblyDeclaration instance
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="culture"></param>
+        /// <param name="value"></param>
+        /// <returns>The AssemblyDeclaration that has been deserialized</returns>
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
         {
             if (value is string)
@@ -49,6 +74,14 @@ namespace Excel_Macros_INTEROP.Libraries
             return base.ConvertFrom(context, culture, value);
         }
 
+        /// <summary>
+        /// Interface method, serializes AssemblyDeclaration as string
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="culture"></param>
+        /// <param name="value"></param>
+        /// <param name="destinationType"></param>
+        /// <returns>The string of the serialized AssemblyDeclaration</returns>
         public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(string))

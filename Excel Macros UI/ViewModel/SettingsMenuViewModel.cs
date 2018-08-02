@@ -28,6 +28,9 @@ namespace Excel_Macros_UI.ViewModel
         private string PreviousTheme;
         private static SettingsMenuViewModel s_Instance;
 
+        /// <summary>
+        /// Instantiation of SettingsMenuViewModel
+        /// </summary>
         public SettingsMenuViewModel()
         {
             s_Instance = this;
@@ -40,6 +43,9 @@ namespace Excel_Macros_UI.ViewModel
             LoadAssemblies();
         }
 
+        /// <summary>
+        /// Produces a collection of displable instances of assemblies
+        /// </summary>
         private void LoadAssemblies()
         {
             LibraryItems.Clear();
@@ -50,6 +56,9 @@ namespace Excel_Macros_UI.ViewModel
             OnPropertyChanged(nameof(LabelVisible));
         }
 
+        /// <summary>
+        /// ThemeChanged event callback, updates the theme settings
+        /// </summary>
         private void ThemeChanged()
         {
             SaveSyntaxStyle(PreviousTheme == "Dark");
@@ -57,6 +66,9 @@ namespace Excel_Macros_UI.ViewModel
             LoadColors();
         }
 
+        /// <summary>
+        /// Loads the colors of the syntax style;
+        /// </summary>
         private void LoadColors()
         {
             LoadColorValues();
@@ -72,6 +84,9 @@ namespace Excel_Macros_UI.ViewModel
             BooleanColor = values[(int)SyntaxStyleColor.BOOLEAN];
         }
 
+        /// <summary>
+        /// Sets the colors of the syntax style
+        /// </summary>
         private void SetColors()
         {
             string[] values = new string[8];
@@ -122,6 +137,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Adds an assembly to the registry
+        /// </summary>
         private void AddLibrary()
         {
             string path = FileManager.ImportAssembly();
@@ -151,6 +169,9 @@ namespace Excel_Macros_UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Removes an assembly from the registry
+        /// </summary>
         private void RemoveLibrary()
         {
             Main.RemoveAssembly(SelectedLibrary.declaration);

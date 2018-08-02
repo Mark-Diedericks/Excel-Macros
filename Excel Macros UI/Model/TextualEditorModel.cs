@@ -1,4 +1,11 @@
-﻿using Excel_Macros_INTEROP;
+﻿/*
+ * Mark Diedericks
+ * 30/07/2018
+ * Version 1.0.6
+ * TextualEditor mdeol
+ */
+
+using Excel_Macros_INTEROP;
 using Excel_Macros_INTEROP.Macros;
 using Excel_Macros_UI.Model.Base;
 using ICSharpCode.AvalonEdit.Document;
@@ -12,6 +19,10 @@ namespace Excel_Macros_UI.Model
 {
     public class TextualEditorModel : DocumentModel
     {
+        /// <summary>
+        /// Instantiation of TextualEditorModel
+        /// </summary>
+        /// <param name="id">The id of the editor's macro</param>
         public TextualEditorModel(Guid id)
         {
             if(id != Guid.Empty)
