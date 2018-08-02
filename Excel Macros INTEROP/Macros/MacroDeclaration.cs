@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2018
- * Version 1.0.1
+ * 02/06/2018
+ * Version 1.0.3
  * Macro declaration data structure
  */
 

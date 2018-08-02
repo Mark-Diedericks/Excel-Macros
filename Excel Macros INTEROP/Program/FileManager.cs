@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
  * 02/08/2018
- * Version 1.0.7
+ * Version 1.0.8
  * Manages all system file related tasks, saving, loading, copying, deleting, etc.
  */
 
@@ -123,8 +123,9 @@ namespace Excel_Macros_INTEROP
                 string fullpath = CalculateFullPath(Main.GetDeclaration(id).relativepath);
 
                 FileInfo fi = new FileInfo(fullpath);
-                if (!fi.Directory.Exists)
-                    fi.Directory.Create();
+                
+                if (!Directory.Exists(fi.DirectoryName))
+                    Directory.CreateDirectory(fi.DirectoryName);
 
                 File.WriteAllText(fullpath, source);
             }

@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 31/07/2018
- * Version 1.0.9
+ * 02/08/2018
+ * Version 1.0.10
  * Primary view model for handling main window's views
  */
 
@@ -408,10 +408,8 @@ namespace Excel_Macros_UI.ViewModel
         }
 
         #endregion
+        
 
-        ///////////////////////////////
-        ///////////////////////////////
-        ///////////////////////////////
 
         #region Window Event Callbacks & Overrides
 
