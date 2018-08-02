@@ -40,8 +40,6 @@ namespace Excel_Macros_RIBBON
 
             m_Thread = new Thread(() =>
             {
-                //SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
-
                 UI.Routing.EventManager.CreateApplicationInstance(Application, dispatcher, Properties.Settings.Default.RibbonMacros);
             });
 

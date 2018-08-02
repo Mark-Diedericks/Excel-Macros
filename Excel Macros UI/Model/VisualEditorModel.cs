@@ -1,6 +1,6 @@
 ﻿/*
  * Mark Diedericks
- * 30/07/2018
+ * 02/08/2018
  * Version 1.0.2
  * Visual editor model, data handling
  */

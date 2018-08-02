@@ -113,7 +113,6 @@
     <Compile Include="Macros\IMacro.cs" />
     <Compile Include="Macros\MacroDeclaration.cs" />
     <Compile Include="Macros\TextualMacro.cs" />
-    <Compile Include="Macros\VisualMacro.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program\ExcelUtilities.cs" />
     <Compile Include="Program\FileManager.cs" />

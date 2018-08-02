@@ -143,6 +143,7 @@
     <Compile Include="Model\ConsoleModel.cs" />
     <Compile Include="Model\DockManagerModel.cs" />
     <Compile Include="Model\ExplorerModel.cs" />
+    <Compile Include="Model\ItemModels.cs" />
     <Compile Include="Model\MainWindowModel.cs" />
     <Compile Include="Model\SettingsMenuModel.cs" />
     <Compile Include="Model\TextualEditorModel.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Utilities\SyntaxStyleLoader.cs" />
     <Compile Include="Utilities\TextBoxWriter.cs" />
     <Compile Include="ViewModel\ConsoleViewModel.cs" />
+    <Compile Include="ViewModel\ItemViewModels.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SettingsMenuViewModel.cs" />
     <Compile Include="ViewModel\TextualEditorViewModel.cs" />
@@ -299,6 +301,7 @@
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\ConvertPython.png" />
     <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
     <Content Include="Resources\BlocklyHost.html">

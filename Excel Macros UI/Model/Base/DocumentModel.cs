@@ -30,8 +30,6 @@ namespace Excel_Macros_UI.Model.Base
             {
                 case MacroType.PYTHON:
                     return new TextualEditorModel(id);
-                case MacroType.BLOCKLY:
-                    return new VisualEditorModel(id);
             }
 
             return null;

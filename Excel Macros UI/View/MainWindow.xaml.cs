@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 30/07/2018
- * Version 1.0.11
+ * 02/08/2018
+ * Version 1.0.12
  * The main window, hosting all the UI
  */
 
@@ -116,6 +116,5 @@ namespace Excel_Macros_UI.View
         }
 
         #endregion
-
     }
 }

@@ -326,12 +326,34 @@
                             </Button>
                         </Grid>
                     </Grid>
-                    
+
+                    <Rectangle Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="358,4,0,4" Fill="{DynamicResource GrayBrush8}"  Visibility="{Binding IsVisual, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="362,0,0,0">
+                        <!-- Convert Python -->
+                        <Button Command="{Binding ConvertCommand}" Visibility="{Binding IsVisual, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}" Padding="2,2,2,2" BorderThickness="0" ToolTip="Convert To New Python Macro" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Transparent">
+                            <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid x:Name="ContentGrid" Margin="0,0,0,0">
+                                        <Image Width="16" Height="16" Source="pack://application:,,,/Excel Macros UI;component/Resources/ConvertPython.png" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4,0,4,0" Stretch="Uniform" />
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#44808080" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="ContentGrid" Property="Background" Value="#55808080" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
 
             <dock:DockingManager x:Name="DockingManager_DockManager" Grid.Row="3" Padding="0" DataContext="{Binding DockManager}" ActiveContent="{Binding ActiveContent, Mode=TwoWay}"  Background="{DynamicResource WindowBackgroundBrush}" DocumentsSource="{Binding Documents, Mode=OneWay}" AnchorablesSource="{Binding Tools, Mode=OneWay}"
-                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockManagerLoaded" Unloaded="DockManagerUnloaded">
+                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DockManagerLoaded" Unloaded="DockManagerUnloaded" >
 
                 <dock:DockingManager.Resources>
                     <DataTemplate DataType="{x:Type viewModels:ExplorerViewModel}">

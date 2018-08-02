@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Excel_Macros_UI.View"
              xmlns:model="clr-namespace:Excel_Macros_UI.Model"
+             xmlns:viewmodel="clr-namespace:Excel_Macros_UI.ViewModel"
              xmlns:utils="clr-namespace:Excel_Macros_UI.Utilities"
              xmlns:dock="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
@@ -54,7 +55,7 @@
             <TreeView.Resources>
                 <dock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
-                <HierarchicalDataTemplate DataType="{x:Type model:DisplayableTreeViewItem}" ItemsSource="{Binding Items}">
+                <HierarchicalDataTemplate DataType="{x:Type viewmodel:DisplayableTreeViewItem}" ItemsSource="{Binding Items}">
                     <Grid>
                         <TextBlock x:Name="LabelBox" Background="Transparent" Text="{Binding Header}" Visibility="{Binding IsDisplaying, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}" />
                         <TextBox x:Name="InputBox" Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Foreground}" Visibility="{Binding IsInputting, ConverterParameter={x:Static Visibility.Collapsed}, Converter={StaticResource BoolToVisibilityConverter}}" utils:FocusUtility.IsFocused="{Binding IsInputting}" CaretIndex="{x:Static System:Int32.MaxValue}" IsVisibleChanged="InputBox_IsVisibleChanged" FontWeight="DemiBold" BorderThickness="0" Background="#08000000" Text="{Binding Header}" IsReadOnly="False" LostFocus="TextBox_LostFocus" KeyUp="TextBox_KeyUp"/>

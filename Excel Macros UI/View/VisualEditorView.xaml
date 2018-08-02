@@ -8,6 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" DataContextChanged="VisualEditorView_DataContextChanged">
     <Grid Background="{DynamicResource GrayBrush10}">
-        <WebBrowser x:Name="wbBlockly" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <WebBrowser x:Name="wbBlockly" SizeChanged="wbBlockly_SizeChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False"/>
     </Grid>
 </UserControl>

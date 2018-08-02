@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 30/07/2018
- * Version 1.0.8
+ * 02/08/2018
+ * Version 1.0.9
  * Event manager, allowing for cross-thread interaction between the Excel Ribbon tab and the UI/Interop projects
  */
 
@@ -21,6 +21,7 @@ using System.IO;
 using MahApps.Metro.Controls.Dialogs;
 using Excel_Macros_UI.ViewModel.Base;
 using Excel_Macros_UI.ViewModel;
+using Excel_Macros_INTEROP.Libraries;
 
 namespace Excel_Macros_UI.Routing
 {
@@ -141,7 +142,7 @@ namespace Excel_Macros_UI.Routing
                     Main.LoadRibbonMacros();
 
                 LoadCompleted();
-            }), RibbonMacros, Properties.Settings.Default.ActiveMacro);
+            }), RibbonMacros, Properties.Settings.Default.ActiveMacro, Properties.Settings.Default.IncludedLibraries);
 
             GetInstance().ShutdownEvent += () =>
             {
@@ -149,6 +150,8 @@ namespace Excel_Macros_UI.Routing
                 {
                     if(Main.GetDeclaration(Main.GetActiveMacro()) != null)
                         Properties.Settings.Default.ActiveMacro = Main.GetDeclaration(Main.GetActiveMacro()).relativepath;
+                    
+                    Properties.Settings.Default.IncludedLibraries = Main.GetAssemblies().ToArray<AssemblyDeclaration>();
 
                     if (MainWindowViewModel.GetInstance() != null)
                         MainWindowViewModel.GetInstance().SaveAll();
@@ -197,37 +200,49 @@ namespace Excel_Macros_UI.Routing
 
         public void MacroEditorClickEvent()
         {
-            if (MainWindowViewModel.GetInstance() == null)
+            if (MainWindowViewModel.GetInstance() == null || MainWindow.GetInstance() == null)
                 return;
 
-            MainWindowViewModel.GetInstance().ShowWindow();
+            MainWindow.GetInstance().Dispatcher.Invoke(() =>
+            {
+                MainWindowViewModel.GetInstance().ShowWindow();
+            });
         }
 
         public void NewTextualClickEvent()
         {
-            if (MainWindowViewModel.GetInstance() == null)
+            if (MainWindowViewModel.GetInstance() == null || MainWindow.GetInstance() == null)
                 return;
 
-            MainWindowViewModel.GetInstance().ShowWindow();
-            MainWindowViewModel.GetInstance().CreateMacroAsync(MacroType.PYTHON);
+            MainWindow.GetInstance().Dispatcher.Invoke(() =>
+            {
+                MainWindowViewModel.GetInstance().ShowWindow();
+                MainWindowViewModel.GetInstance().CreateMacroAsync(MacroType.PYTHON);
+            });
         }
 
         public void NewVisualClickEvent()
         {
-            if (MainWindowViewModel.GetInstance() == null)
+            if (MainWindowViewModel.GetInstance() == null || MainWindow.GetInstance() == null)
                 return;
 
-            MainWindowViewModel.GetInstance().ShowWindow();
-            MainWindowViewModel.GetInstance().CreateMacroAsync(MacroType.BLOCKLY);
+            MainWindow.GetInstance().Dispatcher.Invoke(() =>
+            {
+                MainWindowViewModel.GetInstance().ShowWindow();
+                MainWindowViewModel.GetInstance().DockManager.ActiveContent = MainWindowViewModel.GetInstance().DockManager.VisualEditor;
+            });
         }
 
         public void OpenMacroClickEvent()
         {
-            if (MainWindowViewModel.GetInstance() == null)
+            if (MainWindowViewModel.GetInstance() == null || MainWindow.GetInstance() == null)
                 return;
 
-            MainWindowViewModel.GetInstance().ShowWindow();
-            MainWindowViewModel.GetInstance().ImportMacroAsync();
+            MainWindow.GetInstance().Dispatcher.Invoke(() =>
+            {
+                MainWindowViewModel.GetInstance().ShowWindow();
+                MainWindowViewModel.GetInstance().ImportMacroAsync();
+            });
         }
 
         public static void MacroRibbonLoaded()

@@ -36,7 +36,6 @@ namespace Excel_Macros_INTEROP.Macros
     public enum MacroType
     {
         PYTHON = 0,
-        BLOCKLY = 1
     }
 
     public class MacroDeclarationConverter : TypeConverter

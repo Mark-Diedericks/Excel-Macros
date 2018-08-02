@@ -226,5 +226,16 @@ namespace Excel_Macros_UI.Properties {
                 this["OpenDocuments"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public Excel_Macros_INTEROP.Libraries.AssemblyDeclaration[] IncludedLibraries {
+            get {
+                return ((Excel_Macros_INTEROP.Libraries.AssemblyDeclaration[])(this["IncludedLibraries"]));
+            }
+            set {
+                this["IncludedLibraries"] = value;
+            }
+        }
     }
 }

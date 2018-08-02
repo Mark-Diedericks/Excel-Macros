@@ -1,11 +1,14 @@
 ﻿/*
  * Mark Diedericks
- * 31/06/2018
- * Version 1.0.2
+ * 02/08/2018
+ * Version 1.0.3
  * Settings menu view model
  */
 
+using Excel_Macros_INTEROP;
+using Excel_Macros_INTEROP.Libraries;
 using Excel_Macros_UI.Model;
+using Excel_Macros_UI.Routing;
 using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.View;
 using System;
@@ -15,6 +18,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using static Excel_Macros_UI.Utilities.SyntaxStyleLoader;
 
 namespace Excel_Macros_UI.ViewModel
@@ -31,6 +35,19 @@ namespace Excel_Macros_UI.ViewModel
             Routing.EventManager.ThemeChangedEvent += ThemeChanged;
             PreviousTheme = MainWindowViewModel.GetInstance().ActiveTheme.Name;
             LoadColors();
+
+            Main.GetInstance().OnAssembliesChanged += LoadAssemblies;
+            LoadAssemblies();
+        }
+
+        private void LoadAssemblies()
+        {
+            LibraryItems.Clear();
+
+            foreach (AssemblyDeclaration ad in Main.GetAssemblies())
+                LibraryItems.Add(new DisplayableListViewItem(ad));
+
+            OnPropertyChanged(nameof(LabelVisible));
         }
 
         private void ThemeChanged()
@@ -88,6 +105,55 @@ namespace Excel_Macros_UI.ViewModel
                     OnPropertyChanged(nameof(Model));
                 }
             }
+        }
+
+        #endregion
+
+        #region AddLibraryCommand
+
+        private ICommand m_AddLibraryCommand;
+        public ICommand AddLibraryCommand
+        {
+            get
+            {
+                if (m_AddLibraryCommand == null)
+                    m_AddLibraryCommand = new RelayCommand(call => AddLibrary());
+                return m_AddLibraryCommand;
+            }
+        }
+
+        private void AddLibrary()
+        {
+            string path = FileManager.ImportAssembly();
+
+            if (path == String.Empty)
+                return;
+
+            string name = System.Reflection.Assembly.LoadFrom(path).FullName;
+
+            AssemblyDeclaration ad = new AssemblyDeclaration(name, path, false);
+
+            Main.AddAssembly(ad);
+        }
+
+        #endregion
+
+        #region RemoveLibraryCommand
+
+        private ICommand m_RemoveLibraryCommand;
+        public ICommand RemoveLibraryCommand
+        {
+            get
+            {
+                if (m_RemoveLibraryCommand == null)
+                    m_RemoveLibraryCommand = new RelayCommand(call => RemoveLibrary());
+                return m_RemoveLibraryCommand;
+            }
+        }
+
+        private void RemoveLibrary()
+        {
+            Main.RemoveAssembly(SelectedLibrary.declaration);
         }
 
         #endregion
@@ -302,6 +368,28 @@ namespace Excel_Macros_UI.ViewModel
                 {
                     Model.RibbonItems = value;
                     OnPropertyChanged(nameof(RibbonItems));
+                    OnPropertyChanged(nameof(LabelVisible));
+                }
+            }
+        }
+
+        #endregion
+
+        #region LibraryItems
+
+        public ObservableCollection<DisplayableListViewItem> LibraryItems
+        {
+            get
+            {
+                return Model.LibraryItems;
+            }
+            set
+            {
+                if (Model.LibraryItems != value)
+                {
+                    Model.LibraryItems = value;
+                    OnPropertyChanged(nameof(LibraryItems));
+                    OnPropertyChanged(nameof(LabelVisible));
                 }
             }
         }
@@ -316,12 +404,24 @@ namespace Excel_Macros_UI.ViewModel
             {
                 return Model.LabelVisible;
             }
+        }
+
+        #endregion
+
+        #region SelectedLibrary
+
+        public DisplayableListViewItem SelectedLibrary
+        {
+            get
+            {
+                return Model.SelectedLibrary;
+            }
             set
             {
-                if(Model.LabelVisible != value)
+                if(Model.SelectedLibrary != value)
                 {
-                    Model.LabelVisible = value;
-                    OnPropertyChanged(nameof(LabelVisible));
+                    Model.SelectedLibrary = value;
+                    OnPropertyChanged(nameof(SelectedLibrary));
                 }
             }
         }
@@ -408,6 +508,7 @@ namespace Excel_Macros_UI.ViewModel
                     OnPropertyChanged(nameof(StyleActive));
                     OnPropertyChanged(nameof(LibraryActive));
                     OnPropertyChanged(nameof(RibbonActive));
+                    OnPropertyChanged(nameof(LabelVisible));
                 }
             }
         }
@@ -430,6 +531,7 @@ namespace Excel_Macros_UI.ViewModel
                     OnPropertyChanged(nameof(StyleActive));
                     OnPropertyChanged(nameof(LibraryActive));
                     OnPropertyChanged(nameof(RibbonActive));
+                    OnPropertyChanged(nameof(LabelVisible));
                 }
             }
         }

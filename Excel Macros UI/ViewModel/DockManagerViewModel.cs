@@ -21,6 +21,8 @@ namespace Excel_Macros_UI.ViewModel
 {
     public class DockManagerViewModel : Base.ViewModel
     {
+        public VisualEditorViewModel VisualEditor { get; internal set; }
+
         public DockManagerViewModel(IEnumerable<DocumentViewModel> DocumentViewModels)
         {
             Model = new DockManagerModel();
@@ -32,11 +34,9 @@ namespace Excel_Macros_UI.ViewModel
             Tools.Add(Console);
 
             {
-                VisualEditorViewModel vevm = new VisualEditorViewModel();
-                vevm.PropertyChanged += Document_PropertyChanged;
-
-                if (!vevm.IsClosed)
-                    Documents.Add(vevm);
+                VisualEditor = new VisualEditorViewModel();
+                VisualEditor.PropertyChanged += Document_PropertyChanged;
+                Documents.Add(VisualEditor);
             }
 
             foreach (DocumentViewModel document in DocumentViewModels)

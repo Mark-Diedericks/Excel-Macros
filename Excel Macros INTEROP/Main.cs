@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 30/07/2018
- * Version 1.0.14
+ * 02/08/2018
+ * Version 1.0.15
  * The main hub of the interop library
  */
 
@@ -64,6 +64,10 @@ namespace Excel_Macros_INTEROP
         public delegate void IOChangedEvent();
         public event IOChangedEvent OnIOChanged;
 
+        //OnAssembliesChanged event, for all Forms and GUIs
+        public delegate void AssembliesChangedEvent();
+        public event AssembliesChangedEvent OnAssembliesChanged;
+
         //OnMacroCountChanged event, for all Forms and GUIs
         public delegate void MacroCountChangedEvent();
         public event MacroCountChangedEvent OnMacroCountChanged;
@@ -90,7 +94,7 @@ namespace Excel_Macros_INTEROP
         //Instancing
         private static Main s_Instance;
 
-        public static void Initialize(Excel.Application application, Dispatcher dispatcher, Action OnLoaded, string RibbonMacros, string ActiveMacroRelativePath)
+        public static void Initialize(Excel.Application application, Dispatcher dispatcher, Action OnLoaded, string RibbonMacros, string ActiveMacroRelativePath, AssemblyDeclaration[] Libraries)
         {
             //Set local reference to excel application
             s_ExcelApplication = application;
@@ -141,10 +145,12 @@ namespace Excel_Macros_INTEROP
                     GetInstance().m_ActiveMacro = GetInstance().m_Macros.Keys.FirstOrDefault<Guid>();
 
                 //Get Assemblies
-                //if (Properties.Settings.Default.IncludedAssemblies != null)
-                //    GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>(Properties.Settings.Default.IncludedAssemblies);
-                //else
-                GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>();
+                if (Libraries != null)
+                    GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>(Libraries);
+                else
+                    GetInstance().m_Assemblies = new HashSet<AssemblyDeclaration>();
+
+                GetInstance().OnAssembliesChanged?.Invoke();
 
                 ui.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
                     OnLoaded?.Invoke();
@@ -262,11 +268,13 @@ namespace Excel_Macros_INTEROP
         public static void AddAssembly(AssemblyDeclaration ad)
         {
             GetInstance().m_Assemblies.Add(ad);
+            GetInstance().OnAssembliesChanged?.Invoke();
         }
 
         public static void RemoveAssembly(AssemblyDeclaration ad)
         {
             GetInstance().m_Assemblies.Remove(ad);
+            GetInstance().OnAssembliesChanged?.Invoke();
         }
 
         public static HashSet<AssemblyDeclaration> GetAssemblies()

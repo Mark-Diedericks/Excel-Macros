@@ -366,4 +366,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(SolutionDir)Dependencies\Blockly" "$(TargetDir)Blockly" /S /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

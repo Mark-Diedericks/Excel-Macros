@@ -1,7 +1,7 @@
 ﻿/*
  * Mark Diedericks
- * 30/06/2018
- * Version 1.0.3
+ * 02/08/2018
+ * Version 1.0.4
  * File explorer view model
  */
 
@@ -870,15 +870,25 @@ namespace Excel_Macros_UI.ViewModel
 
         public void CreateMacro(MacroType type)
         {
+            CreateMacro(type, null);
+        }
+
+        public void CreateMacro(MacroType type, Action<Guid> OnReturn)
+        {
             if (SelectedItem == null)
-                CreateMacro(null, type, "/");
-            else if(SelectedItem.IsFolder)
-                CreateMacro(SelectedItem, type, SelectedItem.Root + '/' + SelectedItem.Header);
+                CreateMacro(null, type, "/", OnReturn);
+            else if (SelectedItem.IsFolder)
+                CreateMacro(SelectedItem, type, SelectedItem.Root + '/' + SelectedItem.Header, OnReturn);
             else if (!SelectedItem.IsFolder)
-                CreateMacro(SelectedItem.Parent, type, SelectedItem.Root);
+                CreateMacro(SelectedItem.Parent, type, SelectedItem.Root, OnReturn);
         }
 
         public void CreateMacro(DisplayableTreeViewItem parent, MacroType type, string root)
+        {
+            CreateMacro(parent, type, root, null);
+        }
+
+        public void CreateMacro(DisplayableTreeViewItem parent, MacroType type, string root, Action<Guid> OnReturn)
         {
             if (m_IsCreating)
                 return;
@@ -938,6 +948,7 @@ namespace Excel_Macros_UI.ViewModel
                 item.IsInputting = false;
 
                 m_IsCreating = false;
+                OnReturn?.Invoke(id);
                 OpenMacro(id);
             };
 

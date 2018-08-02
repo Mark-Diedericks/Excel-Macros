@@ -1,10 +1,11 @@
 ﻿/*
  * Mark Diedericks
- * 30/06/2018
- * Version 1.0.1
+ * 02/08/2018
+ * Version 1.0.3
  * Settings menu model
  */
 
+using Excel_Macros_INTEROP;
 using Excel_Macros_UI.View;
 using Excel_Macros_UI.ViewModel;
 using System;
@@ -40,8 +41,8 @@ namespace Excel_Macros_UI.Model
             ClassColor = "";
             StatementColor = "";
             BooleanColor = "";
-            LabelVisible = true;
             RibbonItems = new ObservableCollection<DisplayableTreeViewItem>();
+            LibraryItems = new ObservableCollection<DisplayableListViewItem>();
             m_SettingsPage = SettingsMenuPage.Style;
         }
 
@@ -269,8 +270,50 @@ namespace Excel_Macros_UI.Model
                 {
                     m_RibbonItems = value;
                     OnPropertyChanged(nameof(RibbonItems));
+                    OnPropertyChanged(nameof(LabelVisible));
+                }
+            }
+        }
 
-                    LabelVisible = value.Count <= 0;
+        #endregion
+
+        #region LibraryItems
+
+        private ObservableCollection<DisplayableListViewItem> m_LibraryItems;
+        public ObservableCollection<DisplayableListViewItem> LibraryItems
+        {
+            get
+            {
+                return m_LibraryItems;
+            }
+            set
+            {
+                if (m_LibraryItems != value)
+                {
+                    m_LibraryItems = value;
+                    OnPropertyChanged(nameof(LibraryItems));
+                    OnPropertyChanged(nameof(LabelVisible));
+                }
+            }
+        }
+
+        #endregion
+
+        #region SelectedLibrary
+
+        private DisplayableListViewItem m_SelectedLibrary;
+        public DisplayableListViewItem SelectedLibrary
+        {
+            get
+            {
+                return m_SelectedLibrary;
+            }
+            set
+            {
+                if(m_SelectedLibrary != value)
+                {
+                    m_SelectedLibrary = value;
+                    OnPropertyChanged(nameof(SelectedLibrary));
                 }
             }
         }
@@ -279,20 +322,11 @@ namespace Excel_Macros_UI.Model
 
         #region LabelVisible
 
-        private bool m_LabelVisible;
         public bool LabelVisible
         {
             get
             {
-                return m_LabelVisible;
-            }
-            set
-            {
-                if(m_LabelVisible != value)
-                {
-                    m_LabelVisible = value;
-                    OnPropertyChanged(nameof(LabelVisible));
-                }
+                return RibbonActive ? RibbonItems.Count <= 0 : LibraryItems.Count <= 0;
             }
         }
 
@@ -383,6 +417,7 @@ namespace Excel_Macros_UI.Model
                     OnPropertyChanged(nameof(StyleActive));
                     OnPropertyChanged(nameof(LibraryActive));
                     OnPropertyChanged(nameof(RibbonActive));
+                    OnPropertyChanged(nameof(LabelVisible));
                 }
             }
         }
@@ -405,6 +440,7 @@ namespace Excel_Macros_UI.Model
                     OnPropertyChanged(nameof(StyleActive));
                     OnPropertyChanged(nameof(LibraryActive));
                     OnPropertyChanged(nameof(RibbonActive));
+                    OnPropertyChanged(nameof(LabelVisible));
                 }
             }
         }

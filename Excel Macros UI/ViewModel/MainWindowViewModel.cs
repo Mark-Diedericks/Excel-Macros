@@ -52,6 +52,13 @@ namespace Excel_Macros_UI.ViewModel
             DockManager = new DockManagerViewModel(Properties.Settings.Default.OpenDocuments);
 
             SettingsMenu = new SettingsMenuViewModel();
+
+            //VISUAL PYTHON CONVERT
+            DockManager.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(DockManager.ActiveDocument))
+                    OnPropertyChanged(nameof(IsVisual));
+            };
         }
 
         public static MainWindowViewModel GetInstance()
@@ -78,6 +85,56 @@ namespace Excel_Macros_UI.ViewModel
             if (MainWindow.GetInstance() != null)
                 MainWindow.GetInstance().Dispatcher.BeginInvoke(DispatcherPriority.Normal, a);
         }
+
+        //VISUAL PYTHON CONVERT
+        #region Visual Python Convert
+        
+        #region ConvertCommand
+
+        private ICommand m_ConvertCommand;
+        public ICommand ConvertCommand
+        {
+            get
+            {
+                if (m_ConvertCommand == null)
+                    m_ConvertCommand = new RelayCommand(call => CreateConvertedMacro());
+                return m_ConvertCommand;
+            }
+        }
+
+        private void CreateConvertedMacro()
+        {
+            if (DockManager.VisualEditor == null)
+                return;
+
+            string code = DockManager.VisualEditor.GetPythonCode();
+            MainWindowViewModel.GetInstance().DockManager.Explorer.CreateMacro(MacroType.PYTHON, new Action<Guid>((id) =>
+            {
+                IMacro macro = Main.GetMacro(id);
+
+                if (macro != null)
+                {
+                    macro.SetSource(code);
+                    macro.Save();
+                }
+            }));
+        }
+
+        #endregion
+
+        #region IsVisual
+
+        public bool IsVisual
+        {
+            get
+            {
+                return DockManager.ActiveDocument is VisualEditorViewModel;
+            }
+        }
+
+        #endregion
+
+        #endregion
 
         #region Model
 

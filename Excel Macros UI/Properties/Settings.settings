@@ -53,5 +53,8 @@
     <Setting Name="OpenDocuments" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="IncludedLibraries" Type="Excel_Macros_INTEROP.Libraries.AssemblyDeclaration[]" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

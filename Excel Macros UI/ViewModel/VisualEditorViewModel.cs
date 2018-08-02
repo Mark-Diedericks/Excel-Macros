@@ -1,19 +1,21 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2018
- * Version 1.0.0
+ * 02/08/2018
+ * Version 1.0.3
  * Visual editor view model
  */
 
 using Excel_Macros_INTEROP;
 using Excel_Macros_INTEROP.Macros;
 using Excel_Macros_UI.Model;
+using Excel_Macros_UI.Routing;
 using Excel_Macros_UI.ViewModel.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Excel_Macros_UI.ViewModel
 {
@@ -34,25 +36,11 @@ namespace Excel_Macros_UI.ViewModel
 
         public override void Save(Action OnComplete)
         {
-            //Main.GetMacro(Macro).SetSource(Source);
-            //Main.GetMacro(Macro).Save();
             base.Stop(OnComplete);
         }
 
         public override void Start(Action OnComplete)
         {
-            /*IMacro macro = Main.GetMacro(Macro);
-            MacroDeclaration declaration = Main.GetDeclaration(Macro);
-
-            if (macro == null || declaration == null || declaration.type != MacroType.BLOCKLY)
-            {
-                OnComplete?.Invoke();
-                return;
-            }
-
-            macro.SetSource(Source);
-            macro.ExecuteDebug(OnComplete, MainWindowViewModel.GetInstance().AsyncExecution);*/
-
             Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().ExecuteMacro(GetPythonCode(), OnComplete, MainWindowViewModel.GetInstance().AsyncExecution);
             base.Start(null);
         }

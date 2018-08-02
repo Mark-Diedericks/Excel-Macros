@@ -1,8 +1,8 @@
 ﻿/*
  * Mark Diedericks
- * 09/06/2018
- * Version 1.0.0
- * Manages all system file related tasks
+ * 02/08/2018
+ * Version 1.0.7
+ * Manages all system file related tasks, saving, loading, copying, deleting, etc.
  */
 
 using Excel_Macros_INTEROP.Macros;
@@ -19,14 +19,11 @@ namespace Excel_Macros_INTEROP
 {
     public class FileManager
     {
+        public static readonly string ASSEMBLY_FILE_EXT = ".dll";
+        public static readonly string ASSEMBLY_FILTER = "Assembly | *" + ASSEMBLY_FILE_EXT;
 
         public static readonly string PYTHON_FILE_EXT = ".ipy";
         public static readonly string PYTHON_FILTER = "Python Macro | *" + PYTHON_FILE_EXT;
-
-        public static readonly string BLOCKLY_FILE_EXT = ".xml";
-        public static readonly string BLOCKLY_FILTER = "Node Macro | *" + BLOCKLY_FILE_EXT;
-        
-        public static readonly string MACRO_FILTER = "Macro | *" + BLOCKLY_FILE_EXT + ", " + PYTHON_FILE_EXT;
 
         #region DIRECTORIES
 
@@ -142,7 +139,6 @@ namespace Excel_Macros_INTEROP
             switch (type)
             {
                 case MacroType.PYTHON: return LoadPythonScript(relativepath);
-                case MacroType.BLOCKLY: return LoadBlocklyScript(relativepath);
             }
 
             return null;
@@ -156,9 +152,6 @@ namespace Excel_Macros_INTEROP
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                //if (Main.GetMacroManager().Visibility == System.Windows.Visibility.Visible)
-                //    Main.GetMacroManager().TryFocus();
-
                 Main.FireShowFocusEvent();
 
                 try
@@ -171,10 +164,18 @@ namespace Excel_Macros_INTEROP
                 }
             }
 
-            //if (Main.GetMacroManager().Visibility == System.Windows.Visibility.Visible)
-            //    Main.GetMacroManager().TryFocus();
-
             Main.FireShowFocusEvent();
+        }
+
+        public static string ImportAssembly()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = ASSEMBLY_FILTER;
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+                return ofd.FileName;
+
+            return String.Empty;
         }
 
         public static void ImportMacro(string relativedir, Action<Guid> OnReturn)
@@ -379,46 +380,15 @@ namespace Excel_Macros_INTEROP
             return null;
         }
 
-        private static VisualMacro LoadBlocklyScript(string relativepath)
-        {
-            try
-            {
-                string fullpath = CalculateFullPath(relativepath);
-
-                FileInfo fi = new FileInfo(fullpath);
-                if (!fi.Exists)
-                    return null;
-
-                string source = File.ReadAllText(fullpath.Trim());
-                return new VisualMacro(source);
-            }
-            catch (Exception e)
-            {
-                DisplayOkMessage("Could not open macro: \"" + relativepath + "\". \n\n" + e.Message, "Loading Error");
-            }
-
-            return null;
-        }
-
         #endregion
 
         private static void DisplayOkMessage(string message, string caption)
         {
-            /*if (Main.GetMacroManager() == null)
-                MessageBox.Show(message, caption, MessageBoxButtons.OK);
-            else
-                Main.GetMacroManager().DisplayOkMessage(message, caption);*/
-
             MessageManager.DisplayOkMessage(message, caption);
         }
 
         private static void DisplayYesNoMessage(string message, string caption, Action<bool> OnReturn)
         {
-            /*if (Main.GetMacroManager() == null)
-                return MessageBox.Show(message, caption, MessageBoxButtons.YesNo) == DialogResult.Yes;
-            else
-                return await Main.GetMacroManager().DisplayYesNoMessage(message, caption);*/
-
             MessageManager.DisplayYesNoMessage(message, caption, OnReturn);
         }
 

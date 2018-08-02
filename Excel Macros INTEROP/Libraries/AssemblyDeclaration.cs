@@ -21,8 +21,9 @@ namespace Excel_Macros_INTEROP.Libraries
     {
         public string displayname;
         public string filepath;
+        public bool enabled;
 
-        public AssemblyDeclaration(string dn, string ln)
+        public AssemblyDeclaration(string dn, string ln, bool enabled)
         {
             displayname = dn;
             filepath = ln;
@@ -41,7 +42,7 @@ namespace Excel_Macros_INTEROP.Libraries
             if (value is string)
             {
                 string[] parts = ((string)value).Split(new char[] { ',' });
-                AssemblyDeclaration assembly = new AssemblyDeclaration(parts.Length > 0 ? parts[0] : "", parts.Length > 2 ? parts[2] : "");
+                AssemblyDeclaration assembly = new AssemblyDeclaration(parts.Length > 0 ? parts[0] : "", parts.Length > 2 ? parts[2] : "", parts.Length > 2 ? bool.Parse(parts[2]) : false);
                 return assembly;
             }
 
@@ -53,7 +54,7 @@ namespace Excel_Macros_INTEROP.Libraries
             if (destinationType == typeof(string))
             {
                 AssemblyDeclaration assembly = value as AssemblyDeclaration;
-                return string.Format("{0},{1}", assembly.displayname, assembly.filepath);
+                return string.Format("{0},{1},{2}", assembly.displayname, assembly.filepath, assembly.enabled);
             }
             return base.ConvertTo(context, culture, value, destinationType);
         }

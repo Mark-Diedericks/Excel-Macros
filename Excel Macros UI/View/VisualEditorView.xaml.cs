@@ -1,10 +1,10 @@
 ﻿/*
  * Mark Diedericks
- * 17/06/2018
- * Version 1.0.0
+ * 02/08/2018
+ * Version 1.0.3
  * Visual Editor UI Control
  */
- 
+
 using Excel_Macros_UI.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -34,6 +34,7 @@ namespace Excel_Macros_UI.View
         {
             InitializeComponent();
 
+            wbBlockly.LoadCompleted += (s, e) => { SetSize(); };
             wbBlockly.Source = new Uri("pack://siteoforigin:,,,/Resources/BlocklyHost.html", UriKind.RelativeOrAbsolute);
             wbBlockly.LostFocus += (s, e) => { MainWindowViewModel.GetInstance().TryFocus(); };
         }
@@ -48,9 +49,23 @@ namespace Excel_Macros_UI.View
             vm.InvokeEngine += InvokeEngine;
         }
 
+        private void SetSize()
+        {
+            if (!wbBlockly.IsLoaded)
+                return;
+
+            wbBlockly.InvokeScript("resize", new object[] { });
+            Panel.SetZIndex(wbBlockly, 1);
+        }
+
         private string InvokeEngine()
         {
             return wbBlockly.InvokeScript("showCode", new object[] { }).ToString();
+        }
+
+        private void wbBlockly_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetSize();
         }
     }
 }
