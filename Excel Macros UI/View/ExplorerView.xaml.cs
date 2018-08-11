@@ -72,7 +72,7 @@ namespace Excel_Macros_UI.View
         /// <param name="e"></param>
         private void ExplorerView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            ((ExplorerViewModel)DataContext).FocusEvent += delegate () { tvMacroView.Focus(); };
+            ((ExplorerViewModel)DataContext).FocusEvent = delegate () { tvMacroView.Focus(); };
         }
 
         /// <summary>
