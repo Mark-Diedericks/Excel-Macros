@@ -7,9 +7,9 @@ using System.Security;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Excel Macros")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Advanced Macro Development Kit")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Mark Diedericks")]
 [assembly: AssemblyProduct("Excel Macros")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]

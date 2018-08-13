@@ -1,0 +1,9 @@
+No save warning on Excel exit.
+No find/replace functionality (MenuItems).
+VisualEditor's script errors.
+VisualEditor always on top.
+Libraries are not used.
+Cannot create Macro if directory does not exist, doesn't create the directory.
+Custom ribbon button extra.
+Asynchronous execution cannot be terminated, 'Stop' button is redundant.
+VSTO installer doesn't setup user's file system for the AddIn.

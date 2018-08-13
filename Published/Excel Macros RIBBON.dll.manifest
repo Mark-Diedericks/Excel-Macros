@@ -1,0 +1,3686 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="Excel Macros RIBBON.dll" version="1.0.0.0" publicKeyToken="a75eae95531b48b9" language="neutral" processorArchitecture="msil" type="win32" />
+  <description xmlns="urn:schemas-microsoft-com:asm.v1">Advanced Macro Development Kit</description>
+  <application />
+  <entryPoint>
+    <co.v1:customHostSpecified />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.CSharp" version="4.0.0.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Office.Tools" version="10.0.0.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" processorArchitecture="msil" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Office.Tools.Common" version="10.0.0.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" processorArchitecture="msil" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Office.Tools.Excel" version="10.0.0.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" processorArchitecture="msil" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Office.Tools.v4.0.Framework" version="10.0.0.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" processorArchitecture="msil" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.VisualStudio.Tools.Applications.Runtime" version="10.0.0.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" processorArchitecture="msil" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="stdole" version="7.0.3300.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="System.Numerics" version="4.0.0.0" publicKeyToken="B77A5C561934E089" language="neutral" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="System.Runtime.WindowsRuntime" version="4.0.0.0" publicKeyToken="B77A5C561934E089" language="neutral" processorArchitecture="msil" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="System.Xaml" version="4.0.0.0" publicKeyToken="B77A5C561934E089" language="neutral" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AvalonDock.Themes.VS2012.dll" size="167936">
+      <assemblyIdentity name="AvalonDock.Themes.VS2012" version="2.0.1771.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>4KB20vLjW1HGUiyROCtGbx/NZsHLQ1cmPkwh+gMLcqc=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ControlzEx.dll" size="180224">
+      <assemblyIdentity name="ControlzEx" version="3.0.2.4" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>JBy3cBfcSOfPrEv70AWrtmQyufS/jP1PgZtijZD5f+A=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Excel Macros INTEROP.dll" size="44544">
+      <assemblyIdentity name="Excel Macros INTEROP" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>uzA91FPaLTAHxQZW4ynogIfvDPKrRtLUegf6R1QKw80=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Excel Macros RIBBON.dll" size="2278912">
+      <assemblyIdentity name="Excel Macros RIBBON" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>hgOMHYc7mjcnLAdh3bVKDg9Zu6+HnANm24p4d1KC5XM=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Excel Macros UI.dll" size="2458624">
+      <assemblyIdentity name="Excel Macros UI" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>Ey2a9IKVHNpG2eKIS16s2CLA7cLdPrS0sKV8L8clGro=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ICSharpCode.AvalonEdit.dll" size="626688">
+      <assemblyIdentity name="ICSharpCode.AvalonEdit" version="5.0.3.0" publicKeyToken="9CC39BE672370310" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>BY848z8/mfkEq5WIRHojQ0bIWXGEBLTopSNnPtGc2+c=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="IronPython.dll" size="1801216">
+      <assemblyIdentity name="IronPython" version="2.7.8.0" publicKeyToken="7F709C5B713576E1" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>jgzEYEt62WxEAY683+HCyOzJ/uAdR9zRj3AaXHbS4Sc=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MahApps.Metro.dll" size="1097216">
+      <assemblyIdentity name="MahApps.Metro" version="1.6.5.1" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>CWWXjcLsWdBx8guO44Bvmp4kwMRFg6QWueZpQBSXEi4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MahApps.Metro.IconPacks.dll" size="7041536">
+      <assemblyIdentity name="MahApps.Metro.IconPacks" version="2.3.0.4" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>DVfBzQDoeWOI/ST5lgujwvt/NBTe/rexljYo0EOC3WU=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Dynamic.dll" size="1069568">
+      <assemblyIdentity name="Microsoft.Dynamic" version="1.2.0.0" publicKeyToken="7F709C5B713576E1" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>5iQSbwYoeFrF2VWc98rYv3E8w0NE1+1ixxFfP9dJbbw=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Office.Tools.Common.v4.0.Utilities.dll" size="32664">
+      <assemblyIdentity name="Microsoft.Office.Tools.Common.v4.0.Utilities" version="10.0.0.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>jLCTF8Mm6bD4PDN+rnzN6q0+ReXaNgPh68kMWgatFwI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Scripting.dll" size="140800">
+      <assemblyIdentity name="Microsoft.Scripting" version="1.2.0.0" publicKeyToken="7F709C5B713576E1" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>8ORTQ1GLeDdEZlmMBScWoK3ZGnTh0DqHwSTNkWOVFMA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Scripting.Metadata.dll" size="89600">
+      <assemblyIdentity name="Microsoft.Scripting.Metadata" version="1.2.0.0" publicKeyToken="7F709C5B713576E1" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>vgw1s3DsaZvgFKj/pq3nFMkBjrW4k3h/dq9N/CZDbqE=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Toolkit.Win32.UI.Controls.dll" size="153648">
+      <assemblyIdentity name="Microsoft.Toolkit.Win32.UI.Controls" version="3.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>SJX16gOzeLI6q1DC36G6BHaiI2mEFBekZrwgM6j9weQ=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Windows.Interactivity.dll" size="55904">
+      <assemblyIdentity name="System.Windows.Interactivity" version="4.5.0.0" publicKeyToken="31BF3856AD364E35" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>k/vFnkiAr8nxNsOsCXatp/P6p8rO3OXIJLM3y8qdLr8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Xceed.Wpf.AvalonDock.dll" size="427008">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>hnaMmsgLdLyZ9FsuxLxF3O8GZoG1P7LXJegxRbGJw0Q=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="de\Xceed.Wpf.AvalonDock.resources.dll" size="6144">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.resources" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="de" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>IKyX2XN8t1brrPpPUA6yx9KA37Ylh8LUtA96F/xwWRk=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="es\Xceed.Wpf.AvalonDock.resources.dll" size="6144">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.resources" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="es" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>foPbChTqWAgi3K9zAZ5ujteeVvmIJ5atYZbM/l8oqUM=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="fr\Xceed.Wpf.AvalonDock.resources.dll" size="6144">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.resources" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="fr" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>akg+fTgBS79OlGwFcF1wRXsfNnk5Ovk4IUYUSHuOtUA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="hu\Xceed.Wpf.AvalonDock.resources.dll" size="6144">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.resources" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="hu" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>sdFzWtupLN0p+3xRhV7vmLZtxnC7H5mRHTWSznBxnJc=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="it\Xceed.Wpf.AvalonDock.resources.dll" size="6144">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.resources" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="it" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>iXLKLLwDG7PEROkHdc8GW6+m37KkWHEZR94h79clWok=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="pt-BR\Xceed.Wpf.AvalonDock.resources.dll" size="6144">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.resources" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="pt-BR" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>zNPr8+H64RJ9tdk1HovkemG+UnqLFtdfhTfAK8FcRhU=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ro\Xceed.Wpf.AvalonDock.resources.dll" size="6144">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.resources" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="ro" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>lFG418+zkldcKuBuCEQPvMg2KQBvZxwTwu/JCaa1aP8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ru\Xceed.Wpf.AvalonDock.resources.dll" size="6144">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.resources" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="ru" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>rtajMG3v+qptscCLpkRDwiqZKkDrfc1R4Gfgen3/Cc0=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="sv\Xceed.Wpf.AvalonDock.resources.dll" size="6144">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.resources" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="sv" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>ggat0MGRFVv29/D9aYglqvtZ3r3N6CQYv+aUMn3zUAc=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="zh-Hans\Xceed.Wpf.AvalonDock.resources.dll" size="6144">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.resources" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="zh-Hans" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>QXbiyPHS29/l1Ex5KdoUEV1JbpHaUZ0rbGi9Af6Uy1g=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Xceed.Wpf.AvalonDock.Themes.Aero.dll" size="87040">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.Themes.Aero" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>ocFiUKPMuWdrPN3MxpP6gZZW8b+Q4bstlA9MijMDK/Q=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Xceed.Wpf.AvalonDock.Themes.Metro.dll" size="79872">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.Themes.Metro" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>hvWfNv903DxJto7mnuZ0cmLN4cFEy812qcHRBcwyUlM=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Xceed.Wpf.AvalonDock.Themes.VS2010.dll" size="84480">
+      <assemblyIdentity name="Xceed.Wpf.AvalonDock.Themes.VS2010" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>wPUNNjhPeSUtKYTcr9qcy/Taly7cLAnyy4jcCvyHr08=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Xceed.Wpf.DataGrid.dll" size="2435584">
+      <assemblyIdentity name="Xceed.Wpf.DataGrid" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>MNmwpN2KVLFP6qFQsfcxe6xcSRo+rF/unPzkcJcp1ko=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Xceed.Wpf.Toolkit.dll" size="1104384">
+      <assemblyIdentity name="Xceed.Wpf.Toolkit" version="3.4.0.0" publicKeyToken="3E4669D2F30244F4" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>cRABEl/2fOnIBBvu2qw/pkQdZPOyAttT40AQzULhbtA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="Blockly\.gitignore" size="258">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>dY9oAOKJSURNt1kH7kf3EBRXIKWu4djskSak2WDJ5/k=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\app.component.js" size="3959">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>esj70VqxhKpCEhMw7euIg4I/Jr8eKdXmFvnv4Ci+T/U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\audio.service.js" size="2944">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>SUFaX8Cme4qq51zcBzehMHvHwe/o5U6wRmu8R/7MFko=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\block-connection.service.js" size="5067">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>e8vQMEUIiBcZR+7R9M4syRH2sgxIzrwNvjNJYi2SzfQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\block-options-modal.component.js" size="5041">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Et/jv5NQ7Dn7OWg9W4EvqjvJGEMZuix8yodGD2F7f6E=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\block-options-modal.service.js" size="1898">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>pO40Qjr3ei2J+TEzUu7QdVH8SwkXsoq+niRkByWk4ds=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\commonModal.js" size="2174">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>heRXwGABHD26xpjzdSN9BWUPathonCFFa2bSaSMWUdc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\field-segment.component.js" size="7071">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ZmjfAhz8Aw6G6UHqx4YtVxlOMOPmnchrpUN+KjmSicM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\keyboard-input.service.js" size="1857">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>SdEu2j7tXZejw2vYVWerOk6E6gv13w9ekwkWp5u9/VY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\libs\angular2-all.umd.min.js" size="647627">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>vm2s498KycOgS+5g0wUDQdwxk5yTaJOcGRBTeUVbk1c=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\libs\angular2-polyfills.min.js" size="28745">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>UJicHKzfzMspAPnDxFGILIh2wF9Ocp/yjkgTGmseuvY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\libs\es6-shim.min.js" size="55996">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>80PYc2/hgAhSbRZzRRPRG4sevz3UYV8p2gFex6/6vcI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\libs\Rx.umd.min.js" size="195332">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HGHKzoOe7z2XWbel7kftSIF6pDCqtD/anDOS5UrqzVA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\media\accessible.css" size="1629">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>qzqloTVJku1bsj+UAhENcAFGIlMg+J7fF5XExhuouYU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\media\click.mp3" size="2304">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>EEjyU5rEfk6qS9FoiWjA17mVa9b+9QdkTuUTGSTGUXw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\media\click.wav" size="3782">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HCGUoNEqcdQW2XZlxDeosLD7g8FLJqX81wEwieFkhFs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\media\delete.mp3" size="3668">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>/h5tVu2XFFwtjz4MDUa11TEJuPAt5z13KBoy1vhKeLY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\media\delete.wav" size="14248">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>DVw05VDxHsP1D7vdA1+XrU2sJQpuvoVicYA/GpQ8k/U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\media\oops.mp3" size="6846">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>0kH3eTFQCyZviEXLbj2dY7skRZRTupJ4YfzyuNOl/FU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\media\oops.wav" size="31292">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>VifY1IL24RqhezEmJiob32K/ZmJ1ugNyhvNAP98RHpw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\messages.js" size="2252">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>siiVhrYrEJJ9wnJDNGvtTbSjpVa4YsLm9y8AqPHZyrg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\notifications.service.js" size="1933">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>PBD5xEjsCaHq3HvYUeQZL8t7myAYe/+QDNbclv5c0YE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\sidebar.component.js" size="4920">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>JctRBG2eZOzwqBD6TjV2E7cqI67ghBk8USsvq+IWrg8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\toolbox-modal.component.js" size="6895">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>zxrTj1yByVqLindsWyzvHzqWZImzr/jAcXfWn6MEUOQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\toolbox-modal.service.js" size="8199">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>4dEF0brJSR+u4C7QI/Iq77Of3XEsJcBCRXN8DwmYIDo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\translate.pipe.js" size="1012">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>uPKSjufa9hxDaCmm1GlWeqaaGhbo1yhmLo55PhBAPJs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\tree.service.js" size="22659">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ePDwl+gNLsi4Rguy7QCKi7+un5obQZPLfOzaJVQbuxs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\utils.service.js" size="1514">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>mX2/6XuUuVdGgMvzi8GBMmYp/3VtmsqNyDJeD1f3V1w=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\variable-add-modal.component.js" size="4181">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>vzDZkVPs0ZWSkJhM6PjjvXLXT/xMMpEDJX4QZOHECEA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\variable-modal.service.js" size="2907">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ucDn15iPXEYB9fRJQBaulYWvMswBJQgQxP6o3RynVmQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\variable-remove-modal.component.js" size="4359">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>3f6una/x52fuUeuDufkdpRNKAWgBgj0uehodhSoFufM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\variable-rename-modal.component.js" size="4366">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>za1Z8mKjJI1Ek8onZfQtaOr3QgixepruVKS+wZ+d5/A=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\workspace.component.js" size="3744">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>mOvlSjFyTg+D2DNI7J2uzjfKdj/HjnTCjOpxbXLY69g=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\accessible\workspace-block.component.js" size="8340">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8GRtfZqixxprvV4WRXsC49VVVmjTxHFjaXmMusoe/hI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\appengine\apple-touch-icon.png" size="4025">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>tVM4QFOfOliF7fUYNxsJWEld9F8dd5k6jSu6OTlZoC8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\appengine\favicon.ico" size="5430">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>b17JPHsySZgr7gTsJcW3EMF7uqnwMVsMKAqaA4V45Oo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\appengine\README.txt" size="1323">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ZGAUEZ+QyGRtkUXQPNOdPXk/mMmNzN+63Nl7XSJyMJE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\appengine\redirect.html" size="2167">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>9RNWaOq7nsdQP30o+IY4O5rbe2DQGpWFSSy+BSeROYY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\appengine\robots.txt" size="33">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>pN9O+2rG6TgGNdo7DmGdd2kEgyvzxiFYcwRAsWfS3fc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\appengine\storage.js" size="6783">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>+QQnfGBNiVTeF61TOdSceZmZ36mf4a6QsD4rUKC+MyA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blockly_accessible_compressed.js" size="831220">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>EMGdVnlyLjXK5dnN6Txk2p1NLV9XwGBKav2To5JyYZU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blockly_accessible_uncompressed.js" size="505493">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lBB0602VmoPhw0hRRmq4QP9Lt9GbKGSZcZIgJkbLGGg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blockly_compressed.js" size="783763">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>e5p92mFPOdhPRUS4PaXt6winiaLCHQ1bI+GWfvYGcPY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blockly_uncompressed.js" size="499096">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>C/FCLfyAJg5yBLMQBjK8yusMMumHLBzIT5UTowCRoCE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blocks\colour.js" size="3790">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>fN0feFYvgG/Ur6/mjfReYdiIU3Y3MGzrPm8gt07PO2Q=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blocks\lists.js" size="28753">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>G9/unBX7YxsAlK/vMEVhWEgfrVXhy8HS+L0Odr4k79A=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blocks\logic.js" size="17986">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>oVaWpmC/4d1z5Wt7FJjt2vnABl9WCfoGsxrsEDR3Mo8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blocks\loops.js" size="10182">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>dQkvuURCEtwtfbrsiBLKvMpNXi0AgZEPyH96lRQ9jN4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blocks\math.js" size="15675">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>DRL3PSFvPBvaGMy4w3YAbq4Ca7hNS7SKLL5S6XZtfCk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blocks\procedures.js" size="35959">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>kj9IpfLliAPuQv5xMYCiviFTJSJSG+nqVebtgmo3JD0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blocks\text.js" size="27596">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>gwJ6DTbjBP75ukx5oZ66J5ePBXUTcFr7EEkl9+8S2cI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blocks\variables.js" size="4145">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>0LxKqU7DJldJqOPcJAoJE8W6uJ3fwsdrKD0g04TKtOc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blocks\variables_dynamic.js" size="4529">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>T3Pmye3jig4pnIgq8FNB4fznbq8/IyjJQlXzjUf/9XI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\blocks_compressed.js" size="71022">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>yzEDkVkYUkaTD0I+xK07iIBS0uMH9oGy50k1Gl1nuDk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\block.js" size="49615">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>v8VY3PEt22MAwkcwGebO+k4nb3B8WEISJmZUh3583jI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\block_animations.js" size="6991">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ikMp5c1NQgRGsGq6Uh9Nvle21xcGm3FPYZRUQtx8VK4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\block_drag_surface.js" size="7463">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>QFID6rJDgFjTYC/ByF8DyM60axT2kiKfRa1guf2Mw4U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\block_dragger.js" size="11172">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>RHMjnizSd/4vFRTF0M5xCOOsJ0tWNrsNLQWOMDufVDU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\block_events.js" size="15706">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>y+/r+wQeZE8o2JT96VuKodl5xsL9TibVd8+6RO9WuIc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\block_render_svg.js" size="41186">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>sW9N0j8BtYpfqwMh20JnIEElUN0t3G8NNW8yW5AIB5Y=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\block_svg.js" size="41969">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>9fEI2MvfdBKrk0bGIEj10txKZARtsLN2ayVkyLINil4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\blockly.js" size="22158">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>bo05yNyR1+/bG58kZVU/qol8k1S8L9ejP1DsAY6AGMs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\blocks.js" size="1084">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>hq6yZYBMwkExe0j0YXDU507XOgO8hiACOPbpp4HndI4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\bubble.js" size="20629">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>9YkDizH/78G8TLoUrPCNI924YZF6i3gAwSEohTrxdJs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\bubble_dragger.js" size="9041">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>/1/g123WJUXyyK6r9RziuKeYpuWnWsfnliTY/gL1YY0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\comment.js" size="8971">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>pAQGxSI0ugf8t4bmas2G12RoHrT6TyIwyDjLPgd8SL4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\connection.js" size="21928">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>GinIrXbwvBpsxfcj15NvxfTEo9T7T+zEHzafRC/nqBw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\connection_db.js" size="9447">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>vyfwkNm0Jnog6z5liqSaaBw94ockcaglzpH2t8CTY80=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\constants.js" size="6342">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>W9JXeknPoezVOzUDSOMMKx8tA5S1//V0ztFYYRxPKwU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\contextmenu.js" size="13231">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>omJcv7A1QtRh/6Px4lbEBACWJigJXEOJT5amc+34Hnw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\css.js" size="23130">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>TuzjGp+MjN1HK1+wTG4H+f5w3+nw3Wc0y+MeIEaB87w=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\dragged_connection_manager.js" size="8282">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>GGuzRsXp8bllL7bn3HOBS/9GdXZld6+imz+E+XwhkUU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\events.js" size="11208">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>mb75ZEwKW0aWDWGOO7WDcitFrFEpTfmEKyx0DBYO9gk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\events_abstract.js" size="2886">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>jtiZtaqkRmPQGz3+kDA7QeBJjXoN82nQyW6pB8bUepI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\extensions.js" size="16771">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>4/Lt3cgWLONQUDMr8U7tYS1KjJpuS8M/p4KQbp3ULSc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field.js" size="17562">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>iYIbL+YaMY9bLhWnwnpFcFCXrvGnOwB9rhkhlPYic+g=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field_angle.js" size="10651">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>fdTahkcO7WG1YcIHZOXDMW/YULEo9I+sqwM4p9029GQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field_checkbox.js" size="4182">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>otcERfA9ndxAyFBWJ7BBiIe8OOO/6Pji43U3Kl0wV3U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field_colour.js" size="7133">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>rTtM6H/v+WgHkq4t75hbcVAQyp2mCrxaQLfMdhd0WJo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field_date.js" size="9418">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>//nVqBml2Ba16dNVnZ0gSqGARheT1KlNS8a1qNsLoVg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field_dropdown.js" size="18598">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>n7MdwWdZd7zjOfnePHI9HXq3Kj1QvWrIcpZ2ixGoMLw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field_image.js" size="5933">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>jC3JbjtbxlOOJB+oxoGWzpy6k+7jNoGmj4V1ESupqvw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field_label.js" size="3500">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>x7iBnJxFoXC0YM//b0LHn5iavNcdss9efjW1PKOuIRg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field_number.js" size="4331">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>JOsh71p+OCs/6lyLk8+YVLzqbRPp69kHEtawUtgJHow=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field_textinput.js" size="13182">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>3Pki/8N6M8P6Sp3wDrt65Q+xn8vp4PWY7SR7RHIy5BU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\field_variable.js" size="12346">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>7p1MpMcUx3UhFiPqi2g9qNrw0X46CNCdhbbhBXm8Ezw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\flyout_base.js" size="25940">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>xzApJ80Np1dWciN6qnpGjNwnPmT1iaFG7cOrOgDAsXM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\flyout_button.js" size="6929">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>OhXYlKQWW11i3UtUmxDOEcF5oyyk9N1LoA0jTi4vpZw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\flyout_dragger.js" size="2578">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FyVrBpJ/3E8mtYjCc/+96n6rzPvumVnjIlyR1yLF96g=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\flyout_horizontal.js" size="12419">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>t0mwj0YoDgSCn8B8mFd8NqdaogTxs2ayAcmUEGaVfGA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\flyout_vertical.js" size="14181">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lSDm1cq0dTRZnzRKgSvA0JJ4w9ZyLBdMOlBEYB8uvK0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\generator.js" size="14847">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>3/csyZfN/2v42PN2B64npKyq5MXKjd+OmAmq7Ff+F7o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\gesture.js" size="28193">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>jI6XgwEqKuiIRICruNKqHqK168FJXYrTEfZjesEJbKo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\grid.js" size="6507">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>+9eAPqYcEhGFnzX3wci4fMi5rvFe/nm+m/zOFqaJ+4U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\icon.js" size="5396">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Dg6Nuio8KxhR9ts0DZnIOEWYTYXYf3nbhZYIjRQYsX0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\inject.js" size="15338">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>C5c5Pe6xmZk11Sh0TGifRbI4NjEASFRVQC5GtXBvWoc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\input.js" size="7330">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>u6zFnHNaJG6K6g2ZAdtroX6+1eSxq3DeGDJyNvkzXEQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\msg.js" size="1736">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lWUFHZLVg9xcyXaiyjINH3YZKmRxJHN5+LSiNmPoNVg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\mutator.js" size="15081">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>66WfwCJjpGszG7p25DQ4hbH6xmIbRtY0a1+QSksdYPQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\names.js" size="6809">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>19wpzrx6cv7c6ugUtK/yg2Xd92a4U6LgwT7sIQnF3qk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\options.js" size="7498">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>9ds/KvaqulxCGY3zMEqUh0+eBvX8DHwWHHYtfj5DJiE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\procedures.js" size="11107">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>82oITAqdPgeusjzBXBRPlSIQARm2FtHAJ0COtWCZpNk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\rendered_connection.js" size="14276">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>wBiIfO0vvYGAgaY1c9XcpuXPyXB92f6izhHhfBYDJ7E=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\scrollbar.js" size="28818">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>CrKTVB2326dMsUIsikoaGhPef6t+LRYE0aViX4ftBhA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\toolbox.js" size="22004">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>2j85G/O8FDVVlL1zH7vMvFunu86XIPHQNc7uli0xYFY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\tooltip.js" size="10085">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>0Gg5Ro1L5dWnpyVjuR+d6XYxfqWaZm5DwbZoY3/EbOg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\touch.js" size="8343">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>1DalZUd/3l755WSwD9GyVFiNkweDW+8vfT9f8j7rzwk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\touch_gesture.js" size="9605">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>pvEwNkuBH3gmL8UT1kZU53zAOPnTpAnGbi24fuvUN00=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\trashcan.js" size="9397">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Q9RPb6wTI3xdVv98IWa2fodrpvZeE/cKmn1RDYzuyDM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\ui_events.js" size="2728">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>1JRgZtmpS0UpIPdUqT1qETmHBiUipi6KZR3ogWp4wMY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\ui_menu_utils.js" size="2350">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lPOBI0OxnAJ9zUeMlQtARm6Gz8rq2ogUS4InJpvx8iM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\utils.js" size="29814">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>MNlH1hPADIGNF/d9Zl7M61sWO/dkNIJ7xb9Ar6BHCxM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\variable_events.js" size="7017">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>uEAbRKI56kJ5J9b1upZngBp4BXodq1+cEu5ouNYoU+I=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\variable_map.js" size="13022">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>87fOzYC1LEbZBlL2dX4rudjryI6DztmGFihEzCRBchs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\variable_model.js" size="3174">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>N0/snBv/J2DDMwvhhA9/tnS84jH+SPXIuKAO98w1bFk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\variables.js" size="21849">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Zia3XuyRwqKx9HTKdBFEo1IlX80ybVUKBNCo4twfefw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\variables_dynamic.js" size="4444">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>0YqjjME8+TNP9C0MtD3kt1hKcag7LqgO6Jw7DBrjWxQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\warning.js" size="5700">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>/9XsLpuiz6BXyO6nHqp5MfnGquYxGzUqpnadzBnyFbk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\widgetdiv.js" size="8987">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>KnqlP4mDO+MaAD5cZBJICQUEbztrLG/S6WUoWJVJ2PY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\workspace.js" size="19227">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>3lgibC2Zq+2n48vbMHsBgB72mRQe/xYlNSA+5Qg0S0o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\workspace_audio.js" size="4646">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>6pONGMg91ClsSoY4JomikAum2R+fDXmfY8I9ZQWa5MA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\workspace_comment.js" size="9763">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>zyRgQVOeJNXmIq9ZxlQ4j4aTeJRDXEx0FKrZYWbRhig=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\workspace_comment_render_svg.js" size="13442">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>wtP9/ixQFyZUholQRiPZFUJZv7q80wLOh1rLRATgR0U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\workspace_comment_svg.js" size="18625">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>/pXoYnCDS27f2hoLDZby/PJkJlZWdU2ddEvG2sCge20=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\workspace_drag_surface_svg.js" size="6991">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>uwihlbDMZGVP5fx/0yXpmYvyMU1dLllzz8pGY79fSQk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\workspace_dragger.js" size="4010">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>OAnn19caWUkBftzCUu+9g+noOQZM8yxbtPJo58fHo8E=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\workspace_svg.js" size="66055">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>7VUmMGWS5AzJs9z5ih4OzW+Gq1yOwzU5yvrBVjhv/3E=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\ws_comment_events.js" size="11955">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>OWBYydRvMIafGr/egZx3tFL1g9BqWduPoQX6xIHE3yM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\xml.js" size="29859">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Dq6mVA6hZZ1CzEp9p7oHM+aaYHy8iWg9mCj7d+afXgY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\core\zoom_controls.js" size="9522">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>92LRbtPRgukknF9Q6vOgUSAmXbWqn/B4y2hzQqbMQUo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\dart_compressed.js" size="40448">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>O5+YJ4DWKD4PdRDhJK6I2lFeIbZENdk1iCCX66MOdjc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\externs\svg-externs.js" size="143990">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>nqVg2ltLZAkHleALHiro2gSutN6PgxrLQipYr1LQhNg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\dart.js" size="10249">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>OVyPVi3yXfjIIWiF5y1KlGO6qLFCQkKm/0Yy+6Qna4A=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\dart\colour.js" size="5020">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>x/7A66+Gty5Y/EwQkno66YTNf6OPv0w5/RCCdPwVj6k=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\dart\lists.js" size="17422">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>GYjBg4G3iE4cfy1QfGghikMR/2DyzrP9SY6n4GRNPC8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\dart\logic.js" size="4133">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>0azNQdmDSdDTZok6qo+EmaaRxhI2h0slqLAf0tS9/yc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\dart\loops.js" size="5893">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>bVfC2hb/aazoW/mDq6dyF+dM/fS90LstJ/EKlPhAAJw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\dart\math.js" size="17714">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Ie19558mKXaI7eg7tE6fnXudCZh116IABIGA0TnFqmg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\dart\procedures.js" size="3992">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>XCa8JeGjDN8KUZYnQt3HhQuWxM+JpApHZHbtTOofV2I=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\dart\text.js" size="12585">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>UPsxZH0rkXjQ0J0iPMy7trFWvxrboNjzlpPDzkqn7ck=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\dart\variables.js" size="1439">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>7+CoI+4vX9vTkvOI2PTfmAgSOzhRrftpj3aW1p2bU9A=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\dart\variables_dynamic.js" size="1104">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>In1zKYnWtruWzBqxu7Nm6YPhBYqBvo2+srPk5imNdmQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\javascript.js" size="19518">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>EnDNpGo3Yg4cxV3jELSY98NgAI8Q50kAAX+080X2fnw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\javascript\colour.js" size="4298">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>T+WZBNQ1MSkD0ZLGwItD6BHxKmvKspY9bEboZrbcFrM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\javascript\lists.js" size="15058">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>04rSeco0gw+PsRmemi4XpjHZZJ6vA3peTypy9vWyVDI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\javascript\logic.js" size="4349">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>YD1QrfEaYimnad8tHgjpnezIDhPQ+3lux3v6XzkRs7I=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\javascript\loops.js" size="6683">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>+T8XwAbgkJmEXvRxFqSxvnXO8/1Hsv6J4IsMU08ps9Y=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\javascript\math.js" size="15323">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>WPKXxu6+0pLS6csr4f7JrDhSd5so8QwXX62Uz+YXS3Y=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\javascript\procedures.js" size="4159">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>+H+e8LDQGPKElEY/qbx7d6HN/HYPiK8qiuosf0+NzBw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\javascript\text.js" size="13688">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>tm4sbWR65m4m43dOiFgVWUBKO/9nAdHlqCNie8V7khQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\javascript\variables.js" size="1500">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FwEIQOgb8pFlIqoHYnusgtickJqzPB86MmLIiCJ4tmA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\javascript\variables_dynamic.js" size="1166">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>NMEEPB89G3wO2hO1hISHq/Q22UcSwX4HUdsvu4J9b5A=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\lua.js" size="7255">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8l0fWIrBOI4LQy+Kdb9UpMY3mlSBtAiLClqQ/dQluj0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\lua\colour.js" size="3543">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>oYFJ+liNTr2DhE2/eJ0q6eHw++I9Ty6cjSSzIuiIqrE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\lua\lists.js" size="14360">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>P9dyYohhqCACyd23zzeTi3iZ/bdonCXQUQvMd8lIThY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\lua\logic.js" size="4000">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>uSf8lvoQU0aM88+W0Y+3awnFVB42QqEDDg4YSWV0sY0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\lua\loops.js" size="5873">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>0pr0dnLSjOwECpf61zI8RhfwHZbZHaagetWDH3Mg3lY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\lua\math.js" size="14281">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>TIGAlYWDFsV6R5NgaigX7hoa9kJgIWAHUj5S6dAnJO8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\lua\procedures.js" size="3940">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>EzGZQsg+8UTO8OrjCkGjH6ONf1IeB/eGm4PADIMUxoc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\lua\text.js" size="12179">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>RcGq0DR5hpViD9i6y1u2VPIy9RQgpVofAyv8NvaIzkw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\lua\variables.js" size="1428">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>O3fcYxTFjU9Sy5GWtttfEBoGolnpdrLX6YhCdwT/uAc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\lua\variables_dynamic.js" size="1095">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>YXcTfObTOxj6KYXZ5WqcXCWQsihtIMVQtpxa7sgH0D4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\php.js" size="11867">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>VkO8A47H5YiyUnmq5PCCxBv6kOqwLnn88Oly+UyCwsU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\php\colour.js" size="3981">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>SGWFXGZ+gKai78sDI1R9pMqnPyVchtYN+p1PASlZxjc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\php\lists.js" size="19514">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>yxjPRqHPLLmp6E4KicLQV1SbqdX8ElR0W/6BVtPPzaM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\php\logic.js" size="4101">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>VcioO28t3amnw2kv5Jfs4uKRznTOYn1PGrMiUOi8Zzk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\php\loops.js" size="5821">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>5LeuOHPsLNTApMyXXXvrekPI2vt5GFz2ynCQX7bOXLU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\php\math.js" size="12922">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>jdRtOUf4Mz2OXq4NqEhQ6URrSpL87R9qMfFsT2knCoM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\php\procedures.js" size="4786">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>+v+D/RYzaeDH6p6FFcGCYzvnsk6Q28BWJgavqLa9Bfk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\php\text.js" size="10146">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>wKS6WBwaMqE/yrdudCnYR3ztrX/6OBdM/uLf8a+XFTI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\php\variables.js" size="1455">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>5keV0kh8TS71rcGenjlTG2QtnJvokP1Kx6+27i9cdpM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\php\variables_dynamic.js" size="1095">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Aq420PFAwHOYfYeoSBd+pDCtJKWFG1PSitpZE2HFTB8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\python.js" size="12644">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>W9v6d1bcvXyVhAMkwK/p3TCziPcdSfvZYa4DOrHdsNM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\python\colour.js" size="3436">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>YAeoZw8KhQRjnXKx3suxFrJoORfl5Zh/yJbRKZFsGIE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\python\lists.js" size="12862">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>4eTHAn2ddZMIvstdsrVk2YUbR4G0tQisNMARhg0rD2w=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\python\logic.js" size="4174">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>fq7AVijYDa7d2wXSPUL+U/hB72f0R2rz8vHfqhU0Hz8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\python\loops.js" size="7196">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>wn2PkNQs7MnlqoniwwVAUBE3Su8yUFq42AftA5pT304=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\python\math.js" size="14554">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ThBo6EUrdRlTJM/xfHd0YCvE8OHIV3BOdZ9JvHSiyGk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\python\procedures.js" size="4918">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ZH22BFyeFGKwDlE97tPqGEzOCWVjXmDgC4mQMogNEDg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\python\text.js" size="9782">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>1KdUIw5jUju3BSv7Br2kRbAH8yG+YR22GlrecpIWhts=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\python\variables.js" size="1456">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HWP/7zh1tXz/SylpwuqMsQ1C7m3w1Z+MlF38LjMHbDU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\generators\python\variables_dynamic.js" size="1122">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>e8P5zzNyoY1soMp06mDscDvW/6O5yZGR4DD86hZeqBs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\gulpfile.js" size="3980">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>xHibIlK9dieRnVL4niS33O2PHufAOz8o2VNLoogvqZk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\javascript_compressed.js" size="46993">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>dGPhi76ZAdG9BIWHxrwaQIqYFVFw7vzdGp0xdueidpA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\lua_compressed.js" size="32641">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>cJfZeQGQzHLd5I8065m0z0X28UIU15U8A0mjq4E14VA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\1x1.gif" size="43">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>odiLLJUreQ9fI0c8Y++ZRzMn0C4R6+F0eZrZEtsI9ik=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\click.mp3" size="2304">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>EEjyU5rEfk6qS9FoiWjA17mVa9b+9QdkTuUTGSTGUXw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\click.wav" size="3782">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HCGUoNEqcdQW2XZlxDeosLD7g8FLJqX81wEwieFkhFs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\delete.mp3" size="3123">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>bqCvqwYss7pUCdxl16n9+F1gKxhw0jHYC988xbMkMrY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\delete.wav" size="9164">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>it/FfaNd07atZa3Ge5z58u/ry9lLqvFnGrMgMxSXq+8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\disconnect.mp3" size="1586">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>hJRlqJaINqtbJLaKconudsoaalC6h6KVoy7+HlB+NFE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\disconnect.wav" size="1492">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>r2vnRC8XIjQhzAEsWb9yvVMD4oeNAoestNA2jTmVz4o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\handclosed.cur" size="326">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ShY34W8z4bAvlvaZraaV7e3t/QiVMDchJtN1rZ7S8KU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\handdelete.cur" size="766">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>5T7yANdv72F70uMHoQDXeINK1JeE+AwavG2lR+ULgEA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\handopen.cur" size="198">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>0uyagdmnaw9ktxaOXwXuZg/7a6fjVpXKr5hR5rAaBP0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\quote0.png" size="796">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>U+w3wT6yWJUxc8OhP6jewr2TX1ELiFo5WAaKTlPdL4c=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\quote1.png" size="738">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>VsUvx1z30pJtdQKqp+le+0bCKaomYwbZMnlTJXIqujU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\sprites.png" size="4146">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>GBjmZcDvFjAfDjbLBXJ3J8QGSgZZON4wfWIl+Foi3lw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\sprites.svg" size="1775">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>hi3g7ggfqbr1BOZzc210RkOcFSRkUiWMq5ZKglZu9A8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_200px.png" size="2165">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HfVFnaoJDAQzLlEjH2bytothNTQy3MjJrwl73DGRBQ0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_30px.png" size="1127">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>udBPd+e+ClmGryHZfmUjluAuuuwUvHOui2nn4Qz1g1o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_50px.png" size="1590">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>6D1LCsDFtXwYg68WR6ELSMc3RqA50RfRD2Wix3Sq/aQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_a.png" size="778">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>d0pz0AqKk0E16F6D9iqCBgfDW75rkrNpWV+xWxH2inQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_b.png" size="769">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Qs+1pJbwaeiE8oglJf3F0ZkaRjP5m+sUmpNZiUq8XJI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_c.png" size="856">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8ohW+XAt5zSqYRajLXK0K5g1MlVxMRjScrAsMhPGA4k=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_d.png" size="738">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>KGY7agIIDT3qPsWGK6be8fNUYydz0xKn6ZTm7vPxSc4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_e.png" size="393">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>YOTMBuY4fu7FUTJ1wQDc/1jnqZVZ7BM86/qsFvbJhk8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_f.png" size="343">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>EmZBw1t3VJ8YjZHxJPyTvwGmfBYoGJeQBZCHCyxpf0o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_g.png" size="1169">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HU+8yJ5+KFe+rzkjXztO3p3XHKEUW3mpoT3v9jo4wgs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_h.png" size="313">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>EpygBf/Ep74FpB6xGYVhVPpVnFYIguGwoanks/VAZVc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_i.png" size="200">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>RpAW+eo461lmAcucC/SiXhwm/Sp4B/MvpfVpwVjhzFU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_j.png" size="453">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>krNGKMoFSemr9gxSvO1eiOXmTr24MetR+itu2L30kP0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_k.png" size="612">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>kiE1G+CqOpNRaVPU84+Hd6ZnNjzlhI//ozVJfKRUJeg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_l.png" size="254">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>EWRGJ6X2DyaTq7o0iIubSxa4M7ixvEpkvb3c9+DIosA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\media\test_m.png" size="1044">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>b2XOwbfIBYCbwi1RSKIehcfjUt40v8JjGm9mSrRulXk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ab.js" size="40606">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>aWYRyHubCuhAHKohvVOsaT/uMQ5NmLuBMIQeCnRCkJI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ar.js" size="38773">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ifdNguqBjTYtmisuzd0zn1zMXJz/Pa9nY/dAw6txrok=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\az.js" size="35995">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>dKdedG6rFTWz9zVXc+RUXvmIujYTEJy3HRQK48jTNEg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ba.js" size="40657">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>l0xQCQEkFp0nAH7WIskbIU/B1uZ63t8liCWI6gcJue0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\bcc.js" size="40876">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>RzxzZEWtzjoIiwnZn720t5nNtYELnyoSEAcVIVg3aEM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\be.js" size="41882">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>0OpArTvxqeWPIBSTg1+4y7kYiwKuMiuFgaqILnQ/SZQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\be-tarask.js" size="41964">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>w2Km/0SdhEz3OaqgxtnQbqgmVYcJ2kHXRr3nLPl8P48=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\bg.js" size="41727">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>wKBD8Naa6NTHwSi7FzrrEd65WD3DOR3FvCKK2Jkm5M0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\bn.js" size="43232">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>L1Kb67ZZR+W22CbVPKUgJNH3i/Aqg7W8wfhdZWmK5WQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\br.js" size="34983">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>iWXdrw+Q3W8kGSXikyzQIWPy87ULa0OlKbeHxIhJEWc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ca.js" size="35231">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>5g3OuvY1D3g6tPcbZh3E23/DIagw7cJSRkRyKAVhMyI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\cs.js" size="34641">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>sWaFPVU6SxBp62tOLU62zj+sZE0+wFcu5Nie2vIiNf8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\da.js" size="34466">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>WF8xG7wIobFf+mBYH7anX1AePguWvXou37m98Doz5+g=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\de.js" size="34545">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>UsyTACVU3VfMm3329G07mmmgSIS+QaFboCFJKcyUueQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\diq.js" size="36210">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>qZmmPEGL/R9lOLFBs29zIw/vH1J4TvTEA6m1dTWvdgc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\dty.js" size="40722">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>tRwsYKTJZL7/1XhBK6m7KjC1S/g1Qjh8/DXK1aiV4GM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\el.js" size="45771">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>WLoQQ4+NN6TzT+Bs1Jky3Tp0rSM5mGPJIg1nE2+kS3A=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\en.js" size="32352">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>vxMy79ZExk2LpzSiGLaHQgjmoxQFVHJthKfJyCdim9U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\en-gb.js" size="35429">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>s4F84yz29T466oLuDqCrynEy3l/wCEJwWtQ5+a6KCaM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\eo.js" size="36469">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Qj2Pm1wzOOSNe/EUbvSl3f3qrJjwB6zSSCq/IehBMO8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\es.js" size="35013">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>sxcHpUtc5krclhzQwn6N7ymZ/I08MAWQ5vGPb/hVGDU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\et.js" size="34796">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Z3DKm6qCUhOqVSI9sxG9bCRZsq0S3fOa/6fb29+DzNg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\eu.js" size="36918">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>O1wA0xDDEGv7S2aYO2RMtZ3DC434giIewthkH463JoQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\fa.js" size="41031">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Wc/mS4uguLToxFlr/mI2SEGE8ILn5Q8zSMefDgb9wIw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\fi.js" size="34309">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>CyjjZbzujsXbhAV6O6nfkMQvN03QbLPa3qSHdqTzB+o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\fr.js" size="35347">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>e+faN/BqehXbljR6jCjyV57dPQWD6f/uWfJbELz2QeQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\gl.js" size="37016">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>RT8HZ8xKkIWLURa8GFTOhOjZrKzMUHHLunHvFUmQLIs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\gor.js" size="37771">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>WCBeKA5QVECayZEdVnvJtfGdB/fGx+eosrDA05x1QTM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\he.js" size="37724">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>xQM4G9ANZoKWv4+tn2EtlqcHITZYbHyEYBSwZFahklE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\hi.js" size="48021">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>51mRLUL2Xlid4O/U7Ga2vN8AH13cs5jKU66pz5A6vRs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\hrx.js" size="35662">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HRfiSBnmtKact1HdPrYTB6VawYNVI8d2pfjXlauo+yw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\hu.js" size="35053">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>wzJPSk3pFMDjsZ727jDAhtfTJ3/TIIgAnUHO0v9poC4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ia.js" size="35019">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>xnxUgsCGhn9Xrek6Cl7t/Wr89fCY8++Jb5Ttep28fuU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\id.js" size="34485">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FPIW7UqcRTLkRXzOXCxLql4pYfwWxtXi4ofvBWnqQUw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\is.js" size="33169">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>CTj9lWR2IUz5Dzmm04Vmrej3wZ+sxk1HtPESx/d/c7c=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\it.js" size="34870">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>rRKYnUhGXUYu9IUuGcFnbQf6ZM2nRJLypw9ODDNXBho=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ja.js" size="36327">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>o0Y1fHegPOZ2BZ1iYDHj9lQ95Jdu6nidx3ssnl4zvwY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\kab.js" size="33848">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>QoRqIcIsZcTTuPFnTYRYkSv+zVXbFefudlbmFIyy1OQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ko.js" size="36688">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8G6kYDVQYPTwqFlM0Wd3UMlUaS+0xIKuANXitExlZ5M=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\lb.js" size="37388">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ZE1Heo/rrazT0fgbDm/JfHoqJYm8p21muEUCuVBVep8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\lki.js" size="40162">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lI6GLZXmd0mgCZjfofByamybeuHbT+JpoBPW4UIpF4E=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\lo.js" size="40905">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>uajpgkXyRG7WM7+Ax6DJRivMsKs+/yOspZRtAsfug74=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\lrc.js" size="37914">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>WFb72hqDF7DcjAWQPd+/Df9h6FBIAux5MW8gDiJMhmc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\lt.js" size="34966">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>GGqwOPHUefXMDonu5xYbQxe/0EBSFXmkMGx3WUrEt+0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\lv.js" size="34614">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>A8OFA4bfYNcsVj54PqrOGCfHilVzn3+1Qyu7J7igJ1M=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\mk.js" size="39521">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>68ojeNsDYZoTvuQp2yk5kRcbwqe0kVdLnQKTqQvioPI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ms.js" size="34639">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>GsH9/sK3/x9Rh9ICDxsTZFSDVwUvvIvIGagRHNpT6rM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\nb.js" size="33946">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>j56F0Aziuxl9iwCc1jSxb6a4WuqAk0d0N/REyJZCM2c=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\nl.js" size="34348">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>pR3Vh1s0+VJ5vSxA+Rm/BFahKqZAjiQivHxcN5lwN48=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\oc.js" size="36273">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Y0KihQkHORan/OFDiEdDAWB+k0MjKxN+GYFpxyiZeIQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\pl.js" size="34041">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>BZN9SIzyhPRwhITx2jDe3z9ck06TEMpjmdLcUOSGznA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\pms.js" size="34659">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>eb0BPr5SaGzbhfD8cLR6/eQS+IANbI/XmBunAg9aHG4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\pt.js" size="34479">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FI4Ce4o2IjFpZshFBhAR8S6MSvOMBLkBHzJ7nZlA1As=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\pt-br.js" size="34782">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8H5EUUulQhgaQ41R+IwREQL4kngxxsavps9dnPk8PdQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ro.js" size="35664">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ejuBeaaYJRoULN7/2vHF9eUlFiRuIszy+DTYhifTenk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ru.js" size="42706">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lcLdv1X4GH7RLjPC6b0oUOzqVEXOuBJNExyq79kNqkY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\sc.js" size="35012">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>OXLqaKXl2Zi1eMp2J6Air6YvZ72xvDZb35KpdXn/keo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\sd.js" size="38380">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>4n5ishli/Hx7zXZk97Y6lVSzzrTDJ5cnmf00SfGDuYQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\shn.js" size="45212">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>XX/oYP3g+Wvu3FC/Xagiu3pJfEh7LuHpz9FEY0YHCis=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\sk.js" size="33681">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>uJfWiewB70LHir+VbrfsG6nRatL99175m2mEasR2gd4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\skr-arab.js" size="38076">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Dx67AOGZsMiGNebX4I1GgRLHtZTRhI8FHDd+l3OvjYc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\sl.js" size="33038">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HsPZC2CTf+9Pgm9fZf0AHgQps1EmbDbLVqNyt17f0wA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\sq.js" size="34871">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>vOGLoLVqOyRJ1loqSDGb6UXXKK+HqoLPWRnnUcSM7CI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\sr.js" size="40339">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>x7Li08CGERhTAKn5LCG78O9fw1z8NsLhE1fcoXF2HS4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\sr-latn.js" size="33364">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ea8Rp/cJ4GMm/xGx7tOvkmZYC28lcFW0ZiPwnnazZNE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\sv.js" size="34309">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>53sMYI2d3vBstt3DJKGVvO0Fo2dpyKOvODVAgrJ91Ro=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ta.js" size="49163">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>i11yDvF6KjPFZ+DbvNbmFb2euWBOQScrkfTP8ycgK+U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\tcy.js" size="51347">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>igPc/Jp2fAUaN6DCQdVxibiRGzENIBmQj9RlgZOa7jw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\te.js" size="40326">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>4F4d61HMgENrsP6Cta+sJPXt7tW0PIkowCA4aMJdsds=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\th.js" size="47386">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>AN+9V7ROkmiUZ3SQw8FAa+S2WLu9Ul+oZyIiuWdWrOA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\tl.js" size="37656">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>/WUVYYpeAepFDJf+0KHG1M3tI+aHgkInX68Uy0COSUk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\tlh.js" size="35858">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>+tJORH8y7k+QKm6daRbCaLU/kO7fGqUB141KDZo6OZU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\tr.js" size="34763">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>JS9HxCVR8ZAkzorz2JYwXa09gFN69CfAKuJCAjhHqn8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ug-arab.js" size="40189">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Nr03oN0rEmJX3X/OmbkikfvqDCxSvwlWRioVl8LhDGY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\uk.js" size="41826">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>9w6jXQhi2QDhemSbtTQVx0SLR2upmC+S6zGePEE2H4Q=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\ur.js" size="38658">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>l8sJy+rJPonPh3lFE/HmhuKQjbOXuagc3om8+xR4KGY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\vi.js" size="37714">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>JgembN8vAIkQdKD0/ZIV6V/NPdle/jnyzIphv2+wJS0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\xmf.js" size="40246">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>gKGbY2Fd8VxUCgLGKL1KVqJmC7Zr7LbH5Ogomq2OmDQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\zh-hans.js" size="33054">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>jwdoPQk9j1EWJo6ICO74O/975FGdyIpR4SYw1bg9epI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\js\zh-hant.js" size="33360">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>MvCaFBI/6INUREQ/dP33f+OVCZHorL5kMSZINpxhcuE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\msg\messages.js" size="99981">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>xY9GLmAKTgyov8LTW6knawanoEZIiPXOESMLxTowb4M=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\php_compressed.js" size="38250">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>dRl8A2/PVMmmJW9lR13yuXGp911FVyS2wl9Ups4aDBY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\python_compressed.js" size="35578">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>l73E5GpNWFzfi5MIYZu+a6vnh1Eu07Eav5AgN6mctBc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\blocks\index.html" size="812">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>x8TUu9S6B29g+lYg31krhclPYTZwqHbLmDmLyB6NHzg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\blocks\logic_ternary_test.js" size="13503">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FJN6shoVh+v+NbIBCsZDEAJnnRZcKEcjcuJGZgVlmuc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\blocks\test_blocks.js" size="16003">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Q9KjVK6k351QYfQoHucdoGOyWJ/E1Zfu1NRRaxBWuHA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\compile\index.html" size="1145">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FpW5IgAtW0aVps81U/eoHVYzLuNEOP2oyomdoypROew=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\compile\main.js" size="675">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>AdhTjlJbGQx1MM6Vg34Ski/WqffD/FVoeGQQ7cJtwh4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\colour.xml" size="9992" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>E+XuBkIZsR4hfwuR66kAfeRrtQPd7t6u5lRe8UkQMjc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\functions.xml" size="21304" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>MpvZWqAj+F0KLcQeNnXWROzxHPfhs80RPTs0sBeK94Q=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\index.html" size="14506">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>PSHIkr1ojqzbQcbcyOzcKMl2WtB6KfA4BruZXBEKys0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\lists.xml" size="665974" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HqZoRuPBz7EI44MF/hwo+387hVs2tFHA/cqb/NDQ93k=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\logic.xml" size="47094" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>yOh2eO8pCkyHxZB9RI6Ta5UtO2be7eAUy0Zv6YzCqKA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\loops1.xml" size="13290" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>3TpAygRVKbrf1LyMykE+u2/xHs5Qj4nL1Z7ETSYQX84=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\loops2.xml" size="57779" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>gEwHOyMtvLFUI6VwruvntvGMGydFOD9s2PstpxL6218=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\loops3.xml" size="41224" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>7DQ0xPLXxtZ4ubV/lQzYjr2ZnDBZWlK4WgiBlvwhKZg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\math.xml" size="84792" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ZhWmukyIC2iPMzNsQp/RLFTPbEoOEMsJxBY5j874lzI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\text.xml" size="323540" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>tdrSij3ibYXFUxeD+BXuhVZlFciEclXOIEBXbsAosoY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\unittest.js" size="3369">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>swxLb2beOYVQXSzq0WHacEVO8YsBGzMV2Nf9RK5ljFc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\unittest_dart.js" size="6437">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>X4L8fGspXu2gL0or6W2c/JvBVa/3aGgYViNnue8xAG4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\unittest_javascript.js" size="6825">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>XDVvZiVfdrL3gHW9o8iXFhXxv749whqDyXYRhmBCTQw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\unittest_lua.js" size="6796">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>4px+VV6Ai57n27Pi/kPdHaEZMc36f61fpUr2529Fvh4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\unittest_php.js" size="6394">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>QHWtXCL9uk3+8gSFRk3jRLY0UjugnJvtyw6GZ2c03rQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\unittest_python.js" size="5646">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>6oKsHv0jn7MS8qq7oaurl8FhG7GPzjqnyFnnXdWw2KY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\generators\variables.xml" size="2394" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>GREPIPonwQkxwfnvKrgzcrkEwE2p+hXqG05Rvu+aDcQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\connection_db_test.js" size="10724">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>t2sNoMdhx+ilUeK1vwhERlfEYZ1azh8NTNeLsWptktk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\connection_test.js" size="8617">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>pWRMDL0pYktcgN7FzyTBTzYqlb2BRzbaJPGxJ6wctvs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\event_test.js" size="27577">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>He5Fo/ZqNzMMx6629we6NnnRrRAGW2OoRdtcD8Z/h9w=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\extensions_test.js" size="18549">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>vmQ4+Gcf7eDWzHfzloYObQ3C3xZRnhsRf/v71lRzY7Q=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\field_angle_test.js" size="1588">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Xs0jyCZa78BqCiZeiqECbZKyybxnO9oxFLgIXVIoRVk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\field_number_test.js" size="2338">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>yNCeNS1kjzKecErPNfps99ODFbKAHppZt7VhBL+MlEY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\field_test.js" size="3386">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>s5dtCQ4+PKVvn850CEz3QoYiRg5FRSOtFhc1RQMrvS0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\field_variable_test.js" size="7693">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Lu44E7+bHev2pnaixOQqaJg3yiCHcmielEDksy6Afw0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\generator_test.js" size="1112">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>faHCeJ1xnV8yKpjCZMPo4e0M4mtA/Z+liaB7BvwXvyE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\gesture_test.js" size="2560">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>UsnQq8prM1P6yVQV1oAZqvqBzSn0Y9nnvtxUgRwRhGs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\index.html" size="1413">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FcX9TnGR3ich1G3fSB4WWc7zB0aHID9oBEgoxaZ42mg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\input_test.js" size="6628">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>+6qwSnjumhqtgF1FRIspRiH426ULqoGC/k2ITheTn/s=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\json_test.js" size="11194">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>BW/Vhi/5zcQRSsajeVpSlGnJI5yopT/D3JyyZSTiBGU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\metrics_test.js" size="4996">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lKShmdnnCUG1YzjWimqQqO94Mx0jPloesb1mRly5DNs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\names_test.js" size="2689">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Ay3qj/43k6SL9jB/Ukfe523NGPu74EEAhim+9S4NqwU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\procedures_test.js" size="2363">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>DvuDIcGbn4jGUfYW64kle6dZoXoXDuIkyyEU8OhF1Ew=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\run_jsunit_tests_in_browser.js" size="3384">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>iTHH6tqey0KrkXiVfuzky3/my73hPFDEKwstwuLjl2I=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\test_utilities.js" size="5502">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Va0WK524bytzQXYwL+MHeBPl/EtIn/dPpRss/uJDfno=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\utils_test.js" size="10992">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>s31omh2QdH3NA5vg5gT6PmsNr8dpbCLlkzgUHg3/jHU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\variable_map_test.js" size="10073">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ZOTaJHaefRXz6i96LDRvba0hz8bc+lS93/bgjZKaSng=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\variable_model_test.js" size="2619">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ULOD2VFvRgHz9XS6rhFHNAnwYpTF/4lirUX9hr+Ea3I=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\variables_test.js" size="3066">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ZTazUaFdI7W8sxd4s/3EaIdHhTHpqxlBycG3j6qRces=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\widget_div_test.js" size="5407">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>4RQsaV3Tx4QXio7YyFt9YRKR6MhvYeC14FzulpxWLYU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\workspace_comment_test.js" size="5546">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>w38vXUAGmI+VMBF/gChbpPkaNWv/dV8p6/wB5oDOJW4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\workspace_test.js" size="13064">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>6VLVl9JfgIcwGHNOdfQXPziLQifiLKVMDn7cGwb+7Hk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\workspace_undo_redo_test.js" size="11482">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ktg/SFU89ClQSvwguD+aTcBVBAT3EyFzGbcJs1xdTrM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\jsunit\xml_test.js" size="13020">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>c8KllORpzOUAOKevp1aGpAU0gRRkF6YsPaCBggFU7lQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\multi_playground.html" size="13297">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>7cfVYmUVYInw2y1iYxXJZqyXmrfV8zBERF2gki55qp8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\playground.html" size="38675">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>m1O3Q/Q3P2byKktBca3NJURB6ej8AJqXGOkvWVxPLRM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\playgrounds\iframe.html" size="864">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>CK9hu+1rR/yo9bHuqLMpGkEw16PgqtvU8TBMhUH2XGc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\workspace_svg\index.html" size="11357">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>9r5uCf69Zd/NVYnQWKOFkkbk8IjQUWoNDwELvNz6CS4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Blockly\tests\workspace_svg\workspace_svg_test.js" size="4076">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>3fCTinhq3vXGxMwpncqaKIIRal+UBIsd5+0CfvsII/s=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Excel Macros RIBBON.dll.config" size="1241">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>sxXH8Wk6q7L8oT21f/I9EAhPfpvjCLICClBHURwzYG0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Entypo-license.txt" size="182">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>23BWwu/2D5VwhIKRoDJQY4kO0JouVr2qaNJMU1e/u1A=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\WindowsIcons-license.txt" size="2006">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>4xVDzEkI48mKzBdEIp8+WMPdbk75lbJ5bXWHfyaXAdo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <vstav3:addIn xmlns:vstav3="urn:schemas-microsoft-com:vsta.v3">
+    <vstav3:entryPointsCollection>
+      <vstav3:entryPoints>
+        <vstav3:entryPoint class="Excel_Macros_RIBBON.ThisAddIn">
+          <assemblyIdentity name="Excel Macros RIBBON" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+        </vstav3:entryPoint>
+      </vstav3:entryPoints>
+    </vstav3:entryPointsCollection>
+    <vstav3:update enabled="true">
+      <vstav3:expiration maximumAge="7" unit="days" />
+    </vstav3:update>
+    <vstav3:application>
+      <vstov4:customizations xmlns:vstov4="urn:schemas-microsoft-com:vsto.v4">
+        <vstov4:customization>
+          <vstov4:appAddIn application="Excel" loadBehavior="3" keyName="Excel Macros RIBBON">
+            <vstov4:friendlyName>Excel Macros</vstov4:friendlyName>
+            <vstov4:description>Advanced Macro Development Kit</vstov4:description>
+            <vstov4.1:ribbonTypes xmlns:vstov4.1="urn:schemas-microsoft-com:vsto.v4.1">
+              <vstov4.1:ribbonType name="Excel_Macros_RIBBON.ExcelMacrosRibbonTab, Excel Macros RIBBON, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+            </vstov4.1:ribbonTypes>
+          </vstov4:appAddIn>
+        </vstov4:customization>
+      </vstov4:customizations>
+    </vstav3:application>
+  </vstav3:addIn>
+<publisherIdentity name="CN=MARK-PC\Mark Diedericks" issuerKeyHash="8e365fad8dbb83abafcba4b6741e36f0aca1554a" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>Rez5MzwK1pFb29s2BUz2fXcGi/6Pz2fr/XwT2Zey3Z4=</DigestValue></Reference></SignedInfo><SignatureValue>ZDXsNFnLm+yWhitFaAMScT7vhrvKsc2SKWL2vmy05WsDpeu2W8Gbjym+O21OGLJOTV7pgkfRqyboc6SAGqAOB38zWJbYkMqFllDfbDFEu1BwMhdBstO+a7pWb3X3zl0SIleIseGTrK2UFa4+AK4L25MTU65xvefF0hFvCb1t+lo=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>tgpiG68hO8MVqkx7eWl5coiGV2hLXpytrSlTkdw5Im9+lPP+6Zh9qlL0k6GLEQOBOAUNpaYUZt8ZynSA6kRb7TJCWmJz/v0Jn8OfUOzOT2V6q3YndWKB2QKJoRGEldfcBCOYrDF39uQa0+RmV1x8ErZm3ReSiDIHODJV9WrSHJE=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="9eddb297d9137cfdeb67cf8ffe8b06777df64c0536dbdb5b91d60a3c33f9ec45" Description="" Url=""><as:assemblyIdentity name="Excel Macros RIBBON.dll" version="1.0.0.0" publicKeyToken="a75eae95531b48b9" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=MARK-PC\Mark Diedericks</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>lROKttC65tzKuVRFG770hcaW6h8TUZJsH+WbYlRW8xU=</DigestValue></Reference></SignedInfo><SignatureValue>EaFKslh48qKomZF6gdu9UJsacKAxZ9STGptc4W7S2p9mJq2/k4EtzYGEtfCLXj8dCNH+LybyOYtru78rw3ZGCgRcBMbJYYiDLVF6gej7K2PaL1BYgoViEClCyw/A9mLszpBPU0L+yRbFFBb2+N7PyTagKW9H/3ZcFHnl5w6z/tY=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>tgpiG68hO8MVqkx7eWl5coiGV2hLXpytrSlTkdw5Im9+lPP+6Zh9qlL0k6GLEQOBOAUNpaYUZt8ZynSA6kRb7TJCWmJz/v0Jn8OfUOzOT2V6q3YndWKB2QKJoRGEldfcBCOYrDF39uQa0+RmV1x8ErZm3ReSiDIHODJV9WrSHJE=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB9TCCAV6gAwIBAgIQFy5GWCwUBpdI4Z/Bug1pCTANBgkqhkiG9w0BAQsFADA5MTcwNQYDVQQDHi4ATQBBAFIASwAtAFAAQwBcAE0AYQByAGsAIABEAGkAZQBkAGUAcgBpAGMAawBzMB4XDTE4MDYwODEwMjUzNFoXDTE5MDYwODE2MjUzNFowOTE3MDUGA1UEAx4uAE0AQQBSAEsALQBQAEMAXABNAGEAcgBrACAARABpAGUAZABlAHIAaQBjAGsAczCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAtgpiG68hO8MVqkx7eWl5coiGV2hLXpytrSlTkdw5Im9+lPP+6Zh9qlL0k6GLEQOBOAUNpaYUZt8ZynSA6kRb7TJCWmJz/v0Jn8OfUOzOT2V6q3YndWKB2QKJoRGEldfcBCOYrDF39uQa0+RmV1x8ErZm3ReSiDIHODJV9WrSHJECAwEAATANBgkqhkiG9w0BAQsFAAOBgQBBvtLO+kYzb4W6TQPIiPnlIjD6sOxlzhMi57252JB2Jwt7lL89uTqHTgZd7lpVGIyOkshXUcIgJN3b4CHxbO4GNIaKYX6pHQ2jiDv7EAsUKPfQ9X5bo6BFzSUenFsxxUjzT38Q54R6kJ1qlRAxQhNVRLogaEucXqwUIrWXDwalqg==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
