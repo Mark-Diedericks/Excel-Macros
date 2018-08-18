@@ -6,11 +6,11 @@ using System.Security;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Excel Macros")]
+[assembly: AssemblyTitle("Macros Plus")]
 [assembly: AssemblyDescription("Advanced Macro Development Kit")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mark Diedericks")]
-[assembly: AssemblyProduct("Excel Macros")]
+[assembly: AssemblyProduct("Macros Plus")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

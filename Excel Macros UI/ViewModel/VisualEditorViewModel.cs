@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Excel_Macros_UI.ViewModel
@@ -113,6 +114,28 @@ namespace Excel_Macros_UI.ViewModel
                 {
                     Model.Source = value;
                     OnPropertyChanged(nameof(Source));
+                }
+            }
+        }
+
+        #endregion
+
+        #region WebBrowserVisibility
+
+        public Visibility m_WebBrowserVisibility;
+        public Visibility WebBrowserVisibility
+        {
+            get
+            {
+                return m_WebBrowserVisibility;
+            }
+
+            set
+            {
+                if (m_WebBrowserVisibility != value)
+                {
+                    m_WebBrowserVisibility = value;
+                    OnPropertyChanged(nameof(WebBrowserVisibility));
                 }
             }
         }

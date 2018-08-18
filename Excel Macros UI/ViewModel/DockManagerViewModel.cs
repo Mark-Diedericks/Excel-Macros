@@ -53,6 +53,21 @@ namespace Excel_Macros_UI.ViewModel
         }
 
         /// <summary>
+        /// Gets a list of all documents which are currently in an usaved state
+        /// </summary>
+        /// <returns>List of unsaved documents</returns>
+        public List<DocumentViewModel> GetUnsavedDocuments()
+        {
+            List<DocumentViewModel> unsaved = new List<DocumentViewModel>();
+
+            foreach (DocumentViewModel document in Documents)
+                if (!document.IsSaved)
+                    unsaved.Add(document);
+
+            return unsaved;
+        }
+
+        /// <summary>
         /// Add document to the view
         /// </summary>
         /// <param name="document">The document to add</param>

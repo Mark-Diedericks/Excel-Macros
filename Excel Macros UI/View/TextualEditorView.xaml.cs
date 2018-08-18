@@ -8,6 +8,7 @@
 using Excel_Macros_UI.Routing;
 using Excel_Macros_UI.Utilities;
 using Excel_Macros_UI.ViewModel;
+using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
@@ -52,6 +53,15 @@ namespace Excel_Macros_UI.View
         }
 
         /// <summary>
+        /// Gets the AvalonEdit TextEditor Control
+        /// </summary>
+        /// <returns>AvalonEdit TextEditor</returns>
+        public TextEditor GetAvalonTextEditor()
+        {
+            return m_CodeEditor;
+        }
+
+        /// <summary>
         /// DataContextChanged event callback, binds commands
         /// </summary>
         /// <param name="sender"></param>
@@ -66,6 +76,8 @@ namespace Excel_Macros_UI.View
             ((TextualEditorViewModel)DataContext).CopyCommand = new RelayCommand(call => m_CodeEditor.Copy());
             ((TextualEditorViewModel)DataContext).CutCommand = new RelayCommand(call => m_CodeEditor.Cut());
             ((TextualEditorViewModel)DataContext).PasteCommand = new RelayCommand(call => m_CodeEditor.Paste());
+
+            ((TextualEditorViewModel)DataContext).GetTextEditorEvent = () => { return GetAvalonTextEditor(); };
         }
     }
 }

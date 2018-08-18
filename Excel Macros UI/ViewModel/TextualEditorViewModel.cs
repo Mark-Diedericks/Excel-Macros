@@ -10,6 +10,7 @@ using Excel_Macros_UI.Model;
 using Excel_Macros_UI.Routing;
 using Excel_Macros_UI.View;
 using Excel_Macros_UI.ViewModel.Base;
+using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using System;
 using System.Collections.Generic;
@@ -62,6 +63,18 @@ namespace Excel_Macros_UI.ViewModel
             base.Stop(null);
         }
 
+        /// <summary>
+        /// Gets the AvalonEdit TextEditor Control
+        /// </summary>
+        /// <returns>AvalonEdit TextEditor</returns>
+        public TextEditor GetTextEditor()
+        {
+            if (GetTextEditorEvent == null)
+                return null;
+
+            return GetTextEditorEvent?.Invoke();
+        }
+
         #region Model
 
         public new TextualEditorModel Model
@@ -98,6 +111,28 @@ namespace Excel_Macros_UI.ViewModel
                 {
                     Model.Source = value;
                     OnPropertyChanged(nameof(Source));
+                }
+            }
+        }
+
+        #endregion
+
+        #region GetTextEditorEvent
+
+        private Func<TextEditor> m_GetTextEditorEvent;
+        public Func<TextEditor> GetTextEditorEvent
+        {
+            get
+            {
+                return m_GetTextEditorEvent;
+            }
+
+            set
+            {
+                if (m_GetTextEditorEvent != value)
+                {
+                    m_GetTextEditorEvent = value;
+                    OnPropertyChanged(nameof(GetTextEditorEvent));
                 }
             }
         }

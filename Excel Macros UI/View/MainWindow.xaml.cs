@@ -61,6 +61,27 @@ namespace Excel_Macros_UI.View
             ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent("ExcelAccent"), ThemeManager.GetAppTheme("BaseLight"));
 
             this.DataContextChanged += MainWindow_DataContextChanged;
+
+            CommandBinding findCommand = new CommandBinding(ApplicationCommands.Find, (s, e) => 
+            {
+                if (((MainWindowViewModel)DataContext).DockManager.ActiveDocument is TextualEditorViewModel)
+                    FindReplaceDialog.ShowForFind((((MainWindowViewModel)DataContext).DockManager.ActiveDocument as TextualEditorViewModel).GetTextEditor());
+            });
+            CommandBindings.Add(findCommand);
+
+            CommandBinding searchCommand = new CommandBinding(NavigationCommands.Search, (s, e) =>
+            {
+                if (((MainWindowViewModel)DataContext).DockManager.ActiveDocument is TextualEditorViewModel)
+                    FindReplaceDialog.ShowForFind((((MainWindowViewModel)DataContext).DockManager.ActiveDocument as TextualEditorViewModel).GetTextEditor());
+            });
+            CommandBindings.Add(searchCommand);
+
+            CommandBinding replaceCommand = new CommandBinding(ApplicationCommands.Replace, (s, e) =>
+            {
+                if (((MainWindowViewModel)DataContext).DockManager.ActiveDocument is TextualEditorViewModel)
+                    FindReplaceDialog.ShowForReplace((((MainWindowViewModel)DataContext).DockManager.ActiveDocument as TextualEditorViewModel).GetTextEditor());
+            });
+            CommandBindings.Add(replaceCommand);
         }
 
         #region Events

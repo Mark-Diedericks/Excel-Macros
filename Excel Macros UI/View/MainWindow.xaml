@@ -17,6 +17,7 @@
         xmlns:utils="clr-namespace:Excel_Macros_UI.Utilities"
         xmlns:properties="clr-namespace:Excel_Macros_UI.Properties"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:utilities="clr-namespace:Excel_Macros_UI.Utilities"
         mc:Ignorable="d" Dialog:DialogParticipation.Register="{Binding}"
         Title="Macro Editor" TitleCaps="False" HorizontalAlignment="Center" VerticalAlignment="Center" ShowIconOnTitleBar="False"
         MinWidth="1024" MinHeight="576" BorderBrush="Black" BorderThickness="0" GlowBrush="Black" ResizeMode="CanResizeWithGrip"
@@ -273,8 +274,8 @@
                     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="182,0,0,0">
                         <ComboBox IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True" SelectedIndex="{Binding Source={x:Static properties:Settings.Default}, Path=ExecutionTypeIndex, Mode=TwoWay}" HorizontalAlignment="Left" Width="112" Height="16">
                             <ComboBox.Items>
-                                <ComboBoxItem ToolTip="Slowest execution that can be terminated.">Asynchronous</ComboBoxItem>
-                                <ComboBoxItem ToolTip="Fastest execution which cannot be terminated.">Synchronous</ComboBoxItem>
+                                <ComboBoxItem ToolTip="Slowest execution that can be terminated.">Debug</ComboBoxItem> <!-- Asynchronous -->
+                                <ComboBoxItem ToolTip="Fastest execution which cannot be terminated.">Release</ComboBoxItem> <!-- Synchronous -->
                             </ComboBox.Items>
                         </ComboBox>
 

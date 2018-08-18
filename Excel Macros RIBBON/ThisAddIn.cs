@@ -38,7 +38,11 @@ namespace Excel_Macros_RIBBON
         /// <param name="e"></param>
         private void ThisAddIn_Startup(object sender, EventArgs e)
         {
-            ExcelMacrosRibbonTab.MacroRibbonLoadEvent += MacroRibbonLoaded;
+            if (ExcelMacrosRibbonTab.GetInstance() == null)
+                ExcelMacrosRibbonTab.MacroRibbonLoadEvent += MacroRibbonLoaded;
+            else
+                MacroRibbonLoaded();
+
             UI.Routing.EventManager.ApplicationLoadedEvent += MacroEditorLoaded;
 
             Dispatcher dispatcher = Dispatcher.CurrentDispatcher;

@@ -310,7 +310,13 @@ namespace Excel_Macros_INTEROP
             {
                 MacroDeclaration declaration = new MacroDeclaration(type, Path.GetFileName(relativepath), relativepath);
 
-                File.CreateText(CalculateFullPath(relativepath)).Close();
+                string fullpath = CalculateFullPath(relativepath);
+
+                FileInfo fi = new FileInfo(fullpath);
+                if (!fi.Directory.Exists)
+                    fi.Directory.Create();
+
+                File.CreateText(fullpath).Close();
 
                 IMacro macro = LoadMacro(type, relativepath);
                 macro.CreateBlankMacro();

@@ -51,9 +51,9 @@
             // 
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
             this.tab1.Groups.Add(this.groupMacros);
-            this.tab1.Label = "Macros";
+            this.tab1.Label = "Macros Plus";
             this.tab1.Name = "tab1";
-            this.tab1.Tag = "Excel Macros AddIn Tab";
+            this.tab1.Tag = "Macros Plus AddIn";
             // 
             // groupMacros
             // 

@@ -62,6 +62,13 @@ namespace Excel_Macros_UI.ViewModel
                 if (e.PropertyName == nameof(DockManager.ActiveDocument))
                     OnPropertyChanged(nameof(IsVisual));
             };
+
+            //VISUAL EDITOR OVERLAP
+            SettingsMenu.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(SettingsMenu.IsOpen))
+                    DockManager.VisualEditor.WebBrowserVisibility = SettingsMenu.IsOpen ? Visibility.Hidden : Visibility.Visible;
+            };
         }
 
         /// <summary>
@@ -426,7 +433,6 @@ namespace Excel_Macros_UI.ViewModel
         }
 
         #endregion
-        
 
 
         #region Window Event Callbacks & Overrides
@@ -593,7 +599,7 @@ namespace Excel_Macros_UI.ViewModel
                     OnReturn?.Invoke(result);
                 });
             else
-                OnReturn?.Invoke(System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.OK) == System.Windows.Forms.DialogResult.OK);
+                OnReturn?.Invoke(System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes);
         }
 
         /// <summary>
@@ -649,7 +655,7 @@ namespace Excel_Macros_UI.ViewModel
                     return (await MainWindow.GetInstance().ShowMessageAsync(caption, message, MessageDialogStyle.AffirmativeAndNegative)) == MessageDialogResult.Affirmative;
                 });
             else
-                return (System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.OK) == System.Windows.Forms.DialogResult.OK);
+                return (System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes);
         }
 
         #endregion

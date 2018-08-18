@@ -173,7 +173,20 @@ namespace Excel_Macros_UI.Routing
                     Properties.Settings.Default.IncludedLibraries = Main.GetAssemblies().ToArray<AssemblyDeclaration>();
 
                     if (MainWindowViewModel.GetInstance() != null)
+                    {
                         MainWindowViewModel.GetInstance().SaveAll();
+                        List<DocumentViewModel> unsaved = MainWindowViewModel.GetInstance().DockManager.GetUnsavedDocuments();
+
+                        if (unsaved.Count > 0)
+                        {
+                            bool save = DisplayYesNoMessageReturn("You have unsaved documents. Would you like to save them?", "Unsaved Documents");
+
+                            if (save)
+                                foreach (DocumentViewModel document in unsaved)
+                                    if (document is TextualEditorViewModel)
+                                        document.Save(null);
+                        }
+                    }
 
                     s_UIApp.Shutdown();
                 }));
