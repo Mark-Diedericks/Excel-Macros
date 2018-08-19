@@ -40,6 +40,10 @@ namespace Excel_Macros_UI.View
 
         private TextEditor editor;
 
+        /// <summary>
+        /// Thomas Willwacher - FindReplaceDialog constructor
+        /// </summary>
+        /// <param name="editor"></param>
         public FindReplaceDialog(TextEditor editor)
         {
             InitializeComponent();
@@ -52,8 +56,35 @@ namespace Excel_Macros_UI.View
             cbRegex.IsChecked = useRegex;
             cbWildcards.IsChecked = useWildcards;
             cbSearchUp.IsChecked = searchUp;
+
+            Routing.EventManager.ThemeChangedEvent += ThemeChangedEvent;
+            ThemeChangedEvent();
         }
 
+        private ResourceDictionary ThemeDictionary
+        {
+            get
+            {
+                return Resources.MergedDictionaries[1];
+            }
+        }
+
+        /// <summary>
+        /// ThemeChanged event callback, changes the theme
+        /// </summary>
+        private void ThemeChangedEvent()
+        {
+            ThemeDictionary.MergedDictionaries.Clear();
+
+            foreach (Uri uri in MainWindowViewModel.GetInstance().ActiveTheme.UriList)
+                ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
+        }
+
+        /// <summary>
+        /// Thomas Willwacher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closed(object sender, System.EventArgs e)
         {
             textToFind = txtFind2.Text;
@@ -66,18 +97,33 @@ namespace Excel_Macros_UI.View
             theDialog = null;
         }
 
+        /// <summary>
+        /// Thomas Willwacher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FindNextClick(object sender, RoutedEventArgs e)
         {
             if (!FindNext(txtFind.Text))
                 System.Media.SystemSounds.Beep.Play();
         }
 
+        /// <summary>
+        /// Thomas Willwacher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FindNext2Click(object sender, RoutedEventArgs e)
         {
             if (!FindNext(txtFind2.Text))
                 System.Media.SystemSounds.Beep.Play();
         }
 
+        /// <summary>
+        /// Thomas Willwacher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ReplaceClick(object sender, RoutedEventArgs e)
         {
             Regex regex = GetRegEx(txtFind2.Text);
@@ -94,6 +140,11 @@ namespace Excel_Macros_UI.View
                 System.Media.SystemSounds.Beep.Play();
         }
 
+        /// <summary>
+        /// Thomas Willwacher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ReplaceAllClick(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to Replace All occurences of \"" +
@@ -112,6 +163,11 @@ namespace Excel_Macros_UI.View
             }
         }
 
+        /// <summary>
+        /// Thomas Willwacher
+        /// </summary>
+        /// <param name="textToFind"></param>
+        /// <returns></returns>
         private bool FindNext(string textToFind)
         {
             Regex regex = GetRegEx(textToFind);
@@ -137,6 +193,12 @@ namespace Excel_Macros_UI.View
             return match.Success;
         }
 
+        /// <summary>
+        /// Thomas Willwacher
+        /// </summary>
+        /// <param name="textToFind"></param>
+        /// <param name="leftToRight"></param>
+        /// <returns></returns>
         private Regex GetRegEx(string textToFind, bool leftToRight = false)
         {
             RegexOptions options = RegexOptions.None;
@@ -162,18 +224,23 @@ namespace Excel_Macros_UI.View
 
         private static FindReplaceDialog theDialog = null;
 
-        public static void ShowForReplace(TextEditor editor)
+        /// <summary>
+        /// Thomas Willwacher
+        /// </summary>
+        /// <param name="editor"></param>
+        /// <param name="index"></param>
+        private static void ShowForType(TextEditor editor, int index)
         {
             if (theDialog == null)
             {
                 theDialog = new FindReplaceDialog(editor);
-                theDialog.tabMain.SelectedIndex = 1;
+                theDialog.tabMain.SelectedIndex = index;
                 theDialog.Show();
                 theDialog.Activate();
             }
             else
             {
-                theDialog.tabMain.SelectedIndex = 1;
+                theDialog.tabMain.SelectedIndex = index;
                 theDialog.Activate();
             }
 
@@ -186,28 +253,22 @@ namespace Excel_Macros_UI.View
             }
         }
 
+        /// <summary>
+        /// Thomas Willwacher
+        /// </summary>
+        /// <param name="editor"></param>
+        public static void ShowForReplace(TextEditor editor)
+        {
+            ShowForType(editor, 1);
+        }
+
+        /// <summary>
+        /// Thomas Willwacher
+        /// </summary>
+        /// <param name="editor"></param>
         public static void ShowForFind(TextEditor editor)
         {
-            if (theDialog == null)
-            {
-                theDialog = new FindReplaceDialog(editor);
-                theDialog.tabMain.SelectedIndex = 0;
-                theDialog.Show();
-                theDialog.Activate();
-            }
-            else
-            {
-                theDialog.tabMain.SelectedIndex = 0;
-                theDialog.Activate();
-            }
-
-            if (!editor.TextArea.Selection.IsMultiline)
-            {
-                theDialog.txtFind.Text = theDialog.txtFind2.Text = editor.TextArea.Selection.GetText();
-                theDialog.txtFind.SelectAll();
-                theDialog.txtFind2.SelectAll();
-                theDialog.txtFind2.Focus();
-            }
+            ShowForType(editor, 0);
         }
     }
 }

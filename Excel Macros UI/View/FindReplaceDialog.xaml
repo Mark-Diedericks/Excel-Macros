@@ -10,7 +10,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
         mc:Ignorable="d"        
-        Title="Find And Replace" Height="Auto" Width="300" ResizeMode="NoResize" Closed="Window_Closed" SizeToContent="Height" WindowStyle="ToolWindow" ShowInTaskbar="False" Topmost="False"
+        Title="Find And Replace" TitleCaps="False" Height="Auto" Width="300" ResizeMode="NoResize" Closed="Window_Closed" SizeToContent="Height" WindowStyle="ToolWindow" ShowInTaskbar="False" Topmost="False"
         FocusManager.IsFocusScope="True">
     <Window.Resources>
         <ResourceDictionary>
