@@ -40,7 +40,7 @@ namespace Excel_Macros_UI.ViewModel
             {
                 VisualEditor = new VisualEditorViewModel();
                 VisualEditor.PropertyChanged += Document_PropertyChanged;
-                Documents.Add(VisualEditor);
+                //Documents.Add(VisualEditor);
             }
 
             foreach (DocumentViewModel document in DocumentViewModels)

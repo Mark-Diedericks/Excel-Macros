@@ -61,28 +61,6 @@ namespace Excel_Macros_UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!doctype html&gt;
-        ///&lt;!-- saved from url=(0016)http://localhost --&gt;
-        ///
-        ///&lt;html&gt;
-        ///&lt;head&gt;
-        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=10&quot; /&gt;
-        ///    &lt;script src=&quot;../Blockly/blockly_compressed.js&quot;&gt;&lt;/script&gt;
-        ///    &lt;script src=&quot;../Blockly/blocks_compressed.js&quot;&gt;&lt;/script&gt;
-        ///    &lt;script src=&quot;../Blockly/python_compressed.js&quot;&gt;&lt;/script&gt;
-        ///    &lt;script src=&quot;../Blockly/msg/js/en.js&quot;&gt;&lt;/script&gt;
-        ///    &lt;script src=&quot;./excel_scripts.js&quot;&gt;&lt;/script&gt;
-        ///&lt;/head&gt;
-        ///&lt;body&gt;
-        ///    &lt;div id=&quot;host&quot; style=&quot;position: absolute; top: 0px; left: 0px; b [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string BlocklyHost {
-            get {
-                return ResourceManager.GetString("BlocklyHost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ConvertPython {

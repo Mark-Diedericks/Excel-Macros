@@ -37,7 +37,7 @@ namespace Excel_Macros_UI.View
             InitializeComponent();
 
             wbBlockly.LoadCompleted += (s, e) => { SetSize(); };
-            wbBlockly.Source = new Uri("pack://siteoforigin:,,,/Resources/BlocklyHost.html", UriKind.RelativeOrAbsolute);
+            wbBlockly.Source = new Uri("google.com.au", UriKind.RelativeOrAbsolute);
             wbBlockly.LostFocus += (s, e) => { MainWindowViewModel.GetInstance().TryFocus(); };
         }
 
