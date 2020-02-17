@@ -63,4 +63,5 @@
 #*.RTF   diff=astextplain
 
 Dependencies/* linguist-vendored
+Published/* linguist-vendored
 "Excel Macros RIBBON/Blockly/*" linguist-vendored
