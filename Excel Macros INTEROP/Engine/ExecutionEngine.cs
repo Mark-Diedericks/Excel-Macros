@@ -14,8 +14,6 @@ using System.Threading.Tasks;
 using Microsoft.Scripting.Hosting;
 using System.Windows.Threading;
 using System.ComponentModel;
-using Python.Runtime;
-using System.IO;
 
 namespace Excel_Macros_INTEROP.Engine
 {
@@ -24,61 +22,67 @@ namespace Excel_Macros_INTEROP.Engine
         #region Static Initializaton
 
         /// <summary>
-        /// Intialize static instances of the ExecutionEngine
+        /// Intialize static instances of the ExecutionEngine, one for 
+        /// Debug execution and one for Release execution. No difference, 
+        /// simply convention
         /// </summary>
         public static void Initialize()
         {
-            s_Engine = new ExecutionEngine();
+            Dictionary<string, object> debugArgs = new Dictionary<string, object>();
+            Dictionary<string, object> releaseArgs = new Dictionary<string, object>();
+
+            debugArgs["Debug"] = true;
+            releaseArgs["Debug"] = false;
+
+            s_DebugEngine = new ExecutionEngine(debugArgs);
+            s_ReleaseEngine = new ExecutionEngine(releaseArgs);
         }
 
-        private static ExecutionEngine s_Engine;
+        private static ExecutionEngine s_DebugEngine;
+        private static ExecutionEngine s_ReleaseEngine;
 
         /// <summary>
         /// Get instance of the Debug Execution Engine
         /// </summary>
-        /// <returns>Execution Engine</returns>
-        public static ExecutionEngine GetEngine()
+        /// <returns>Debug Execution Engine</returns>
+        public static ExecutionEngine GetDebugEngine()
         {
-            if (s_Engine == null)
+            if (s_DebugEngine == null)
                 Initialize();
 
-            return s_Engine;
+            return s_DebugEngine;
+        }
+
+        /// <summary>
+        /// Get Instance of Release Execution Engine
+        /// </summary>
+        /// <returns>Release Execution Instance</returns>
+        public static ExecutionEngine GetReleaseEngine()
+        {
+            if (s_ReleaseEngine == null)
+                Initialize();
+
+            return s_ReleaseEngine;
         }
 
         #endregion
 
         #region Instanced Initializaton
-        
+
+        private ScriptEngine m_ScriptEngine;
+        private ScriptScope m_ScriptScope;
+
         private BackgroundWorker m_BackgroundWorker;
         private bool m_IsExecuting;
-
+        
         /// <summary>
         /// Private Initialization of Exeuction Engine instance.
         /// </summary>
-        private ExecutionEngine()
+        /// <param name="args">Parameters to be used by IronPython Script Engine</param>
+        private ExecutionEngine(Dictionary<string, object> args)
         {
-
-#warning NOT COMPLETED DIRECTORIES
-
-            string envPythonHome = @"E:\Mark Diedericks\Documents\Visual Studio 2017\Projects\Excel Macros\Dependencies\Python 27\";
-
-            string envPythonLib = envPythonHome + @"\Lib\";
-            string envPythonDll = envPythonHome + @"\DDLs\";
-
-            string envDepPath = @"E:\Mark Diedericks\Documents\Visual Studio 2017\Projects\Excel Macros\Dependencies\";
-            string envRunPath = @"E:\Mark Diedericks\Documents\Visual Studio 2017\Projects\Excel Macros\Excel Macros RIBBON\bin\x64\Debug\";
-
-            string envPyNetPath = @"E:\Mark Diedericks\Documents\Visual Studio 2017\Projects\Excel Macros\Dependencies\Python .NET\pythonnet-2.3.0\";
-
-            Environment.SetEnvironmentVariable("PYTHONHOME", envPythonHome, EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("PATH", envPythonHome + ";" + Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine), EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("PYTHONPATH", envPythonLib + ';' + envPythonDll + ';' + envDepPath + ';' + envRunPath + ';' + envPyNetPath, EnvironmentVariableTarget.Process);
-
-            PythonEngine.PythonHome = envPythonHome;
-            PythonEngine.ProgramName = "Excel Macros Plus";
-
-            PythonEngine.Initialize();
-            IntPtr bat = PythonEngine.BeginAllowThreads();
+            m_ScriptEngine = IronPython.Hosting.Python.CreateEngine(args);
+            m_ScriptScope = m_ScriptEngine.CreateScope();
 
             m_IsExecuting = false;
             m_BackgroundWorker = new BackgroundWorker();
@@ -86,23 +90,14 @@ namespace Excel_Macros_INTEROP.Engine
             //Reset IO streams of ScriptEngine if they're changed
             Main.GetInstance().OnIOChanged += () =>
             {
-                using (Py.GIL())
-                {
-                    dynamic sys = Py.Import("sys");
-                    sys.stdout = new PyOutput(Main.GetEngineIOManager().GetOutput());
-                    sys.stderr = new PyOutput(Main.GetEngineIOManager().GetError());
-                }
+                m_ScriptEngine.Runtime.IO.RedirectToConsole();
+                Console.SetOut(Main.GetEngineIOManager().GetOutput());
+                Console.SetError(Main.GetEngineIOManager().GetError());
             };
 
             //End running tasks if program is exiting
             Main.GetInstance().OnDestroyed += delegate () 
             {
-                using (Py.GIL())
-                {
-                    PythonEngine.EndAllowThreads(bat);
-                    PythonEngine.Shutdown();
-                }
-
                 if (m_BackgroundWorker != null)
                     m_BackgroundWorker.CancelAsync();
             };
@@ -212,24 +207,22 @@ namespace Excel_Macros_INTEROP.Engine
         /// <param name="source">Source code (python)</param>
         private void ExecuteSource(string source)
         {
+            object temp;
+            if(!m_ScriptScope.TryGetVariable("Utils", out temp))
+            {
+                m_ScriptScope.SetVariable("Utils", Utilities.GetExcelUtilities());
+                m_ScriptScope.SetVariable("Application", Utilities.GetInstance().GetApplication());
+                m_ScriptScope.SetVariable("ActiveWorkbook", Utilities.GetInstance().GetActiveWorkbook());
+                m_ScriptScope.SetVariable("ActiveWorksheet", Utilities.GetInstance().GetActiveWorksheet());
+                m_ScriptScope.SetVariable("MissingType", Type.Missing);
+            }
+
             if (Main.GetEngineIOManager() != null)
                 Main.GetEngineIOManager().ClearAllStreams();
 
             try
             {
-                using (Py.GIL())
-                {
-                    using (PyScope scope = Py.CreateScope())
-                    {
-                        scope.Set("Utils", Utilities.GetExcelUtilities().ToPython());
-                        scope.Set("Application", Utilities.GetInstance().GetApplication().ToPython());
-                        scope.Set("ActiveWorkbook", Utilities.GetInstance().GetActiveWorkbook().ToPython());
-                        scope.Set("ActiveWorksheet", Utilities.GetInstance().GetActiveWorksheet().ToPython());
-                        scope.Set("MissingType", Type.Missing.ToPython());
-
-                        scope.Exec(source);
-                    }
-                }
+                m_ScriptEngine.Execute(source, m_ScriptScope);
             }
             catch(ThreadAbortException tae)
             {

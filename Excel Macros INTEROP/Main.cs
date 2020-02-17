@@ -278,7 +278,7 @@ namespace Excel_Macros_INTEROP
             MacroDeclaration md = GetInstance().m_Declarations[id];
             IMacro macro = GetInstance().m_Macros[id];
 
-            EventManager.AddRibbonMacro(id, md.name, md.relativepath, () => ExecutionEngine.GetEngine().ExecuteMacro(macro.GetSource(), null, false));
+            EventManager.AddRibbonMacro(id, md.name, md.relativepath, () => ExecutionEngine.GetReleaseEngine().ExecuteMacro(macro.GetSource(), null, false));
         }
 
         /// <summary>

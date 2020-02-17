@@ -141,7 +141,7 @@ namespace Excel_Macros_INTEROP.Macros
         /// <param name="async">Bool identifying if the macro should be execute asynchronously or not (synchronous)</param>
         public void ExecuteDebug(Action OnCompletedAction, bool async)
         {
-            ExecutionEngine.GetEngine().ExecuteMacro(m_Source, OnCompletedAction, async);
+            ExecutionEngine.GetDebugEngine().ExecuteMacro(m_Source, OnCompletedAction, async);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Excel_Macros_INTEROP.Macros
         /// <param name="async">Bool identifying if the macro should be execute asynchronously or not (synchronous)</param>
         public void ExecuteRelease(Action OnCompletedAction, bool async)
         {
-            ExecutionEngine.GetEngine().ExecuteMacro(m_Source, OnCompletedAction, async);
+            ExecutionEngine.GetReleaseEngine().ExecuteMacro(m_Source, OnCompletedAction, async);
         }
     }
 }

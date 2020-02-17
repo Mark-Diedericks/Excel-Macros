@@ -49,7 +49,7 @@ namespace Excel_Macros_UI.ViewModel
         /// <param name="OnComplete">Action to be fired on the tasks completetion</param>
         public override void Start(Action OnComplete)
         {
-            Excel_Macros_INTEROP.Engine.ExecutionEngine.GetEngine().ExecuteMacro(Source.Text, OnComplete, MainWindowViewModel.GetInstance().AsyncExecution);
+            Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().ExecuteMacro(Source.Text, OnComplete, MainWindowViewModel.GetInstance().AsyncExecution);
             base.Stop(null);
         }
 
@@ -59,7 +59,7 @@ namespace Excel_Macros_UI.ViewModel
         /// <param name="OnComplete">Action to be fired on the tasks completetion</param>
         public override void Stop(Action OnComplete)
         {
-            Excel_Macros_INTEROP.Engine.ExecutionEngine.GetEngine().TerminateExecution();
+            Excel_Macros_INTEROP.Engine.ExecutionEngine.GetDebugEngine().TerminateExecution();
             base.Stop(null);
         }
 
