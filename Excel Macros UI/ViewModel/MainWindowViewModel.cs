@@ -1025,60 +1025,6 @@ namespace Excel_Macros_UI.ViewModel
 
         #endregion
 
-        #region FindClick
-
-        private ICommand m_FindClick;
-        public ICommand FindClick
-        {
-            get
-            {
-                if (m_FindClick == null)
-                    m_FindClick = new RelayCommand(call => FindEvent());
-                return m_FindClick;
-            }
-        }
-
-        /// <summary>
-        /// Find text in an editor event
-        /// </summary>
-        private void FindEvent()
-        {
-            if (DockManager.ActiveDocument == null)
-                return;
-
-            if (DockManager.ActiveDocument is TextualEditorViewModel)
-                FindReplaceDialog.ShowForFind((DockManager.ActiveDocument as TextualEditorViewModel).GetTextEditor());
-        }
-
-        #endregion
-
-        #region ReplaceClick
-
-        private ICommand m_ReplaceClick;
-        public ICommand ReplaceClick
-        {
-            get
-            {
-                if (m_ReplaceClick == null)
-                    m_ReplaceClick = new RelayCommand(call => ReplaceEvent());
-                return m_ReplaceClick;
-            }
-        }
-
-        /// <summary>
-        /// Replace text in an editor event
-        /// </summary>
-        private void ReplaceEvent()
-        {
-            if (DockManager.ActiveDocument == null)
-                return;
-
-            if (DockManager.ActiveDocument is TextualEditorViewModel)
-                FindReplaceDialog.ShowForReplace((DockManager.ActiveDocument as TextualEditorViewModel).GetTextEditor());
-        }
-
-        #endregion
-
         #region CopyClick
 
         private ICommand m_CopyClick;

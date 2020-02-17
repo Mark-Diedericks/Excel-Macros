@@ -106,9 +106,6 @@
                 <MenuItem Header="_Copy" Command="{Binding CopyClick}"/>
                 <MenuItem Header="Cut" Command="{Binding CutClick}"/>
                 <MenuItem Header="_Paste" Command="{Binding PasteClick}" />
-                <Separator />
-                <MenuItem Header="_Find" Command="{Binding FindClick}"/>
-                <MenuItem Header="Replace" Command="{Binding ReplaceClick}"/>
             </MenuItem>
             <MenuItem Header="_View" Style="{DynamicResource HeaderMenuItemStyle}">
                 <MenuItem Header="_Explorer" Command="{Binding EditorClick}"/>
