@@ -35,10 +35,6 @@ namespace Excel_Macros_UI.View
         public VisualEditorView()
         {
             InitializeComponent();
-
-            wbBlockly.LoadCompleted += (s, e) => { SetSize(); };
-            wbBlockly.Source = new Uri("google.com.au", UriKind.RelativeOrAbsolute);
-            wbBlockly.LostFocus += (s, e) => { MainWindowViewModel.GetInstance().TryFocus(); };
         }
 
         /// <summary>
@@ -61,11 +57,7 @@ namespace Excel_Macros_UI.View
         /// </summary>
         private void SetSize()
         {
-            if (!wbBlockly.IsLoaded)
-                return;
 
-            wbBlockly.InvokeScript("resize", new object[] { });
-            Panel.SetZIndex(wbBlockly, 1);
         }
 
         /// <summary>
@@ -74,7 +66,7 @@ namespace Excel_Macros_UI.View
         /// <returns>Source code (python)</returns>
         private string InvokeEngine()
         {
-            return wbBlockly.InvokeScript("showCode", new object[] { }).ToString();
+            return "";
         }
 
         /// <summary>
